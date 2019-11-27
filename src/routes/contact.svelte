@@ -29,7 +29,7 @@
 <ul>
     <li on:click={() => showEmail = !showEmail}><span class="email">email</span></li>
     {#if showEmail}
-        <span>trevor_manz@g[dot]harvard[dot]edu</span>
+        <span>trevor_manz[at]g[dot]harvard[dot]edu</span>
     {/if}
     <li><a href="https://github.com/manzt">github</a></li>
     <li><a href="https://twitter.com/trevmanz">twitter</a></li>

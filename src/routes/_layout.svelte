@@ -1,12 +1,12 @@
 <script>
 	import Nav from '../components/Nav.svelte';
-
+	import BackgroundPaint from '../components/BackgroundPaint.svelte';
 	export let segment;
 </script>
 
 <style>
 	main {
-		position: relative;
+		position: absolute;
 		max-width: 40em;
 		background-color: white;
 		padding: 0 1em;
@@ -20,7 +20,6 @@
 </style>
 
 <Nav {segment}/>
-
 <main>
 	<slot></slot>
 </main>
