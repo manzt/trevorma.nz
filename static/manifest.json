@@ -1,0 +1,9 @@
+{
+	"background_color": "#ffffff",
+	"theme_color": "#333333",
+	"name": "trevor-manz-website",
+	"short_name": "trevor-website",
+	"display": "minimal-ui",
+	"start_url": "/",
+	"icons": []
+}
