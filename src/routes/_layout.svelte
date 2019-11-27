@@ -21,5 +21,6 @@
 
 <Nav {segment}/>
 <main>
-	<slot></slot>
+	<BackgroundPaint/>
+	<!-- <slot></slot> -->
 </main>

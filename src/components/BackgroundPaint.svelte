@@ -1,7 +1,6 @@
 <script>
   import { onMount } from "svelte";
   import ShowCoords from "./ShowCoords.svelte";
-  // import appricot from "../../static/appricot.png";
 
   let windowWidth = 0;
   let windowHeight = 0;
@@ -50,6 +49,7 @@
 
   onMount(() => {
     const ctx = canvasElement.getContext("2d");
+  
   });
 </script>
 
@@ -70,23 +70,27 @@
   <pre class="absolute right-0 mr3">{mouseDown}</pre>
 
   <div
-    style="display: inline-block;"
     bind:clientWidth={imgWidth}
     bind:clientHeight={imgHeight}>
+
     <img
       class="dn"
       width="200"
       height="200"
       bind:this={imgElement}
-      src={"../../static/appricot.png"}
-      alt="appricot1" />
+      src="/appricot.png"
+      alt="appricot1" 
+    />
+
+    <canvas
+      on:mousemove={trackMouse}
+      on:mouseup={trackMouse}
+      on:mousedown={trackMouse}
+      bind:this={canvasElement}
+      width={windowWidth}
+      height={windowHeight} 
+    />
+
   </div>
 
-  <canvas
-    on:mousemove={trackMouse}
-    on:mouseup={trackMouse}
-    on:mousedown={trackMouse}
-    bind:this={canvasElement}
-    width={windowWidth}
-    height={windowHeight} />
 </div>
