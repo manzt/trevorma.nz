@@ -57,7 +57,7 @@
 <svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
 
 <div class="flex-auto">
-
+<!-- 
   <div class="absolute">
     <ShowCoords x={windowWidth} y={windowHeight}>
       <span slot="x">windowWidth</span>
@@ -65,7 +65,7 @@
     </ShowCoords>
     <ShowCoords {...mousePos} />
     <button on:click={resetDrawing}>Reset</button>
-  </div>
+  </div> -->
 
   <pre class="absolute right-0 mr3">{mouseDown}</pre>
 

@@ -21,6 +21,11 @@
     .email {
         text-decoration: underline;
         cursor: pointer;
+        pointer-events: auto;
+    }
+
+    a {
+        pointer-events: auto;
     }
 
 </style>
