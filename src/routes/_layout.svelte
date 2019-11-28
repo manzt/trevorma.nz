@@ -6,9 +6,8 @@
 
 <style>
 	main {
-		position: absolute;
+		position: relative;
 		max-width: 40em;
-		background-color: white;
 		padding: 0 1em;
 	}
 
@@ -17,9 +16,31 @@
 			padding: 0 2em;
 		}
 	}
+
+	.background {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		z-index: 0;
+	}
+
+	.foreground {
+		position: absolute;
+		z-index: 100;
+		pointer-events:none;
+	}
+
+
 </style>
 
-<Nav {segment}/>
-<main>
-	<slot></slot>
-</main>
+<div>
+	<div class='background'>
+		<BackgroundPaint/>
+	</div>
+	<div class='foreground'>
+		<Nav {segment}/>
+		<main>
+			<slot></slot>
+		</main>
+	</div>
+</div>

@@ -6,6 +6,7 @@
 	.toggle {
 		cursor: pointer;
 		padding-bottom: 2em;
+		pointer-events: auto;
 	}
 
 	.toggle span {
@@ -24,6 +25,10 @@
 
 	h4 {
 		margin: 0;
+	}
+
+	a {
+		pointer-events: auto;
 	}
 </style>
 
