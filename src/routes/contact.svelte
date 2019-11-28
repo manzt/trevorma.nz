@@ -31,6 +31,8 @@
 </style>
 
 <h3><strong><Typewriter text={"contact"}/>trevor manz</strong></h3>
+
+<p>This page is a work in progress, but please feel free to reach out!</p>
 <ul>
     <li on:click={() => showEmail = !showEmail}><span class="email">email</span></li>
     {#if showEmail}

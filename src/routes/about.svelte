@@ -61,6 +61,7 @@
 {#if !less}
 	<h4><strong>Things I like</strong></h4>
 	<ul>
+		<li>sourdough | dogs | live music</li>
 		<li>Python | JavaScript | R | Julia</li>
 		<li>Svelte | React | Node.js | Flask</li>
 		<li>D3.js | WebGL | Vega-Lite/Altair | ggplot</li>

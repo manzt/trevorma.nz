@@ -13,7 +13,7 @@
     y: 0
   };
   let imgDim = 200;
-  // let source = "/apricot.png";
+  
   function trackMouse({ x, y, type }) {
     if (type === "mousedown") {
       mouseDown = true;
@@ -42,7 +42,6 @@
   }
 
   function resetDrawing() {
-    coords = [];
     const ctx = canvasElement.getContext("2d");
     ctx.clearRect(0, 0, windowWidth, windowHeight);
   }
@@ -56,30 +55,28 @@
 <!-- Bind size of window to local varaibles -->
 <svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
 
-<div>
-  <div
-    bind:clientWidth={imgWidth}
-    bind:clientHeight={imgHeight}>
-    
-    <img
-      class="dn"
-      width={imgDim}
-      height={imgDim}
-      bind:this={imgElement}
-      src="/appricot.png"
-      alt="appricot1" 
-    />
 
-    <canvas
-      on:mousemove={trackMouse}
-      on:mouseup={trackMouse}
-      on:mousedown={trackMouse}
-      bind:this={canvasElement}
-      width={windowWidth}
-      height={windowHeight} 
-    />
+<div
+  bind:clientWidth={imgWidth}
+  bind:clientHeight={imgHeight}>
+  
+  <img
+    class="dn"
+    width={imgDim}
+    height={imgDim}
+    bind:this={imgElement}
+    src="/appricot.png"
+    alt="appricot1" 
+  />
 
-  </div>
+  <canvas
+    on:mousemove={trackMouse}
+    on:mouseup={trackMouse}
+    on:mousedown={trackMouse}
+    bind:this={canvasElement}
+    width={windowWidth}
+    height={windowHeight} 
+  />
 
 </div>
 
