@@ -15,6 +15,10 @@
 		margin: 1em 1em;
 	}
 
+	li {
+		pointer-events: all;
+	}
+
 	.selected {
 		text-decoration: none;
 	}

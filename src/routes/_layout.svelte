@@ -6,10 +6,9 @@
 
 <style>
 	main {
-		position: absolute;
+		position: relative;
 		max-width: 40em;
 		padding: 0 1em;
-		pointer-events: none;
 	}
 
 	@media (min-width: 500px) {
@@ -20,12 +19,15 @@
 
 	.background {
 		position: absolute;
+		width: 100%;
+		height: 100%;
 		z-index: 0;
 	}
 
 	.foreground {
 		position: absolute;
-		z-index: 1;
+		z-index: 100;
+		pointer-events:none;
 	}
 
 

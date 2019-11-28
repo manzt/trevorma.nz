@@ -1,6 +1,5 @@
 <script>
   import { onMount } from "svelte";
-  import ShowCoords from "./ShowCoords.svelte";
 
   let windowWidth = 0;
   let windowHeight = 0;
@@ -13,7 +12,8 @@
     x: 0,
     y: 0
   };
-
+  let imgDim = 200;
+  // let source = "/apricot.png";
   function trackMouse({ x, y, type }) {
     if (type === "mousedown") {
       mouseDown = true;
@@ -29,7 +29,7 @@
   }
 
   function drawImage(x, y) {
-    const dimensions = 200;
+    const dimensions = imgDim;
     const ctx = canvasElement.getContext("2d");
 
     ctx.drawImage(
@@ -56,27 +56,15 @@
 <!-- Bind size of window to local varaibles -->
 <svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
 
-<div class="flex-auto">
-<!-- 
-  <div class="absolute">
-    <ShowCoords x={windowWidth} y={windowHeight}>
-      <span slot="x">windowWidth</span>
-      <span slot="y">windowHeight</span>
-    </ShowCoords>
-    <ShowCoords {...mousePos} />
-    <button on:click={resetDrawing}>Reset</button>
-  </div> -->
-
-  <pre class="absolute right-0 mr3">{mouseDown}</pre>
-
+<div>
   <div
     bind:clientWidth={imgWidth}
     bind:clientHeight={imgHeight}>
-
+    
     <img
       class="dn"
-      width="200"
-      height="200"
+      width={imgDim}
+      height={imgDim}
       bind:this={imgElement}
       src="/appricot.png"
       alt="appricot1" 
@@ -94,3 +82,10 @@
   </div>
 
 </div>
+
+<style>
+  img {
+    display: none;
+    mix-blend-mode: multiply;
+  }
+</style>
