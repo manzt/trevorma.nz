@@ -1,4 +1,4 @@
-<script>  a
+<script> 
   import { onMount } from "svelte";
 
   let imgElement;
@@ -15,11 +15,10 @@
   let windowHeight;
 
   let maxWidth;
-  let maxHeight;[
+  let maxHeight;
 
+  let cache = [];
 
-
-  
   function trackMouse({x, y, type}) {
     if (type === "mousedown") {
       mouseDown = true;
@@ -33,15 +32,14 @@
   }
 
   function drawImage(x, y) {
-    const dimensions = imgDim;
     const ctx = canvasElement.getContext("2d");
 
     ctx.drawImage(
       imgElement,
-      x - dimensions / 2,
-      y - dimensions,
-      dimensions,
-      dimensions
+      x - imgDim / 2,
+      y - imgDim,
+      imgDim,
+      imgDim
     );
   }
 
@@ -49,14 +47,16 @@
   //   const ctx = canvasElement.getContext("2d");
   //   ctx.clearRect(0, 0, windowWidth, windowHeight);
   // }
-  function resize(){
+  function resize() {
     const ctx = canvasElement.getContext("2d");
-    let temp = ctx.getImageData(0, 0, windowWidth, windowHeight);
+    cache = [...cache, ctx.getImageData(0, 0, windowWidth, windowHeight)];
     windowWidth = window.innerWidth;
     windowHeight = window.innerHeight;
     canvasElement.width = windowWidth;
     canvasElement.height = windowHeight;
-    ctx.putImageData(temp, 0, 0);
+    for (const layer of cache) {
+      ctx.putImageData(layer, 0, 0);
+    }
   }
 
   onMount(() => {
@@ -66,12 +66,10 @@
     windowHeight = window.innerHeight;
     resize();
   });
+
 </script>
 
-<!-- Bind size of window to local varaibles -->
 <svelte:window on:resize={() => resize()} />
-
-
 
 <div>
   <img
