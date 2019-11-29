@@ -51,7 +51,12 @@
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
 
-  function resize() {
+  function handleClear() {
+    cachedCoords = [];
+    clearCanvas();
+  }
+
+  function handleResize() {
     clearCanvas();
     create2dContext();
     // Draw all points onto new resized canvas
@@ -63,12 +68,11 @@
   onMount(() => {
     create2dContext();
   });
-
 </script>
 
-<svelte:window on:resize={() => resize()} />
+<svelte:window on:resize={() => handleResize()} />
 
-<div>
+<div class="canvas">
   <img
     width={imgDim}
     height={imgDim}
@@ -85,8 +89,28 @@
   />
 </div>
 
+{#if cachedCoords.length !== 0}
+    <button on:click={() => handleClear()}>clear</button>
+{/if}
+
 <style>
   img {
     display: none;
+  }
+
+  button {
+    font-family : inherit;
+    position: fixed;
+    bottom: 10px;
+    right: 50px;
+    font-size: 16px;
+    text-decoration: underline;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+
+  button:hover {
+    text-shadow: 2px 2px 4px #A9A9A9;
   }
 </style>
