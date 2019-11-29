@@ -1,23 +1,11 @@
 <script> 
   import { onMount } from "svelte";
 
-  let imgElement;
+  let canvas;
+  let img;
   let imgDim = 200;
-  let imgWidth;
-  let imgHeight;
-
-  let canvasElement;
-
   let mouseDown = false;
-  let dpi;
-
-  let windowWidth;
-  let windowHeight;
-
-  let maxWidth;
-  let maxHeight;
-
-  let cache = [];
+  let cachedCoords = [];
 
   function trackMouse({x, y, type}) {
     if (type === "mousedown") {
@@ -27,44 +15,53 @@
       mouseDown = false;
     }
     if (mouseDown) {
+      // Keep track of x, y positions in case of resize event
+      cachedCoords = [...cachedCoords, [x,y]];
+      // Add single layer to existing canvas
       drawImage(x, y);
     }
   }
 
   function drawImage(x, y) {
-    const ctx = canvasElement.getContext("2d");
-
+    const ctx = canvas.getContext("2d");
     ctx.drawImage(
-      imgElement,
+      img,
       x - imgDim / 2,
-      y - imgDim,
+      y - imgDim / 2,
       imgDim,
       imgDim
     );
   }
 
-  // function resetDrawing() {
-  //   const ctx = canvasElement.getContext("2d");
-  //   ctx.clearRect(0, 0, windowWidth, windowHeight);
-  // }
+  // https://github.com/observablehq/stdlib/blob/master/src/dom/context2d.js
+  function create2dContext() {
+    const ctx = canvas.getContext("2d");
+    const w = window.innerWidth; 
+    const h = window.innerHeight;
+    const dpi = window.devicePixelRatio;
+    canvas.style.width = w + "px";
+    canvas.style.height = h + "px";
+    canvas.width = w * dpi;
+    canvas.height = h * dpi;
+    ctx.scale(dpi, dpi);
+  }
+
+  function clearCanvas() {
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
   function resize() {
-    const ctx = canvasElement.getContext("2d");
-    cache = [...cache, ctx.getImageData(0, 0, windowWidth, windowHeight)];
-    windowWidth = window.innerWidth;
-    windowHeight = window.innerHeight;
-    canvasElement.width = windowWidth;
-    canvasElement.height = windowHeight;
-    for (const layer of cache) {
-      ctx.putImageData(layer, 0, 0);
+    clearCanvas();
+    create2dContext();
+    // Draw all points onto new resized canvas
+    for (const [x,y] of cachedCoords) {
+      drawImage(x, y);
     }
   }
 
   onMount(() => {
-    const ctx = canvasElement.getContext("2d");
-    dpi = devicePixelRatio;
-    windowWidth = window.innerWidth;
-    windowHeight = window.innerHeight;
-    resize();
+    create2dContext();
   });
 
 </script>
@@ -75,7 +72,7 @@
   <img
     width={imgDim}
     height={imgDim}
-    bind:this={imgElement}
+    bind:this={img}
     src="/appricot.png"
     alt="appricot1" 
   />
@@ -84,13 +81,12 @@
     on:mousemove={trackMouse}
     on:mouseup={trackMouse}
     on:mousedown={trackMouse}
-    bind:this={canvasElement}
+    bind:this={canvas}
   />
 </div>
 
 <style>
   img {
     display: none;
-    mix-blend-mode: multiply;
   }
 </style>
