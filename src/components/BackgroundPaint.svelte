@@ -1,20 +1,13 @@
-<script>
+<script> 
   import { onMount } from "svelte";
 
-  let windowWidth = 0;
-  let windowHeight = 0;
-  let imgWidth;
-  let imgHeight;
-  let canvasElement;
-  let imgElement;
-  let mouseDown = false;
-  const mousePos = {
-    x: 0,
-    y: 0
-  };
+  let canvas;
+  let img;
   let imgDim = 200;
-  // let source = "/apricot.png";
-  function trackMouse({ x, y, type }) {
+  let mouseDown = false;
+  let cachedCoords = [];
+
+  function trackMouse({x, y, type}) {
     if (type === "mousedown") {
       mouseDown = true;
     }
@@ -22,70 +15,78 @@
       mouseDown = false;
     }
     if (mouseDown) {
-      mousePos.x = x;
-      mousePos.y = y;
+      // Keep track of x, y positions in case of resize event
+      cachedCoords = [...cachedCoords, [x,y]];
+      // Add single layer to existing canvas
       drawImage(x, y);
     }
   }
 
   function drawImage(x, y) {
-    const dimensions = imgDim;
-    const ctx = canvasElement.getContext("2d");
-
+    const ctx = canvas.getContext("2d");
     ctx.drawImage(
-      imgElement,
-      x - dimensions / 2,
-      y - dimensions,
-      dimensions,
-      dimensions
+      img,
+      x - imgDim / 2,
+      y - imgDim / 2,
+      imgDim,
+      imgDim
     );
   }
 
-  function resetDrawing() {
-    coords = [];
-    const ctx = canvasElement.getContext("2d");
-    ctx.clearRect(0, 0, windowWidth, windowHeight);
+  // https://github.com/observablehq/stdlib/blob/master/src/dom/context2d.js
+  function create2dContext() {
+    const ctx = canvas.getContext("2d");
+    const w = window.innerWidth; 
+    const h = window.innerHeight;
+    const dpi = window.devicePixelRatio;
+    canvas.style.width = w + "px";
+    canvas.style.height = h + "px";
+    canvas.width = w * dpi;
+    canvas.height = h * dpi;
+    ctx.scale(dpi, dpi);
+  }
+
+  function clearCanvas() {
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  function resize() {
+    clearCanvas();
+    create2dContext();
+    // Draw all points onto new resized canvas
+    for (const [x,y] of cachedCoords) {
+      drawImage(x, y);
+    }
   }
 
   onMount(() => {
-    const ctx = canvasElement.getContext("2d");
-  
+    create2dContext();
   });
+
 </script>
 
-<!-- Bind size of window to local varaibles -->
-<svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
+<svelte:window on:resize={() => resize()} />
 
 <div>
-  <div
-    bind:clientWidth={imgWidth}
-    bind:clientHeight={imgHeight}>
-    
-    <img
-      class="dn"
-      width={imgDim}
-      height={imgDim}
-      bind:this={imgElement}
-      src="/appricot.png"
-      alt="appricot1" 
-    />
+  <img
+    width={imgDim}
+    height={imgDim}
+    bind:this={img}
+    src="/appricot.png"
+    alt="appricot1" 
+  />
 
-    <canvas
-      on:mousemove={trackMouse}
-      on:mouseup={trackMouse}
-      on:mousedown={trackMouse}
-      bind:this={canvasElement}
-      width={windowWidth}
-      height={windowHeight} 
-    />
-
-  </div>
-
+  <canvas
+    on:mousemove={trackMouse}
+    on:mouseup={trackMouse}
+    on:mousedown={trackMouse}
+    bind:this={canvas}
+  />
 </div>
 
 <style>
   img {
     display: none;
-    mix-blend-mode: multiply;
   }
 </style>
