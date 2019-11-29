@@ -1,20 +1,26 @@
-<script>
+<script>  a
   import { onMount } from "svelte";
 
-  let windowWidth = 0;
-  let windowHeight = 0;
+  let imgElement;
+  let imgDim = 200;
   let imgWidth;
   let imgHeight;
+
   let canvasElement;
-  let imgElement;
+
   let mouseDown = false;
-  const mousePos = {
-    x: 0,
-    y: 0
-  };
-  let imgDim = 200;
+  let dpi;
+
+  let windowWidth;
+  let windowHeight;
+
+  let maxWidth;
+  let maxHeight;[
+
+
+
   
-  function trackMouse({ x, y, type }) {
+  function trackMouse({x, y, type}) {
     if (type === "mousedown") {
       mouseDown = true;
     }
@@ -22,8 +28,6 @@
       mouseDown = false;
     }
     if (mouseDown) {
-      mousePos.x = x;
-      mousePos.y = y;
       drawImage(x, y);
     }
   }
@@ -41,27 +45,36 @@
     );
   }
 
-  function resetDrawing() {
+  // function resetDrawing() {
+  //   const ctx = canvasElement.getContext("2d");
+  //   ctx.clearRect(0, 0, windowWidth, windowHeight);
+  // }
+  function resize(){
     const ctx = canvasElement.getContext("2d");
-    ctx.clearRect(0, 0, windowWidth, windowHeight);
+    let temp = ctx.getImageData(0, 0, windowWidth, windowHeight);
+    windowWidth = window.innerWidth;
+    windowHeight = window.innerHeight;
+    canvasElement.width = windowWidth;
+    canvasElement.height = windowHeight;
+    ctx.putImageData(temp, 0, 0);
   }
 
   onMount(() => {
     const ctx = canvasElement.getContext("2d");
-  
+    dpi = devicePixelRatio;
+    windowWidth = window.innerWidth;
+    windowHeight = window.innerHeight;
+    resize();
   });
 </script>
 
 <!-- Bind size of window to local varaibles -->
-<svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
+<svelte:window on:resize={() => resize()} />
 
 
-<div
-  bind:clientWidth={imgWidth}
-  bind:clientHeight={imgHeight}>
-  
+
+<div>
   <img
-    class="dn"
     width={imgDim}
     height={imgDim}
     bind:this={imgElement}
@@ -74,10 +87,7 @@
     on:mouseup={trackMouse}
     on:mousedown={trackMouse}
     bind:this={canvasElement}
-    width={windowWidth}
-    height={windowHeight} 
   />
-
 </div>
 
 <style>
