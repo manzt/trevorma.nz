@@ -49,21 +49,19 @@
       }
   }
 
-  $: {
+  $: if (canvas) {
     // https://github.com/observablehq/stdlib/blob/master/src/dom/context2d.js
-    if (canvas) {
-      clearCanvas();
-      const ctx = canvas.getContext("2d");
-      const w = width; 
-      const h = height - 7; // prevent creating scrollbar
-      const dpi = window.devicePixelRatio;
-      canvas.style.width = w + "px";
-      canvas.style.height = h + "px";
-      canvas.width = w * dpi;
-      canvas.height = h * dpi;
-      ctx.scale(dpi, dpi);
-      drawAllCoords();
-    }
+    clearCanvas();
+    const ctx = canvas.getContext("2d");
+    const w = width; 
+    const h = height - 7; // prevent creating scrollbar
+    const dpi = window.devicePixelRatio;
+    canvas.style.width = w + "px";
+    canvas.style.height = h + "px";
+    canvas.width = w * dpi;
+    canvas.height = h * dpi;
+    ctx.scale(dpi, dpi);
+    drawAllCoords();
   }
 </script>
 
