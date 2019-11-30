@@ -9,8 +9,6 @@
 
   let canvas;
   let img;
-  let imgWidth;
-  let imgHeight;
   let mouseDown = false;
   let cachedCoords = [];
 
@@ -36,10 +34,10 @@
     const ctx = canvas.getContext("2d");
     ctx.drawImage(
       img,
-      x - imgWidth / 2,
-      y - imgHeight / 2,
-      imgWidth,
-      imgHeight
+      x - img.width / 2,
+      y - img.height / 2,
+      img.width,
+      img.height
     );
   }
 
@@ -68,8 +66,8 @@
   }
 
   onMount(() => {
-    imgWidth = img.width * imgScale;
-    imgHeight = img.height * imgScale;
+    img.width = img.width * imgScale;
+    img.height = img.height * imgScale;
   });
 
 </script>
