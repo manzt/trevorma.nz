@@ -9,7 +9,6 @@
 	onMount(() => {
 		new ResizeObserver(() => h = foreground.offsetHeight).observe(foreground)
 	});
-	$: console.log(h);
 </script>
 
 <style>

@@ -2,12 +2,13 @@
   import { onMount, beforeUpdate } from "svelte";
 
   export let containerHeight;
+  let innerWidth = 0;
+  let innerHeight = 0;
   let canvas;
   let img;
   let imgDim = 200;
   let mouseDown = false;
   let cachedCoords = [];
-  let innerHeight;
 
   function trackMouse({x, y, type}) {
     if (type === "mousedown") {
@@ -35,21 +36,6 @@
     );
   }
 
-  // https://github.com/observablehq/stdlib/blob/master/src/dom/context2d.js
-  function create2dContext() {
-    const ctx = canvas.getContext("2d");
-    const w = window.innerWidth; 
-    const h = containerHeight > window.innerHeight ? 
-      containerHeight : 
-      window.innerHeight - 7; // prevent creating scrollbar
-    const dpi = window.devicePixelRatio;
-    canvas.style.width = w + "px";
-    canvas.style.height = h + "px";
-    canvas.width = w * dpi;
-    canvas.height = h * dpi;
-    ctx.scale(dpi, dpi);
-  }
-
   function clearCanvas() {
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -60,32 +46,31 @@
     clearCanvas();
   }
 
-  function handleResize() {
-    clearCanvas();
-    create2dContext();
-    // Draw all points onto new resized canvas
-    for (const [x,y] of cachedCoords) {
-      drawImage(x, y);
-    }
-  }
-
-  beforeUpdate(() => {
-    if (canvas) {
-      clearCanvas();
-      create2dContext();
-      // Draw all points onto new resized canvas
+  function drawAllCoords() {
       for (const [x,y] of cachedCoords) {
         drawImage(x, y);
       }
-    }
-  });
+  }
 
-  onMount(() => {
-    create2dContext();
-  });
+  $: {
+    // https://github.com/observablehq/stdlib/blob/master/src/dom/context2d.js
+    if (canvas) {
+      clearCanvas();
+      const ctx = canvas.getContext("2d");
+      const w = innerWidth; 
+      const h = containerHeight > innerHeight ? containerHeight : innerHeight - 7; // prevent creating scrollbar
+      const dpi = window.devicePixelRatio;
+      canvas.style.width = w + "px";
+      canvas.style.height = h + "px";
+      canvas.width = w * dpi;
+      canvas.height = h * dpi;
+      ctx.scale(dpi, dpi);
+      drawAllCoords();
+    }
+  }
 </script>
 
-<svelte:window on:resize={handleResize} />
+<svelte:window bind:innerHeight={innerHeight} bind:innerWidth={innerWidth}/>
 
 <div >
   <img
