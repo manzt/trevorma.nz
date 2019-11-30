@@ -1,7 +1,9 @@
 <script>
+	import { onMount } from 'svelte';
 	import Nav from '../components/Nav.svelte';
 	import BackgroundPaint from '../components/BackgroundPaint.svelte';
 	export let segment;
+	let textHeight;
 </script>
 
 <style>
@@ -26,18 +28,16 @@
 
 	.foreground {
 		position: absolute;
-		z-index: 100;
+		z-index: 1;
 		pointer-events:none;
 	}
-
-
 </style>
 
 <div>
 	<div class='background'>
-		<BackgroundPaint/>
+		<BackgroundPaint containerHeight={textHeight}/>
 	</div>
-	<div class='foreground'>
+	<div class="foreground" bind:offsetHeight={textHeight}>
 		<Nav {segment}/>
 		<main>
 			<slot></slot>
