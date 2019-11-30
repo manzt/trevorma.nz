@@ -1,36 +1,30 @@
 <script> 
-  export let width = 100;
-  export let height = 100;
+  import { onMount } from 'svelte';
+
+  export let width = 500;
+  export let height = 500;
+  export let imgScale = 0.25;
+  export let imgSrc;
+  export let imgAlt;
+
   let canvas;
   let img;
-  let imgDim = 200;
+  let imgWidth;
+  let imgHeight;
   let mouseDown = false;
   let cachedCoords = [];
 
-  function trackMouse({x, y, type}) {
-    if (type === "mousedown") {
-      mouseDown = true;
-    }
-    if (type === "mouseup") {
-      mouseDown = false;
-    }
+  function trackMouse(e) {
+    if (e.type === "mousedown") mouseDown = true;
+    if (e.type === "mouseup") mouseDown = false;
     if (mouseDown) {
+      const x = e.x;
+      const y = e.y + window.scrollY; 
       // Keep track of x, y positions in case of resize event
-      cachedCoords = [...cachedCoords, [x,y + window.scrollY]];
+      cachedCoords = [...cachedCoords, [x, y]];
       // Add single layer to existing canvas
-      drawImage(x, y + window.scrollY);
+      drawImage(x, y);
     }
-  }
-
-  function drawImage(x, y) {
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(
-      img,
-      x - imgDim / 2,
-      y - imgDim / 2,
-      imgDim,
-      imgDim
-    );
   }
 
   function clearCanvas() {
@@ -38,40 +32,53 @@
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
 
-  function handleClear() {
-    cachedCoords = [];
-    clearCanvas();
+  function drawImage(x, y) {
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(
+      img,
+      x - imgWidth / 2,
+      y - imgHeight / 2,
+      imgWidth,
+      imgHeight
+    );
   }
 
   function drawAllCoords() {
-      for (const [x,y] of cachedCoords) {
+      for (const [x, y] of cachedCoords) {
         drawImage(x, y);
       }
   }
 
-  $: if (canvas) {
-    // https://github.com/observablehq/stdlib/blob/master/src/dom/context2d.js
-    clearCanvas();
+  // https://github.com/observablehq/stdlib/blob/master/src/dom/context2d.js
+  function createContext2d(w, h) {
     const ctx = canvas.getContext("2d");
-    const w = width; 
-    const h = height - 7; // prevent creating scrollbar
     const dpi = window.devicePixelRatio;
-    canvas.style.width = w + "px";
-    canvas.style.height = h + "px";
     canvas.width = w * dpi;
     canvas.height = h * dpi;
+    canvas.style.width = w + "px";
+    canvas.style.height = h + "px";
     ctx.scale(dpi, dpi);
+  }
+
+  $: if (canvas) {
+    // create new canvas if width or height changes
+    createContext2d(width, height - 7);
+    // re-render all cached points
     drawAllCoords();
   }
+
+  onMount(() => {
+    imgWidth = img.width * imgScale;
+    imgHeight = img.height * imgScale;
+  });
+
 </script>
 
 <div >
   <img
-    width={imgDim}
-    height={imgDim}
     bind:this={img}
-    src="/appricot.png"
-    alt="appricot1" 
+    src={imgSrc}
+    alt={imgAlt}
   />
 
   <canvas
@@ -83,7 +90,10 @@
 </div>
 
 {#if cachedCoords.length !== 0}
-    <button on:click={handleClear}>clear</button>
+    <button on:click={() => {
+      cachedCoords = [];
+      clearCanvas();
+    }}>clear</button>
 {/if}
 
 <style>

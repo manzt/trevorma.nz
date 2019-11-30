@@ -42,6 +42,8 @@
 		<BackgroundPaint 
 			height={Math.max(mainHeight + 30, windowHeight)}
 			width={windowWidth}
+			imgSrc={"/appricot.png"}
+			imgAlt={"appricot1"}
 		/>
 	</div>
 	<div class="foreground" bind:offsetHeight={mainHeight}>
