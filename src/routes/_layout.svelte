@@ -3,12 +3,7 @@
 	import Nav from '../components/Nav.svelte';
 	import BackgroundPaint from '../components/BackgroundPaint.svelte';
 	export let segment;
-	let foreground;
-	let h = 100;
-
-	onMount(() => {
-		new ResizeObserver(() => h = foreground.offsetHeight).observe(foreground)
-	});
+	let textHeight;
 </script>
 
 <style>
@@ -40,9 +35,9 @@
 
 <div>
 	<div class='background'>
-		<BackgroundPaint containerHeight={h}/>
+		<BackgroundPaint containerHeight={textHeight}/>
 	</div>
-	<div class="foreground" bind:this={foreground}>
+	<div class="foreground" bind:offsetHeight={textHeight}>
 		<Nav {segment}/>
 		<main>
 			<slot></slot>
