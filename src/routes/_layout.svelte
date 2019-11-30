@@ -1,7 +1,15 @@
 <script>
+	import { onMount } from 'svelte';
 	import Nav from '../components/Nav.svelte';
 	import BackgroundPaint from '../components/BackgroundPaint.svelte';
 	export let segment;
+	let foreground;
+	let h = 100;
+
+	onMount(() => {
+		new ResizeObserver(() => h = foreground.offsetHeight).observe(foreground)
+	});
+	$: console.log(h);
 </script>
 
 <style>
@@ -26,18 +34,16 @@
 
 	.foreground {
 		position: absolute;
-		z-index: 100;
+		z-index: 1;
 		pointer-events:none;
 	}
-
-
 </style>
 
 <div>
 	<div class='background'>
-		<BackgroundPaint/>
+		<BackgroundPaint containerHeight={h}/>
 	</div>
-	<div class='foreground'>
+	<div class="foreground" bind:this={foreground}>
 		<Nav {segment}/>
 		<main>
 			<slot></slot>

@@ -1,11 +1,13 @@
 <script> 
-  import { onMount } from "svelte";
+  import { onMount, beforeUpdate } from "svelte";
 
+  export let containerHeight;
   let canvas;
   let img;
   let imgDim = 200;
   let mouseDown = false;
   let cachedCoords = [];
+  let innerHeight;
 
   function trackMouse({x, y, type}) {
     if (type === "mousedown") {
@@ -16,9 +18,9 @@
     }
     if (mouseDown) {
       // Keep track of x, y positions in case of resize event
-      cachedCoords = [...cachedCoords, [x,y]];
+      cachedCoords = [...cachedCoords, [x,y + window.scrollY]];
       // Add single layer to existing canvas
-      drawImage(x, y);
+      drawImage(x, y + window.scrollY);
     }
   }
 
@@ -37,7 +39,9 @@
   function create2dContext() {
     const ctx = canvas.getContext("2d");
     const w = window.innerWidth; 
-    const h = window.innerHeight;
+    const h = containerHeight > window.innerHeight ? 
+      containerHeight : 
+      window.innerHeight - 7; // prevent creating scrollbar
     const dpi = window.devicePixelRatio;
     canvas.style.width = w + "px";
     canvas.style.height = h + "px";
@@ -65,14 +69,25 @@
     }
   }
 
+  beforeUpdate(() => {
+    if (canvas) {
+      clearCanvas();
+      create2dContext();
+      // Draw all points onto new resized canvas
+      for (const [x,y] of cachedCoords) {
+        drawImage(x, y);
+      }
+    }
+  });
+
   onMount(() => {
     create2dContext();
   });
 </script>
 
-<svelte:window on:resize={() => handleResize()} />
+<svelte:window on:resize={handleResize} />
 
-<div class="canvas">
+<div >
   <img
     width={imgDim}
     height={imgDim}
@@ -90,7 +105,7 @@
 </div>
 
 {#if cachedCoords.length !== 0}
-    <button on:click={() => handleClear()}>clear</button>
+    <button on:click={handleClear}>clear</button>
 {/if}
 
 <style>
