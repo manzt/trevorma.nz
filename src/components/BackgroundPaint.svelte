@@ -1,9 +1,6 @@
 <script> 
-  import { onMount, beforeUpdate } from "svelte";
-
-  export let containerHeight;
-  let innerWidth = 0;
-  let innerHeight = 0;
+  export let width = 100;
+  export let height = 100;
   let canvas;
   let img;
   let imgDim = 200;
@@ -57,8 +54,8 @@
     if (canvas) {
       clearCanvas();
       const ctx = canvas.getContext("2d");
-      const w = innerWidth; 
-      const h = containerHeight > innerHeight ? containerHeight : innerHeight - 7; // prevent creating scrollbar
+      const w = width; 
+      const h = height - 7; // prevent creating scrollbar
       const dpi = window.devicePixelRatio;
       canvas.style.width = w + "px";
       canvas.style.height = h + "px";
@@ -69,8 +66,6 @@
     }
   }
 </script>
-
-<svelte:window bind:innerHeight={innerHeight} bind:innerWidth={innerWidth}/>
 
 <div >
   <img

@@ -3,7 +3,9 @@
 	import Nav from '../components/Nav.svelte';
 	import BackgroundPaint from '../components/BackgroundPaint.svelte';
 	export let segment;
-	let textHeight;
+	let mainHeight;
+	let windowWidth;
+	let windowHeight;
 </script>
 
 <style>
@@ -33,11 +35,16 @@
 	}
 </style>
 
+<svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight}/>
+
 <div>
 	<div class='background'>
-		<BackgroundPaint containerHeight={textHeight}/>
+		<BackgroundPaint 
+			height={Math.max(mainHeight + 30, windowHeight)}
+			width={windowWidth}
+		/>
 	</div>
-	<div class="foreground" bind:offsetHeight={textHeight}>
+	<div class="foreground" bind:offsetHeight={mainHeight}>
 		<Nav {segment}/>
 		<main>
 			<slot></slot>
