@@ -60,7 +60,12 @@
   {:else}
     <span class="more">
       by interactive visualization and leveraging web technologies to explore
-      high-dimensional data. In a past life, I swam competitively.
+      high-dimensional data. In a past life, I
+      <a
+        href="http://www.northcoast.org/awards/Hunsinger_Award_Releases/Manz-2017">
+        swam competitively
+      </a>
+      .
       <br />
       <br />
       I currently work in the
