@@ -69,7 +69,9 @@
       <br />
       <br />
       I currently work in the
-      <a href="http://gehlenborglab.org/">Gehlenborg Lab</a>
+      <a href="http://gehlenborglab.org/team/members/trevor-manz/">
+        Gehlenborg Lab
+      </a>
       .
     </span>
   {/if}
