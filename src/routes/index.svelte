@@ -11,12 +11,7 @@
 <svelte:head>
   <title>trevor manz | home</title>
 </svelte:head>
-<h3>
-  <strong>
-    <Typewriter text={'whoami'} />
-    trevor manz
-  </strong>
-</h3>
+<h3><strong><Typewriter text={'whoami'} />trevor manz</strong></h3>
 <p>
   graduate student with a passion for bioinformatics, data visualization, and
   web development.

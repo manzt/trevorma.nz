@@ -36,14 +36,7 @@
 <svelte:head>
   <title>trevor manz | about</title>
 </svelte:head>
-<h3>
-  <strong>
-    <Typewriter text={'about'} />
-    trevor manz
-    <stong />
-  </strong>
-</h3>
-
+<h3><strong><Typewriter text={'about'} />trevor manz</strong></h3>
 <p>
   I’m a student/programmer/Wisconsinite living in Boston, MA. I recently
   finished a Master's in computational biology in the United Kingdom, and prior
