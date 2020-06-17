@@ -36,6 +36,6 @@
     {#if showEmail}
         <span>trevor_manz[at]g[dot]harvard[dot]edu</span>
     {/if}
-    <li><a href="https://github.com/manzt">github</a></li>
-    <li><a href="https://twitter.com/trevmanz">twitter</a></li>
+    <li><a href="https://github.com/manzt" target="_blank">github</a></li>
+    <li><a href="https://twitter.com/trevmanz" target="_blank">twitter</a></li>
 </ul>

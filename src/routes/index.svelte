@@ -18,6 +18,6 @@
 </p>
 <p>
   current PhD candidate & NSF Graduate Research Fellow at
-  <a href="https://hms.harvard.edu/">Harvard Medical School</a>
+  <a href="https://hms.harvard.edu/" target="_blank">Harvard Medical School</a>
   .
 </p>
