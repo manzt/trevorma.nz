@@ -1,19 +1,20 @@
 {
 	"background_color": "#ffffff",
 	"theme_color": "#333333",
-	"name": "trevor-manz-website",
-	"short_name": "trevor-website",
+	"name": "trevor manz",
+	"short_name": "trevor",
 	"display": "minimal-ui",
 	"start_url": "/",
 	"icons": [
 		{
-			"src": "favicon.png",
+			"src": "icon-256.png",
 			"sizes": "256x256",
 			"type": "image/png"
 		},
 		{
-			"src": "favicon.ico",
-			"sizes": "16x16 32x32 48x48 64x64 128x128 256x256"
+			"src": "icon-512.png",
+			"sizes": "512x512",
+			"type": "image/png"
 		}
-	]
+  ]
 }
