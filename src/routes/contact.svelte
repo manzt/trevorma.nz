@@ -12,18 +12,26 @@
 	li:before {
 		content: "+";
 		margin-right: 4px;
-    }
+  }
 
-    .email {
-        text-decoration: underline;
-        cursor: pointer;
-        pointer-events: auto;
-    }
+  a {
+    pointer-events: auto;
+  }
 
-    a {
-        pointer-events: auto;
-    }
+  button {
+    padding: 0;
+    font-family: inherit;
+    font-size: inherit;
+    text-decoration: underline;
+    border: none;
+    background: none;
+    cursor: pointer;
+    pointer-events: auto;
+  }
 
+  span {
+    pointer-events: auto;
+  }
 </style>
 
 <svelte:head>
@@ -32,7 +40,7 @@
 <h3><strong><Typewriter text={"contact"}/>trevor manz</strong></h3>
 <p>This page is a work in progress, but please feel free to reach out!</p>
 <ul>
-    <li on:click={() => showEmail = !showEmail}><span class="email">email</span></li>
+  <li><button on:click={() => (showEmail = !showEmail)}>email</button></li>
     {#if showEmail}
         <span>trevor_manz[at]g[dot]harvard[dot]edu</span>
     {/if}

@@ -4,16 +4,6 @@
 </script>
 
 <style>
-  .toggle {
-    cursor: pointer;
-    padding-bottom: 2em;
-    pointer-events: auto;
-  }
-
-  .toggle span {
-    text-decoration: underline;
-  }
-
   ul {
     list-style: none;
     margin: 0.5em;
@@ -31,6 +21,17 @@
   a {
     pointer-events: auto;
   }
+
+  button {
+    font-family: inherit;
+    font-size: inherit;
+    text-decoration: underline;
+    border: none;
+    background: none;
+    cursor: pointer;
+    pointer-events: auto;
+  }
+
 </style>
 
 <svelte:head>
@@ -41,10 +42,7 @@
   I’m a student/programmer/Wisconsinite living in Boston, MA. Previously, I studied biochemistry among other things at <a href="https://www.kenyon.edu/" target="_blank" rel="noreferrer">Kenyon College</a>. I moved to Boston to explore the intersection of biology, statistics, and computer science. I am fascinated
   {#if less}
     <span class="less">...</span>
-    <span class="toggle" on:click={() => (less = !less)}>
-      +
-      <span>read more</span>
-    </span>
+    <button on:click={() => (less = !less)}>+ read more</button>
   {:else}
     <span class="more">
       by interactive visualization and leveraging web technologies to explore high-dimensional data. In a past life, I
@@ -100,8 +98,6 @@
     <li>Google Cloud Academic All-American</li>
     <li>Marshall Scholarship Finalist</li>
   </ul>
-  <span class="toggle" on:click={() => (less = !less)}>
-    -
-    <span>close</span>
-  </span>
+
+  <button on:click={() => (less = !less)}>- close</button>
 {/if}
