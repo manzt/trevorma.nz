@@ -39,10 +39,10 @@
 
 <div>
 	<div class='background'>
-		<BackgroundPaint 
+		<BackgroundPaint
 			height={Math.max(mainHeight + 30, windowHeight)}
 			width={windowWidth}
-			imgSrc={"/lemon.png"}
+			imgSrc={"/lemon.webp"}
 			imgAlt={"Lemon sliced in half"}
 			imgScale={0.7}
 		/>
