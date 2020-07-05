@@ -1,7 +1,4 @@
-A work in progress... that remains in progress
-
-### Tools
-This site is built with [sapper](https://github.com/sveltejs/sapper).
+A work in progress... that remains in progress.
 
 ### Development
 ```bash
