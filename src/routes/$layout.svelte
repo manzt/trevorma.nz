@@ -1,5 +1,4 @@
 <script>
-	import { onMount } from 'svelte';
 	import Nav from '../components/Nav.svelte';
 	import BackgroundPaint from '../components/BackgroundPaint.svelte';
 	export let segment;
