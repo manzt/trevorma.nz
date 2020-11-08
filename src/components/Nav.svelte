@@ -4,7 +4,7 @@
 
 <style>
 	nav {
-		font-weight: 300;
+		font-weight: 400;
 	}
 
 	ul {
