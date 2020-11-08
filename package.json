@@ -3,7 +3,8 @@
 	"version": "0.0.1",
 	"scripts": {
 		"dev": "svelte dev",
-		"build": "svelte build"
+		"build": "svelte build",
+		"postbuild": "node build-sw.js"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-static": "0.0.14",
