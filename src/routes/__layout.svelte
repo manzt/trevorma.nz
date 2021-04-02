@@ -1,28 +1,29 @@
 <script>
 	import Nav from '$lib/Nav.svelte';
-	import BackgroundPaint from '$lib/BackgroundPaint.svelte';
+	import Canvas from '$lib/Canvas.svelte';
 	import '../app.css';
 
-	export let segment;
 	let mainHeight;
-	let windowWidth;
-	let windowHeight;
+	let innerWidth;
+	let innerHeight;
 </script>
 
-<svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
+<svelte:window bind:innerWidth bind:innerHeight />
 
 <div>
 	<div class="background">
-		<BackgroundPaint
-			height={Math.max(mainHeight + 30, windowHeight)}
-			width={windowWidth}
-			imgSrc={'/lemon.webp'}
-			imgAlt={'Lemon sliced in half'}
-			imgScale={0.7}
+		<Canvas
+			height={Math.max(mainHeight + 30, innerHeight)}
+			width={innerWidth}
+			image={{
+				src: '/lemon.webp',
+				alt: 'Lemon sliced in half',
+				scale: 0.8
+			}}
 		/>
 	</div>
 	<div class="foreground" bind:offsetHeight={mainHeight}>
-		<Nav {segment} />
+		<Nav />
 		<main>
 			<slot />
 		</main>
@@ -36,12 +37,6 @@
 		padding: 0 1em;
 	}
 
-	@media (min-width: 500px) {
-		main {
-			padding: 0 2em;
-		}
-	}
-
 	.background {
 		position: absolute;
 		width: 100%;
@@ -53,5 +48,11 @@
 		position: absolute;
 		z-index: 1;
 		pointer-events: none;
+	}
+
+	@media (min-width: 500px) {
+		main {
+			padding: 0 2em;
+		}
 	}
 </style>
