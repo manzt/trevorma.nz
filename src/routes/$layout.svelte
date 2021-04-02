@@ -1,6 +1,8 @@
 <script>
-	import Nav from '../lib/Nav.svelte';
-	import BackgroundPaint from '../lib/BackgroundPaint.svelte';
+	import Nav from '$lib/Nav.svelte';
+	import BackgroundPaint from '$lib/BackgroundPaint.svelte';
+	import '../app.css';
+
 	export let segment;
 	let mainHeight;
 	let windowWidth;

@@ -1,5 +1,5 @@
 <script>
-	import Typewriter from '../lib/Typewriter.svelte';
+	import Typewriter from '$lib/Typewriter.svelte';
 </script>
 
 <svelte:head>
