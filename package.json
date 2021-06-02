@@ -5,18 +5,16 @@
 	"scripts": {
 		"dev": "svelte-kit dev",
 		"build": "svelte-kit build",
-		"start": "svelte-kit start",
-		"lint": "prettier --check .",
-		"format": "prettier --write ."
+		"preview": "svelte-kit preview",
+		"lint": "prettier --check --plugin-search-dir=. .",
+		"format": "prettier --write --plugin-search-dir=. ."
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-static": "next",
+		"@sveltejs/adapter-static": "^1.0.0-next.13",
 		"@sveltejs/kit": "next",
-		"svelte": "^3.29.0",
-		"vite": "^2.1.0",
-		"svelte-preprocess": "^4.0.0",
 		"prettier": "~2.2.1",
-		"prettier-plugin-svelte": "^2.2.0"
+		"prettier-plugin-svelte": "^2.2.0",
+		"svelte": "^3.24.0"
 	},
 	"prettier": {
 		"useTabs": true,
