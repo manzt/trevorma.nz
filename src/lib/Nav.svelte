@@ -9,6 +9,7 @@
 		<li>
 			<a class:selected={segment === 'contact'} href="contact">contact</a>
 		</li>
+		<li><a target="blank" rel="noreferrer" href="/resume.pdf">resume</a></li>
 	</ul>
 </nav>
 
