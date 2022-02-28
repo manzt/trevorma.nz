@@ -3,7 +3,7 @@ A work in progress... that remains in progress.
 ### Development
 
 ```bash
-git clone https://github.com/manzt/website.git && cd website
+gh repo clone manzt/trevorma.nz && cd trevorma.nz
 npm install
 npm run dev
 ```

@@ -1,5 +1,5 @@
 {
-	"name": "trevor-manz-website",
+	"name": "trevorma.nz",
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
@@ -10,11 +10,11 @@
 		"format": "prettier --write --plugin-search-dir=. ."
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-static": "^1.0.0-next.13",
+		"@sveltejs/adapter-static": "next",
 		"@sveltejs/kit": "next",
-		"prettier": "~2.2.1",
-		"prettier-plugin-svelte": "^2.2.0",
-		"svelte": "^3.24.0"
+		"prettier": "^2.5.1",
+		"prettier-plugin-svelte": "^2.6.0",
+		"svelte": "^3.46.4"
 	},
 	"prettier": {
 		"useTabs": true,
