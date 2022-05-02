@@ -15,7 +15,7 @@
 			height={innerHeight}
 			width={innerWidth}
 			image={{
-				src: '/lemon.webp',
+				src: 'lemon.webp',
 				alt: 'Lemon sliced in half',
 				scale: 0.8
 			}}

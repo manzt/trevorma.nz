@@ -21,5 +21,8 @@
 		"singleQuote": true,
 		"trailingComma": "none",
 		"printWidth": 100
+	},
+	"dependencies": {
+		"@fontsource/inconsolata": "^4.5.6"
 	}
 }
