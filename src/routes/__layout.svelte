@@ -3,7 +3,6 @@
 	import Canvas from '$lib/Canvas.svelte';
 	import '../app.css';
 
-	let mainHeight;
 	let innerWidth;
 	let innerHeight;
 </script>
@@ -13,7 +12,7 @@
 <div>
 	<div class="background">
 		<Canvas
-			height={Math.max(mainHeight + 30, innerHeight)}
+			height={innerHeight}
 			width={innerWidth}
 			image={{
 				src: '/lemon.webp',
@@ -22,7 +21,7 @@
 			}}
 		/>
 	</div>
-	<div class="foreground" bind:offsetHeight={mainHeight}>
+	<div class="foreground">
 		<Nav />
 		<main>
 			<slot />
@@ -34,14 +33,13 @@
 	main {
 		position: relative;
 		max-width: 40em;
-		padding: 0 1em;
 	}
 
 	.background {
 		position: absolute;
-		width: 100%;
-		height: auto;
+		height: 100vh;
 		z-index: 0;
+		overflow: hidden;
 	}
 
 	.foreground {
