@@ -7,19 +7,25 @@
 		"build": "svelte-kit build",
 		"preview": "svelte-kit preview",
 		"lint": "prettier --check --plugin-search-dir=. .",
-		"format": "prettier --write --plugin-search-dir=. ."
+		"format": "prettier --write --plugin-search-dir=. .",
+		"check": "svelte-check --tsconfig ./jsconfig.json"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-static": "next",
 		"@sveltejs/kit": "next",
 		"prettier": "^2.5.1",
 		"prettier-plugin-svelte": "^2.6.0",
-		"svelte": "^3.46.4"
+		"svelte": "^3.48.0",
+		"svelte-check": "^2.7.0",
+		"typescript": "^4.6.4"
 	},
 	"prettier": {
 		"useTabs": true,
 		"singleQuote": true,
 		"trailingComma": "none",
 		"printWidth": 100
+	},
+	"dependencies": {
+		"@fontsource/inconsolata": "^4.5.6"
 	}
 }

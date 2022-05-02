@@ -1,9 +1,11 @@
-import { build, files, timestamp } from '$service-worker';
+// @ts-nocheck
+import { build, files, version } from '$service-worker';
 
-const ASSETS = `cache${timestamp}`;
-
+const ASSETS = `cache${version}`;
 const to_cache = build.concat(files);
 const staticAssets = new Set(to_cache);
+
+let self = /** @type {ServiceWorkerGlobalScope} */ (/** @type {unknown} */ (globalThis.self));
 
 self.addEventListener('install', (event) => {
 	event.waitUntil(
@@ -30,11 +32,13 @@ self.addEventListener('activate', (event) => {
 });
 
 /**
+ * @param {Request} request
+ *
  * Fetch the asset from the network and store it in the cache.
  * Fall back to the cache if the user is offline.
  */
 async function fetchAndCache(request) {
-	const cache = await caches.open(`offline${timestamp}`);
+	const cache = await caches.open(`offline${version}`);
 	try {
 		const response = await fetch(request);
 		cache.put(request, response.clone());

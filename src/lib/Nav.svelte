@@ -1,14 +1,24 @@
 <script>
-	export let segment;
+	import { onMount } from 'svelte';
+
+	/** @type {string} */
+	let active;
+
+	onMount(() => {
+		active = window.location.pathname;
+	});
+
+	/** @param {MouseEvent} e */
+	function onClick({ target }) {
+		active = /** @type {any} */ (target).pathname;
+	}
 </script>
 
 <nav>
-	<ul>
-		<li><a class:selected={segment === undefined} href=".">home</a></li>
-		<li><a class:selected={segment === 'about'} href="about">about</a></li>
-		<li>
-			<a class:selected={segment === 'contact'} href="contact">contact</a>
-		</li>
+	<ul on:click={onClick}>
+		<li><a class:active={active === '/'} href=".">home</a></li>
+		<li><a class:active={active === '/about'} href="about">about</a></li>
+		<li><a class:active={active === '/contact'} href="contact">contact</a></li>
 		<li><a target="blank" rel="noreferrer" href="/resume.pdf">resume</a></li>
 	</ul>
 </nav>
@@ -30,7 +40,7 @@
 		pointer-events: all;
 	}
 
-	.selected {
+	.active {
 		text-decoration: none;
 	}
 
