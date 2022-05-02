@@ -1,18 +1,31 @@
 <script>
+	/** @type {number} */
 	export let width = 500;
+	/** @type {number} */
 	export let height = 500;
-	export let image = {};
 
+	/** @type {{ src: string, alt: string, scale: number }} */
+	export let image;
+
+	/** @type {HTMLCanvasElement} */
 	let canvas;
+	/** @type {HTMLImageElement} */
 	let img;
 
+	/** @type {boolean} */
 	let interacting = false;
+
+	/** @typedef {[x: number, y: number]} Coord */
+
+	/** @type {Coord[]} */
 	let cachedCoords = [];
 
+	/** @param {MouseEvent} e */
 	function onMouseEvent(e) {
 		if (e.type === 'mousedown') interacting = true;
 		if (e.type === 'mouseup') interacting = false;
 		if (interacting) {
+			/** @type {Coord} */
 			const coord = [e.x, e.y + window.scrollY];
 			// Keep track of x, y positions in case of resize event
 			cachedCoords = [...cachedCoords, coord];
@@ -24,34 +37,35 @@
 	function reset() {
 		cachedCoords = [];
 		const ctx = canvas.getContext('2d');
+		if (!ctx) return;
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 	}
 
+	/** @param {Coord} coord */
 	function drawCoord([x, y]) {
 		const ctx = canvas.getContext('2d');
+		if (!ctx) return;
 		ctx.drawImage(img, x - img.width / 2, y - img.height / 2, img.width, img.height);
 	}
 
-	function drawAllCoords() {
-		cachedCoords.forEach(drawCoord);
-	}
-
 	// https://github.com/observablehq/stdlib/blob/master/src/dom/context2d.js
-	function context2d(w, h) {
+	/** @param {{ width: number, height: number }} opts */
+	function context2d({ width, height }) {
 		const dpi = window.devicePixelRatio;
-		canvas.width = w * dpi;
-		canvas.height = h * dpi;
-		canvas.style.width = w + 'px';
-		canvas.style.height = h + 'px';
+		canvas.width = width * dpi;
+		canvas.height = height * dpi;
+		canvas.style.width = width + 'px';
+		canvas.style.height = height + 'px';
 		const ctx = canvas.getContext('2d');
+		if (!ctx) return;
 		ctx.scale(dpi, dpi);
 	}
 
 	$: if (canvas) {
 		// create new canvas if width or height changes
-		context2d(width, height);
+		context2d({ width, height });
 		// re-render all cached points
-		drawAllCoords();
+		cachedCoords.forEach(drawCoord);
 	}
 
 	$: if (img) {

@@ -3,7 +3,10 @@
 	import Canvas from '$lib/Canvas.svelte';
 	import '../app.css';
 
+	/** @type {number} */
 	let innerWidth;
+
+	/** @type {number} */
 	let innerHeight;
 </script>
 

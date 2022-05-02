@@ -1,13 +1,21 @@
 <script>
 	import { onMount } from 'svelte';
+
+	/** @type {string} */
 	let active;
+
 	onMount(() => {
 		active = window.location.pathname;
 	});
+
+	/** @param {MouseEvent} e */
+	function onClick({ target }) {
+		active = /** @type {any} */ (target).pathname;
+	}
 </script>
 
 <nav>
-	<ul on:click={(e) => (active = e.target.pathname)}>
+	<ul on:click={onClick}>
 		<li><a class:active={active === '/'} href=".">home</a></li>
 		<li><a class:active={active === '/about'} href="about">about</a></li>
 		<li><a class:active={active === '/contact'} href="contact">contact</a></li>
