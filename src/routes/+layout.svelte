@@ -1,13 +1,26 @@
 <script>
-	import Nav from '$lib/Nav.svelte';
 	import Canvas from '$lib/Canvas.svelte';
 	import '../app.css';
+
+	import { onMount } from 'svelte';
 
 	/** @type {number} */
 	let innerWidth;
 
 	/** @type {number} */
 	let innerHeight;
+
+	/** @type {string} */
+	let active;
+
+	onMount(() => {
+		active = window.location.pathname;
+	});
+
+	/** @param {MouseEvent} e */
+	function onClick({ target }) {
+		active = /** @type {any} */ (target).pathname;
+	}
 </script>
 
 <svelte:window bind:innerWidth bind:innerHeight />
@@ -25,7 +38,14 @@
 		/>
 	</div>
 	<div class="foreground">
-		<Nav />
+		<nav>
+			<ul on:click={onClick}>
+				<li><a class:active={active === '/'} href=".">home</a></li>
+				<li><a class:active={active === '/about'} href="about">about</a></li>
+				<li><a class:active={active === '/contact'} href="contact">contact</a></li>
+				<li><a target="blank" rel="noreferrer" href="/resume.pdf">resume</a></li>
+			</ul>
+		</nav>
 		<main>
 			<slot />
 		</main>
@@ -51,9 +71,38 @@
 		pointer-events: none;
 	}
 
+	nav {
+		font-weight: 400;
+	}
+
+	ul {
+		display: flex;
+		justify-content: space-between;
+		list-style: none;
+		padding: 0 5px 0 0;
+	}
+
+	li {
+		pointer-events: all;
+	}
+
+	.active {
+		text-decoration: none;
+	}
+
 	@media (min-width: 500px) {
 		main {
 			padding: 0 2em;
+		}
+	}
+
+	@media (min-width: 500px) {
+		ul {
+			justify-content: flex-start;
+			padding: 0 2em;
+		}
+		li {
+			width: 10em;
 		}
 	}
 </style>

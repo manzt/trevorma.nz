@@ -4,7 +4,6 @@ import adapter from '@sveltejs/adapter-static';
 let config = {
 	kit: {
 		adapter: adapter(),
-		prerender: { default: true }
 	}
 };
 
