@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"dev": "svelte-kit dev",
+		"dev": "vite",
 		"build": "svelte-kit build",
 		"preview": "svelte-kit preview",
 		"lint": "prettier --check --plugin-search-dir=. .",
@@ -13,11 +13,11 @@
 	"devDependencies": {
 		"@sveltejs/adapter-static": "next",
 		"@sveltejs/kit": "next",
-		"prettier": "^2.5.1",
-		"prettier-plugin-svelte": "^2.6.0",
-		"svelte": "^3.48.0",
-		"svelte-check": "^2.7.0",
-		"typescript": "^4.6.4"
+		"prettier": "^2.7.1",
+		"prettier-plugin-svelte": "^2.7.0",
+		"svelte": "^3.50.1",
+		"svelte-check": "^2.9.0",
+		"typescript": "^4.8.3"
 	},
 	"prettier": {
 		"useTabs": true,
@@ -26,6 +26,7 @@
 		"printWidth": 100
 	},
 	"dependencies": {
-		"@fontsource/inconsolata": "^4.5.6"
+		"@fontsource/inconsolata": "^4.5.7",
+		"vite": "^3.1.3"
 	}
 }
