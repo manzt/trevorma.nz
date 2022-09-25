@@ -5,27 +5,11 @@
 }
 
 body {
-	margin: 0;
 	font-size: 1em;
 	line-height: 1.2;
 	color: #333;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	font-weight: 400;
-}
-
 a {
 	color: inherit;
-}
-
-@media (min-width: 400px) {
-	body {
-		font-size: 17px;
-	}
 }
