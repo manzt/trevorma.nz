@@ -48,9 +48,9 @@
 		<strong>Things I like</strong>
 	</h4>
 	<ul>
-		<li>sourdough | cats | live music</li>
+		<li>sourdough | cats | programming languages & type systems</li>
 		<li>python | typescript | rust | webassembly</li>
-		<li>kitty | neovim | programming languages & type theory</li>
+		<li>kitty | tmux | neovim</li>
 	</ul>
 
 	<h4>
