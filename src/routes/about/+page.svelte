@@ -35,7 +35,9 @@
 				Gehlenborg Lab
 			</a>
 			on
-			<a href="http://vitessce.io" target="_blank" rel="noreferrer">vitessce</a>
+			<a href="https://github.com/hms-dbmi/viv" target="_blank" rel="noreferrer">Viv</a>
+			and
+			<a href="https://github.com/gosling-lang/gos" target="_blank" rel="noreferrer">Gos</a>
 			.
 		</span>
 	{/if}
@@ -46,18 +48,9 @@
 		<strong>Things I like</strong>
 	</h4>
 	<ul>
-		<li>sourdough | dogs | live music</li>
-		<li>Python | JavaScript | R | Julia</li>
-		<li>Svelte | React | Node.js | Flask</li>
-		<li>D3.js | WebGL | Vega-Lite/Altair | ggplot</li>
-		<li>Alacritty | VSCode | Vim</li>
-	</ul>
-
-	<h4>
-		<strong>I'm getting into</strong>
-	</h4>
-	<ul>
-		<li>Rust | WebAssembly</li>
+		<li>sourdough | cats | programming languages & type systems</li>
+		<li>python | typescript | rust | webassembly</li>
+		<li>kitty | tmux | neovim</li>
 	</ul>
 
 	<h4>
