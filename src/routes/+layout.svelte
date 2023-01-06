@@ -1,4 +1,5 @@
 <script>
+	import { page } from '$app/stores';
 	import Canvas from '$lib/Canvas.svelte';
 	import '../app.css';
 
@@ -17,10 +18,7 @@
 		active = window.location.pathname;
 	});
 
-	/** @param {MouseEvent} e */
-	function onClick({ target }) {
-		active = /** @type {any} */ (target).pathname;
-	}
+	$: active = $page.url.pathname;
 </script>
 
 <svelte:window bind:innerWidth bind:innerHeight />
@@ -39,7 +37,7 @@
 	</div>
 	<div class="foreground">
 		<nav>
-			<ul on:click={onClick}>
+			<ul>
 				<li><a class:active={active === '/'} href=".">home</a></li>
 				<li><a class:active={active === '/about'} href="about">about</a></li>
 				<li><a class:active={active === '/contact'} href="contact">contact</a></li>
