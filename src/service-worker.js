@@ -1,24 +1,27 @@
-// @ts-nocheck
+/// <reference types="@sveltejs/kit" />
+/// <reference no-default-lib="true"/>
+/// <reference lib="esnext" />
+/// <reference lib="webworker" />
 import { build, files, version } from "$service-worker";
 
 const ASSETS = `cache${version}`;
 const to_cache = build.concat(files);
 const staticAssets = new Set(to_cache);
 
-let self = /** @type {ServiceWorkerGlobalScope} */ (/** @type {unknown} */ (globalThis.self));
+const sw = /** @type {ServiceWorkerGlobalScope} */ (/** @type {unknown} */ (self));
 
-self.addEventListener("install", (event) => {
+sw.addEventListener("install", (event) => {
 	event.waitUntil(
 		caches
 			.open(ASSETS)
 			.then((cache) => cache.addAll(to_cache))
 			.then(() => {
-				self.skipWaiting();
+				sw.skipWaiting();
 			})
 	);
 });
 
-self.addEventListener("activate", (event) => {
+sw.addEventListener("activate", (event) => {
 	event.waitUntil(
 		caches.keys().then(async (keys) => {
 			// delete old caches
@@ -26,7 +29,7 @@ self.addEventListener("activate", (event) => {
 				if (key !== ASSETS) await caches.delete(key);
 			}
 
-			self.clients.claim();
+			sw.clients.claim();
 		})
 	);
 });
@@ -50,7 +53,7 @@ async function fetchAndCache(request) {
 	}
 }
 
-self.addEventListener("fetch", (event) => {
+sw.addEventListener("fetch", (event) => {
 	if (event.request.method !== "GET" || event.request.headers.has("range")) return;
 
 	const url = new URL(event.request.url);
