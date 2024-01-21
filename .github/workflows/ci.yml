@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  Lint:
+  TypeCheck:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -18,7 +18,7 @@ jobs:
           node-version: "20.x"
           cache: pnpm
       - run: pnpm install
-      - run: pnpm lint
+      - run: pnpm check
 
   Check:
     runs-on: ubuntu-latest
