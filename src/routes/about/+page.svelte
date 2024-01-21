@@ -21,7 +21,7 @@
 			by interactive visualization and leveraging web technologies to explore high-dimensional data.
 			In a past life, I
 			<a
-				href="http://www.northcoast.org/awards/Hunsinger_Award_Releases/Manz-2017"
+				href="https://northcoast.org/sports/2022/4/20/awards-Hunsinger-Award-Releases-Manz-2017.aspx"
 				target="_blank"
 				rel="noreferrer"
 			>
