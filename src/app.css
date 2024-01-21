@@ -1,13 +1,14 @@
-@import '@fontsource/inconsolata';
+@import "@fontsource/inconsolata";
 
 :root {
-	font-family: 'Inconsolata', monospace;
+	font-family: "Inconsolata", monospace;
 }
 
 body {
 	font-size: 1em;
 	line-height: 1.2;
 	color: #333;
+	margin: 0;
 }
 
 a {
