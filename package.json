@@ -4,7 +4,7 @@
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
 		"lint": "prettier --check .",
 		"format": "prettier --write ."
 	},
@@ -23,8 +23,6 @@
 		"vite": "^5.0.12"
 	},
 	"prettier": {
-		"useTabs": true,
-		"trailingComma": "none",
-		"printWidth": 100
+		"useTabs": true
 	}
 }

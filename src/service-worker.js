@@ -8,7 +8,9 @@ const ASSETS = `cache${version}`;
 const to_cache = build.concat(files);
 const staticAssets = new Set(to_cache);
 
-const sw = /** @type {ServiceWorkerGlobalScope} */ (/** @type {unknown} */ (self));
+const sw = /** @type {ServiceWorkerGlobalScope} */ (
+	/** @type {unknown} */ (self)
+);
 
 sw.addEventListener("install", (event) => {
 	event.waitUntil(
@@ -17,7 +19,7 @@ sw.addEventListener("install", (event) => {
 			.then((cache) => cache.addAll(to_cache))
 			.then(() => {
 				sw.skipWaiting();
-			})
+			}),
 	);
 });
 
@@ -30,7 +32,7 @@ sw.addEventListener("activate", (event) => {
 			}
 
 			sw.clients.claim();
-		})
+		}),
 	);
 });
 
@@ -54,7 +56,8 @@ async function fetchAndCache(request) {
 }
 
 sw.addEventListener("fetch", (event) => {
-	if (event.request.method !== "GET" || event.request.headers.has("range")) return;
+	if (event.request.method !== "GET" || event.request.headers.has("range"))
+		return;
 
 	const url = new URL(event.request.url);
 
@@ -62,15 +65,18 @@ sw.addEventListener("fetch", (event) => {
 	const isHttp = url.protocol.startsWith("http");
 	const isDevServerRequest =
 		url.hostname === self.location.hostname && url.port !== self.location.port;
-	const isStaticAsset = url.host === self.location.host && staticAssets.has(url.pathname);
-	const skipBecauseUncached = event.request.cache === "only-if-cached" && !isStaticAsset;
+	const isStaticAsset =
+		url.host === self.location.host && staticAssets.has(url.pathname);
+	const skipBecauseUncached =
+		event.request.cache === "only-if-cached" && !isStaticAsset;
 
 	if (isHttp && !isDevServerRequest && !skipBecauseUncached) {
 		event.respondWith(
 			(async () => {
-				const cachedAsset = isStaticAsset && (await caches.match(event.request));
+				const cachedAsset =
+					isStaticAsset && (await caches.match(event.request));
 				return cachedAsset || fetchAndCache(event.request);
-			})()
+			})(),
 		);
 	}
 });
