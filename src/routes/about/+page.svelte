@@ -31,14 +31,13 @@
 			<br />
 			<br />
 			I currently work in the
-			<a href="http://gehlenborglab.org/team/members/trevor-manz/" target="_blank" rel="noreferrer">
-				Gehlenborg Lab
+			<a href="http://hidivelab.org/team/members/trevor-manz/" target="_blank" rel="noreferrer">
+				HIDIVE Lab
 			</a>
 			on
-			<a href="https://github.com/hms-dbmi/viv" target="_blank" rel="noreferrer">Viv</a>
-			and
-			<a href="https://github.com/gosling-lang/gos" target="_blank" rel="noreferrer">Gos</a>
-			.
+			<a href="https://github.com/hms-dbmi/viv" target="_blank" rel="noreferrer">Viv</a>,
+			<a href="https://github.com/gosling-lang/gos" target="_blank" rel="noreferrer">Gos</a>,
+			and <a href="https://github.com/manzt/anywidget" target="_blank" rel="noreferrer">anywidget</a>.
 		</span>
 	{/if}
 </p>
