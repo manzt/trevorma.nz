@@ -9,7 +9,7 @@
 		"format": "prettier --write ."
 	},
 	"dependencies": {
-		"@fontsource/inconsolata": "^5.0.17"
+		"@fontsource/inconsolata": "^5.0.18"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-static": "^3.0.1",
