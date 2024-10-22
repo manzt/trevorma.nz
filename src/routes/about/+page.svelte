@@ -8,18 +8,19 @@
 </svelte:head>
 <h3><strong><Typewriter text={'about'} />trevor manz</strong></h3>
 <p>
-	I’m a student/programmer/Wisconsinite living in Boston, MA. Previously, I studied biochemistry
-	among other things at <a href="https://www.kenyon.edu/" target="_blank" rel="noreferrer"
-		>Kenyon College</a
-	>. I moved to Boston to explore the intersection of biology, statistics, and computer science. I
-	am fascinated
+	I’m a student/programmer/Wisconsinite living in Brooklyn, NY. I'm
+	interested in how our software tools shape and empower our understanding of
+	the world.
+</p>
+<p>
+I have a passion for
 	{#if less}
 		<span class="less">...</span>
 		<button on:click={() => (less = !less)}>+ read more</button>
 	{:else}
 		<span class="more">
-			by interactive visualization and leveraging web technologies to explore high-dimensional data.
-			In a past life, I
+			interactive data visualization and build tools to enable the
+			exploration of high-dimensional data. In a past life, I
 			<a
 				href="https://northcoast.org/sports/2022/4/20/awards-Hunsinger-Award-Releases-Manz-2017.aspx"
 				target="_blank"
@@ -37,7 +38,8 @@
 			on
 			<a href="https://github.com/hms-dbmi/viv" target="_blank" rel="noreferrer">Viv</a>,
 			<a href="https://github.com/gosling-lang/gos" target="_blank" rel="noreferrer">Gos</a>,
-			and <a href="https://github.com/manzt/anywidget" target="_blank" rel="noreferrer">anywidget</a>.
+			<a href="https://github.com/manzt/anywidget" target="_blank" rel="noreferrer">anywidget</a>,
+			and various <a href="https://github.com/manzt/" target="_blank" rel="noreferrer">open-source projects</a>.
 		</span>
 	{/if}
 </p>
@@ -49,13 +51,14 @@
 	<ul>
 		<li>sourdough | cats | programming languages & type systems</li>
 		<li>python | typescript | rust | webassembly</li>
-		<li>kitty | tmux | neovim</li>
+		<li>ghostty | tmux | neovim</li>
 	</ul>
 
 	<h4>
 		<strong>Education</strong>
 	</h4>
 	<ul>
+		<li>Harvard University, PhD Biomedical Informatics (in progress)</li>
 		<li>University of Cambridge, MPhil Computational Biology</li>
 		<li>Kenyon College, BA Biochemistry</li>
 	</ul>

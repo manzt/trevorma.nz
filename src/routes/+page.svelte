@@ -6,7 +6,7 @@
 	<title>trevor manz | home</title>
 </svelte:head>
 <h3><strong><Typewriter text={'whoami'} />trevor manz</strong></h3>
-<p>graduate student with a passion for bioinformatics, data visualization, and web development.</p>
+<p>graduate student with a passion for data visualization and useful software.</p>
 <p>
 	current PhD candidate & NSF Graduate Research Fellow at
 	<a href="https://hms.harvard.edu/" target="_blank" rel="noreferrer">Harvard Medical School</a>
