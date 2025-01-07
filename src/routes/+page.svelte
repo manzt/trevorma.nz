@@ -1,20 +1,59 @@
-<script>
-	import Typewriter from '$lib/Typewriter.svelte';
+<script lang="ts">
+	import Counter from './Counter.svelte';
+	import welcome from '$lib/images/svelte-welcome.webp';
+	import welcomeFallback from '$lib/images/svelte-welcome.png';
 </script>
 
 <svelte:head>
-	<title>trevor manz | home</title>
+	<title>Home</title>
+	<meta name="description" content="Svelte demo app" />
 </svelte:head>
-<h3><strong><Typewriter text={'whoami'} />trevor manz</strong></h3>
-<p>graduate student with a passion for data visualization and useful software.</p>
-<p>
-	current PhD candidate & NSF Graduate Research Fellow at
-	<a href="https://hms.harvard.edu/" target="_blank" rel="noreferrer">Harvard Medical School</a>
-	.
-</p>
+
+<section>
+	<h1>
+		<span class="welcome">
+			<picture>
+				<source srcset={welcome} type="image/webp" />
+				<img src={welcomeFallback} alt="Welcome" />
+			</picture>
+		</span>
+
+		to your new<br />SvelteKit app
+	</h1>
+
+	<h2>
+		try editing <strong>src/routes/+page.svelte</strong>
+	</h2>
+
+	<Counter />
+</section>
 
 <style>
-	a {
-		pointer-events: auto;
+	section {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		flex: 0.6;
+	}
+
+	h1 {
+		width: 100%;
+	}
+
+	.welcome {
+		display: block;
+		position: relative;
+		width: 100%;
+		height: 0;
+		padding: 0 0 calc(100% * 495 / 2048) 0;
+	}
+
+	.welcome img {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		display: block;
 	}
 </style>
