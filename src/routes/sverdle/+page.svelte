@@ -1,90 +1,88 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
-	import { confetti } from '@neoconfetti/svelte';
-	import type { ActionData, PageData } from './$types';
-	import { reducedMotion } from './reduced-motion';
+import { enhance } from "$app/forms";
+import { confetti } from "@neoconfetti/svelte";
+import type { ActionData, PageData } from "./$types";
+import { reducedMotion } from "./reduced-motion";
 
-	interface Props {
-		data: PageData;
-		form: ActionData;
-	}
-	let { data, form = $bindable() }: Props = $props();
+interface Props {
+	data: PageData;
+	form: ActionData;
+}
+let { data, form = $bindable() }: Props = $props();
 
-	/** Whether or not the user has won */
-	let won = $derived(data.answers.at(-1) === 'xxxxx');
+/** Whether or not the user has won */
+let won = $derived(data.answers.at(-1) === "xxxxx");
 
-	/** The index of the current guess */
-	let i = $derived(won ? -1 : data.answers.length);
+/** The index of the current guess */
+let i = $derived(won ? -1 : data.answers.length);
 
-	/** The current guess */
-	// svelte-ignore state_referenced_locally
-	let currentGuess = $state(data.guesses[i] || '');
+/** The current guess */
+// svelte-ignore state_referenced_locally
+let currentGuess = $state(data.guesses[i] || "");
 
-	$effect(() => {
-		currentGuess = data.guesses[i] || '';
-	});
+$effect(() => {
+	currentGuess = data.guesses[i] || "";
+});
 
-	/** Whether the current guess can be submitted */
-	let submittable = $derived(currentGuess.length === 5);
+/** Whether the current guess can be submitted */
+let submittable = $derived(currentGuess.length === 5);
 
-	const { classnames, description } = $derived.by(() => {
-		/**
-		 * A map of classnames for all letters that have been guessed,
-		 * used for styling the keyboard
-		 */
-		let classnames: Record<string, 'exact' | 'close' | 'missing'> = {};
-		/**
-		 * A map of descriptions for all letters that have been guessed,
-		 * used for adding text for assistive technology (e.g. screen readers)
-		 */
-		let description: Record<string, string> = {};
-		data.answers.forEach((answer, i) => {
-			const guess = data.guesses[i];
-			for (let i = 0; i < 5; i += 1) {
-				const letter = guess[i];
-				if (answer[i] === 'x') {
-					classnames[letter] = 'exact';
-					description[letter] = 'correct';
-				} else if (!classnames[letter]) {
-					classnames[letter] = answer[i] === 'c' ? 'close' : 'missing';
-					description[letter] = answer[i] === 'c' ? 'present' : 'absent';
-				}
+const { classnames, description } = $derived.by(() => {
+	/**
+	 * A map of classnames for all letters that have been guessed,
+	 * used for styling the keyboard
+	 */
+	let classnames: Record<string, "exact" | "close" | "missing"> = {};
+	/**
+	 * A map of descriptions for all letters that have been guessed,
+	 * used for adding text for assistive technology (e.g. screen readers)
+	 */
+	let description: Record<string, string> = {};
+	data.answers.forEach((answer, i) => {
+		const guess = data.guesses[i];
+		for (let i = 0; i < 5; i += 1) {
+			const letter = guess[i];
+			if (answer[i] === "x") {
+				classnames[letter] = "exact";
+				description[letter] = "correct";
+			} else if (!classnames[letter]) {
+				classnames[letter] = answer[i] === "c" ? "close" : "missing";
+				description[letter] = answer[i] === "c" ? "present" : "absent";
 			}
-		});
-		return { classnames, description };
-	});
-
-	/**
-	 * Modify the game state without making a trip to the server,
-	 * if client-side JavaScript is enabled
-	 */
-	function update(event: MouseEvent) {
-		event.preventDefault();
-		const key = (event.target as HTMLButtonElement).getAttribute(
-			'data-key'
-		);
-
-		if (key === 'backspace') {
-			currentGuess = currentGuess.slice(0, -1);
-			if (form?.badGuess) form.badGuess = false;
-		} else if (currentGuess.length < 5) {
-			currentGuess += key;
 		}
+	});
+	return { classnames, description };
+});
+
+/**
+ * Modify the game state without making a trip to the server,
+ * if client-side JavaScript is enabled
+ */
+function update(event: MouseEvent) {
+	event.preventDefault();
+	const key = (event.target as HTMLButtonElement).getAttribute("data-key");
+
+	if (key === "backspace") {
+		currentGuess = currentGuess.slice(0, -1);
+		if (form?.badGuess) form.badGuess = false;
+	} else if (currentGuess.length < 5) {
+		currentGuess += key;
 	}
+}
 
-	/**
-	 * Trigger form logic in response to a keydown event, so that
-	 * desktop users can use the keyboard to play the game
-	 */
-	function keydown(event: KeyboardEvent) {
-		if (event.metaKey) return;
+/**
+ * Trigger form logic in response to a keydown event, so that
+ * desktop users can use the keyboard to play the game
+ */
+function keydown(event: KeyboardEvent) {
+	if (event.metaKey) return;
 
-		if (event.key === 'Enter' && !submittable) return;
+	if (event.key === "Enter" && !submittable) return;
 
-		document
-			.querySelector(`[data-key="${event.key}" i]`)
-			?.dispatchEvent(new MouseEvent('click', { cancelable: true }));
-	}
+	document
+		.querySelector(`[data-key="${event.key}" i]`)
+		?.dispatchEvent(new MouseEvent("click", { cancelable: true }));
+}
 </script>
 
 <svelte:window onkeydown={keydown} />

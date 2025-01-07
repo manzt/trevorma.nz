@@ -1,7 +1,7 @@
-import { readable } from 'svelte/store';
-import { browser } from '$app/environment';
+import { browser } from "$app/environment";
+import { readable } from "svelte/store";
 
-const reducedMotionQuery = '(prefers-reduced-motion: reduce)';
+const reducedMotionQuery = "(prefers-reduced-motion: reduce)";
 
 const getInitialMotionPreference = () => {
 	if (!browser) return false;
@@ -14,10 +14,10 @@ export const reducedMotion = readable(getInitialMotionPreference(), (set) => {
 			set(event.matches);
 		};
 		const mediaQueryList = window.matchMedia(reducedMotionQuery);
-		mediaQueryList.addEventListener('change', setReducedMotion);
+		mediaQueryList.addEventListener("change", setReducedMotion);
 
 		return () => {
-			mediaQueryList.removeEventListener('change', setReducedMotion);
+			mediaQueryList.removeEventListener("change", setReducedMotion);
 		};
 	}
 });
