@@ -1,59 +1,32 @@
 <script lang="ts">
-import welcomeFallback from "$lib/images/svelte-welcome.png";
-import welcome from "$lib/images/svelte-welcome.webp";
-import Counter from "./Counter.svelte";
 </script>
 
 <svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
+	<title>home</title>
+	<meta
+		name="description"
+		content="Trevor Manz is a postdoctoral fellow at Harvard Medical School and creator of anywidget."
+	/>
 </svelte:head>
 
-<section>
-	<h1>
-		<span class="welcome">
-			<picture>
-				<source srcset={welcome} type="image/webp" />
-				<img src={welcomeFallback} alt="Welcome" />
-			</picture>
-		</span>
+<h1 class="text-3xl font-semibold tracking-wider">whoami trevor manz</h1>
 
-		to your new<br />SvelteKit app
-	</h1>
+<p class="mt-5 text-lg text-balance">
+	i'm a software engineer and scientist with a passion for data visualization
+	and useful software.
+</p>
 
-	<h2>
-		try editing <strong>src/routes/+page.svelte</strong>
-	</h2>
+<p class="mt-5 text-lg text-balance">
+	i created a <a
+		class="underline"
+		target="_blank"
+		href="https://anywidget.dev">anywidget</a
+	>
+</p>
 
-	<Counter />
-</section>
-
-<style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 0.6;
-	}
-
-	h1 {
-		width: 100%;
-	}
-
-	.welcome {
-		display: block;
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
-	}
-</style>
+<p class="mt-5 text-lg text-balance">
+	postdoctoral fellow at
+	<a class="underline" target="_blank" href="https://hms.harvard.edu/"
+		>Harvard Medical School</a
+	>.
+</p>

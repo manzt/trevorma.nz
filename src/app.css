@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+@import "@fontsource/comic-neue";
+@import "@fontsource/inconsolata";
+
+@theme {
+	--font-sans: "Comic Neue";
+	--font-mono: "Inconsolata", monospace;
+}

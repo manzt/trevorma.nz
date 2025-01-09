@@ -1,54 +1,24 @@
 <script lang="ts">
 import Header from "./Header.svelte";
+import Typewriter from "./Typewriter.svelte";
 import "../app.css";
 
 let { children } = $props();
 </script>
 
-<div class="app">
+<div class="flex flex-col min-h-lvh font-mono m-5">
 	<Header />
 
-	<main>
+	<main class="flex-1 flex flex-col p-1 w-full max-w-6xl box-border my-2">
 		{@render children()}
 	</main>
 
-	<footer>
-		<p>
-			visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to learn about SvelteKit
-		</p>
+	<footer class="flex flex-col justify-center items-center p-2">
+		<p>© 2025 trevor manz</p>
 	</footer>
 </div>
 
 <style>
-	.app {
-		display: flex;
-		flex-direction: column;
-		min-height: 100vh;
-	}
-
-	main {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		padding: 1rem;
-		width: 100%;
-		max-width: 64rem;
-		margin: 0 auto;
-		box-sizing: border-box;
-	}
-
-	footer {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		padding: 12px;
-	}
-
-	footer a {
-		font-weight: bold;
-	}
-
 	@media (min-width: 480px) {
 		footer {
 			padding: 12px 0;
