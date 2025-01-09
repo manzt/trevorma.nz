@@ -1,16 +1,20 @@
 <script lang="ts">
 	import { assert } from "$lib/utils.js";
+	import { onMount } from "svelte";
 
-	function typewriter(node: Node, { speed = 1 }: { speed?: number }) {
+	let { text } = $props();
+	let visible = $state(false);
+	let cursor = "|";
+	// let cursor = "█";
+
+	function typewriter(node: Node, { speed }: { speed: number }) {
 		let valid =
 			node.childNodes.length === 1 &&
 			node.childNodes[0].nodeType === Node.TEXT_NODE;
-
 		assert(
 			valid,
 			"typewriter transition only works with a single text node child",
 		);
-
 		let text = node.textContent ?? "";
 		return {
 			duration: text.length / (speed * 0.01),
@@ -21,10 +25,29 @@
 		};
 	}
 
-	let text = $state("");
-	setTimeout(() => {
-		text = "Hi my name is trevor and I like to party";
-	}, 1000);
+	onMount(() => {
+		setTimeout(() => {
+			visible = true;
+		});
+	});
 </script>
 
-<p transition:typewriter>{text}</p>
+<span class="mr-1">
+	{#if visible}
+		<span transition:typewriter={{ speed: 1 }}>{text}</span>
+	{/if}
+	<span class="cursor">{cursor}</span>
+</span>
+
+<style>
+	.cursor {
+		margin-left: -1.2rem;
+		animation: blinker 1s infinite;
+	}
+
+	@keyframes blinker {
+		50% {
+			opacity: 0;
+		}
+	}
+</style>
