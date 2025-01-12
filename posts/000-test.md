@@ -3,3 +3,8 @@
 Here is some content.
 
 I made the [anywidget](https://anywidget.dev) project.
+
+
+```js
+const hello = "hoo";
+```

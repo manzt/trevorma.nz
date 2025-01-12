@@ -1,6 +1,5 @@
 <script lang="ts">
 import Header from "./Header.svelte";
-import Typewriter from "./Typewriter.svelte";
 import "../app.css";
 
 let { children } = $props();

@@ -6,7 +6,12 @@ import * as path from "node:path";
 
 import { createMarkdownProcessor } from "@astrojs/markdown-remark";
 
-let processor = await createMarkdownProcessor();
+let processor = await createMarkdownProcessor({
+	shikiConfig: {
+		theme: "snazzy-light",
+	},
+	remarkPlugins: [],
+});
 
 export const load: PageLoad = async ({ params }) => {
 	let filepath = Object.entries(import.meta.glob("../../../../posts/*.md"))

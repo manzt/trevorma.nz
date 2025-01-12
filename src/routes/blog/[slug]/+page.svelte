@@ -2,12 +2,10 @@
 import type { PageData } from "./$types";
 
 let { data }: { data: PageData } = $props();
-
-console.log(data)
 </script>
 
-<h1>{data.title}</h1>
+<article class="prose lg:prose-lg">
+	<h1>{data.title}</h1>
 
-<div>{@html data.content}</div>
-
-<pre>{JSON.stringify(data.files, null, 2)}</pre>
+	{@html data.content}
+</article>
