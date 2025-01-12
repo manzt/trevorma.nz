@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Typewriter from "./Typewriter.svelte";
+import Typewriter from "./Typewriter.svelte";
 </script>
 
 <svelte:head>
@@ -10,22 +10,19 @@
 	/>
 </svelte:head>
 
-<h1 class="text-3xl font-semibold">
-	<Typewriter text="whoami" />trevor manz
-</h1>
+<section>
+	<h1 class="not-prose text-2xl font-semibold">
+		<Typewriter text="whoami" />trevor manz
+	</h1>
 
-<div class="text-lg mt-5 space-y-5">
 	<p>
 		i have a passion for designing software systems that empower humans to
 		answer questions with data.
 	</p>
 
 	<p>
-		current postdoc in the
-		<a class="underline" target="_blank" href="https://hidivelab.org"
-			>hidive lab</a
-		>
-		at harvard medical school.
+		i did my phd at harvard and now i’m a postdoc in the 
+		<a class="underline" target="_blank" href="https://hidivelab.org">hidive lab</a>.
 	</p>
 
 	<p>
@@ -42,4 +39,4 @@
 			href="https://twitter.com/trevmanz">twitter</a
 		>.
 	</p>
-</div>
+</section>

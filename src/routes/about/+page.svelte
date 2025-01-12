@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Typewriter from "../Typewriter.svelte";
+import Typewriter from "../Typewriter.svelte";
 
-	let less = $state(true);
+let less = $state(true);
 </script>
 
 <svelte:head>
@@ -9,11 +9,11 @@
 	<meta name="description" content="About this app" />
 </svelte:head>
 
-<h1 class="text-3xl font-semibold">
-	<Typewriter text="about" />trevor manz
-</h1>
+<section>
+	<h1 class="not-prose text-2xl font-semibold">
+		<Typewriter text="about" />trevor manz
+	</h1>
 
-<div class="text-lg space-y-5 mt-5">
 	<p>
 		I'm a programmer/Wisconsinite living in Brooklyn, NY. I'm interested in
 		how the software systems we build shape our understanding of the world.
@@ -56,8 +56,8 @@
 		</p>
 
 		<section>
-			<header>Education</header>
-			<ul class="list-none ml-2">
+			<heading>Education</heading>
+			<ul class="list-disc ml-2">
 				<li>Harvard University, PhD Biomedical Informatics</li>
 				<li>University of Cambridge, MPhil Computational Biology</li>
 				<li>Kenyon College, BA Biochemistry</li>
@@ -65,8 +65,8 @@
 		</section>
 
 		<section>
-			<header>Honors & Awards</header>
-			<ul class="list-none ml-2">
+			<heading>Honors & Awards</heading>
+			<ul class="list-disc">
 				<li>NSF Graduate Research Fellowship</li>
 				<li>NCAA Postgraduate Scholarship</li>
 				<li>Barry M. Goldwater Scholarship</li>
@@ -76,8 +76,8 @@
 		</section>
 
 		<section>
-			<header>Things I Like</header>
-			<ul class="list-none ml-2">
+			<heading>Things I Like</heading>
+			<ul class="list-disc">
 				<li>sourdough | cats | programming languages & type systems</li>
 				<li>python | typescript | rust | webassembly</li>
 				<li>ghostty | tmux | neovim</li>
@@ -90,11 +90,4 @@
 			{less ? "+ read more" : "- close"}
 		</button>
 	</div>
-</div>
-
-<style>
-	li:before {
-		content: "+";
-		margin-right: 4px;
-	}
-</style>
+</section>

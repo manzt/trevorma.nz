@@ -41,7 +41,7 @@ onMount(() => {
 
 <style>
 	.cursor {
-		margin-left: -1.2rem;
+		margin-left: -1rem;
 		animation: blinker 1s infinite;
 	}
 

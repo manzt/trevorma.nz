@@ -9,7 +9,9 @@ let year = new Date().getFullYear();
 <div class="flex flex-col min-h-lvh font-mono mx-5">
 	<Header />
 
-	<main class="flex-1 flex flex-col p-1 w-full max-w-xl box-border my-2">
+	<main
+		class="flex-1 flex flex-col max-w-xl lg:max-w-2xl mt-3 md:mt-5 lg:mt-6 prose md:prose-lg lg:prose-xl"
+	>
 		{@render children()}
 	</main>
 

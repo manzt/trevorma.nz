@@ -1,5 +1,6 @@
 <script lang="ts">
 import { page } from "$app/state";
+import Typewriter from "./Typewriter.svelte";
 
 function ariaContent(route: string) {
 	return page.url.pathname === route ? "page" : undefined;
