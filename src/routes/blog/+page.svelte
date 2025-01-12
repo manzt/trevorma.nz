@@ -3,7 +3,6 @@
 	import type { PageData } from "./$types";
 
 	let { data }: { data: PageData } = $props();
-	let less = $state(true);
 </script>
 
 <svelte:head>
@@ -15,8 +14,14 @@
 	<Typewriter text="blog" />trevor manz
 </h1>
 
-<ul>
-	{#each data.posts as post}
-		<li>{post.slug}</li>
-	{/each}
-</ul>
+<section class="mt-5">
+	<ul class="list-disc pl-5">
+		{#each data.posts as { slug }}
+			<li>
+				<a href={`/blog/${slug}`} class="text-blue-500 hover:underline"
+					>{slug}</a
+				>
+			</li>
+		{/each}
+	</ul>
+</section>
