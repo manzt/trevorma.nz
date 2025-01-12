@@ -6,7 +6,7 @@ export const load: PageLoad = ({ params }) => {
 		return {
 			title: "Hello world!",
 			content: "Welcome to our blog. Lorem ipsum dolor sit amet...",
-			files: import.meta.glob("../../../posts/")
+			files: Object.keys(import.meta.glob("../../../../posts/*.md")),
 		};
 	}
 	error(404, "Not found");
