@@ -35,7 +35,7 @@ export const load: PageLoad = async ({ params }) => {
 		let { body, frontmatter } = extractFrontmatter(text);
 		let content = await processor.render(body);
 		return {
-			title: entry,
+			title: frontmatter.title,
 			content: content.code,
 			headings: content.metadata.headings,
 			frontmatter,
