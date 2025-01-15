@@ -6,7 +6,7 @@ let { children } = $props();
 let year = new Date().getFullYear();
 </script>
 
-<div class="flex flex-col min-h-lvh font-mono p-5 max-w-xl lg:max-w-2xl">
+<div class="flex flex-col min-h-lvh font-mono p-5 max-w-xl lg:max-w-3xl">
 	<Header />
 
 	<main class="flex-1 flex flex-col prose md:prose-lg lg:prose-xl">

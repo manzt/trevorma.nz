@@ -1,7 +1,3 @@
-<script lang="ts">
-import Typewriter from "./Typewriter.svelte";
-</script>
-
 <svelte:head>
 	<title>trevor manz</title>
 	<meta

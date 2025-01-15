@@ -1,10 +1,7 @@
 <script lang="ts">
 import { assert } from "$lib/utils.js";
-import { onMount } from "svelte";
 
 let { text } = $props();
-let visible = $state(false);
-let cursor = "|";
 
 function typewriter(node: Node, { speed }: { speed: number }) {
 	let valid =
@@ -24,21 +21,20 @@ function typewriter(node: Node, { speed }: { speed: number }) {
 	};
 }
 
-$inspect(text);
-
-onMount(() => {
+let visible = $state(false);
+$effect.pre(() => {
+	text; // triggers effect any time it changes
+	visible = false;
 	setTimeout(() => {
 		visible = true;
-	});
+	}, 0);
 });
 </script>
 
-<span class="mr-1">
-	{#if visible}
-		<span transition:typewriter={{ speed: 2 }}>{text}</span>
-	{/if}
-	<span class="cursor">{cursor}</span>
-</span>
+{#if visible}
+	<span in:typewriter={{ speed: 2 }}>{text}</span>
+{/if}
+<span class="cursor">|</span>
 
 <style>
 	.cursor {
