@@ -5,7 +5,6 @@ import { onMount } from "svelte";
 let { text } = $props();
 let visible = $state(false);
 let cursor = "|";
-// let cursor = "█";
 
 function typewriter(node: Node, { speed }: { speed: number }) {
 	let valid =
@@ -24,6 +23,8 @@ function typewriter(node: Node, { speed }: { speed: number }) {
 		},
 	};
 }
+
+$inspect(text);
 
 onMount(() => {
 	setTimeout(() => {

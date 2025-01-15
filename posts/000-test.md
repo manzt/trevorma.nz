@@ -23,27 +23,17 @@ gravidamque fateor pugnae solantia et **favete lumina esse**. Mihi iussit herbas
 discordia minor ab trabibus deos nec **aequata**.
 
 ```js
-    if (illegal.rt.forum(torrent_sata, command(4), device_cgi + 92)) {
-        code_dvd_dpi.sku_default = interactive(jsfWindowsMalware + program,
-                directx_hard);
-        gammaIsa.tooltip = -5;
-    }
-    if (user_process_spyware(itWaveProcess, system_language_simm, 5) != hddXmp(
-            media_panel_stick, wizard_horizontal.wizardRuby(bitmap), gigo(
-            midi_megapixel_remote, 2, dropMonitorApache))) {
-        bittorrent_compile_javascript *= extranet_string;
-        start_io += os_link.proxy_development_retina(multitaskingTerahertzJfs(
-                xmlRaw, wiki, keywords), eMidi - digitalApplet, windows_mount);
-    }
-    if (5 < post_minicomputer_bios) {
-        nocSample = online_d_osd.applicationDvdTemplate(4, xhtml_simplex -
-                state_word, flashAffiliate);
-        optical_dvd_ppga.view_management.googlePageExecutable(searchUser,
-                regular);
-        debug_zif_wave.cookie = trojan;
-    }
-    mouse += 3 + 3 * torrent_web_apple / -2;
-    delete -= mca - software_template_repeater;
+/**
+ * Make an assertion.
+ *
+ * @param {unknown} expression - The expression to test.
+ * @param {string=} msg - The optional message to display if the assertion fails.
+ * @returns {asserts expression}
+ * @throws an {@link Error} if `expression` is not truthy.
+ */
+export function assert(expression, msg = "") {
+	if (!expression) throw new Error(msg);
+}
 ```
 
 ## Virgo pectus arma increpor omnia purpureasque iustis

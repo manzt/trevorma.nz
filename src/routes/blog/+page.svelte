@@ -6,14 +6,11 @@ let { data }: { data: PageData } = $props();
 </script>
 
 <svelte:head>
-	<title>blog</title>
+	<title>blog | trevor manz</title>
 	<meta name="description" content="trevor's blog" />
 </svelte:head>
 
 <section>
-	<h1 class="not-prose text-2xl font-semibold">
-		<Typewriter text="blog" />trevor manz
-	</h1>
 	<ul class="list-disc">
 		{#each data.posts as { slug }}
 			<li>

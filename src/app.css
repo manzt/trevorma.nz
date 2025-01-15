@@ -1,10 +1,10 @@
 @import "tailwindcss";
 @import "@fontsource/comic-neue";
-@import "@fontsource/inconsolata";
+@import "@fontsource/comic-mono";
 
 @plugin "@tailwindcss/typography";
 
 @theme {
 	--font-sans: "Comic Neue";
-	--font-mono: "Inconsolata", monospace;
+	--font-mono: "Comic Mono";
 }

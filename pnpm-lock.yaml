@@ -7,26 +7,22 @@ settings:
 importers:
 
   .:
-    dependencies:
+    devDependencies:
       '@astrojs/markdown-remark':
         specifier: ^6.0.1
         version: 6.0.1
-      '@std/yaml':
-        specifier: npm:@jsr/std__yaml@^1.0.5
-        version: '@jsr/std__yaml@1.0.5'
-    devDependencies:
       '@biomejs/biome':
         specifier: ^1.9.4
         version: 1.9.4
+      '@fontsource/comic-mono':
+        specifier: ^5.1.0
+        version: 5.1.0
       '@fontsource/comic-neue':
         specifier: ^5.1.1
         version: 5.1.1
-      '@fontsource/fira-mono':
-        specifier: ^5.0.0
-        version: 5.1.1
-      '@fontsource/inconsolata':
-        specifier: ^5.1.1
-        version: 5.1.1
+      '@std/yaml':
+        specifier: npm:@jsr/std__yaml@^1.0.5
+        version: '@jsr/std__yaml@1.0.5'
       '@sveltejs/adapter-static':
         specifier: ^3.0.8
         version: 3.0.8(@sveltejs/kit@2.15.2(@sveltejs/vite-plugin-svelte@4.0.4(svelte@5.16.5)(vite@5.4.11(@types/node@22.10.5)(lightningcss@1.28.2)))(svelte@5.16.5)(vite@5.4.11(@types/node@22.10.5)(lightningcss@1.28.2)))
@@ -265,14 +261,11 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@fontsource/comic-mono@5.1.0':
+    resolution: {integrity: sha512-sP+5zfrQdU46znBNm4H97Qw7Otc52Gsz1JIO9dzApYDiTBXyQBr5xE1XeKBoAF1SyvggB/6xB84nNb2l6bQd7g==}
+
   '@fontsource/comic-neue@5.1.1':
     resolution: {integrity: sha512-uBn45nwhH2g7XiX7yaNQc8j5SPPsb0T+/3S9K877xg8jvAZ2KjPxevFsyXRcHDm6xjQCyC/hjq5xlCdvMQnigw==}
-
-  '@fontsource/fira-mono@5.1.1':
-    resolution: {integrity: sha512-JDZUQuQQFTvPJgwOftXg44LOa7XYNqwTHHquEpi8rY6SK8m7Q5rWxmMX7nUOvRF2g+jc02mqmK2Y+WmviF9+VQ==}
-
-  '@fontsource/inconsolata@5.1.1':
-    resolution: {integrity: sha512-jLLMagEJURTae5J30gehIsXRv96vjQ0XlALGxZC7DERWPqsJTa0oSsZR8k6IJfizU4ZeRl/aKWpZca2Lo3TvSg==}
 
   '@jridgewell/gen-mapping@0.3.8':
     resolution: {integrity: sha512-imAbBGkb+ebQyxKgzv5Hu2nmROxoDOXHh80evxdoXNOrvAnVx7zimzc1Oo5h9RlfV4vPXaE2iM5pOFbvOCClWA==}
@@ -1354,11 +1347,9 @@ snapshots:
   '@esbuild/win32-x64@0.21.5':
     optional: true
 
+  '@fontsource/comic-mono@5.1.0': {}
+
   '@fontsource/comic-neue@5.1.1': {}
-
-  '@fontsource/fira-mono@5.1.1': {}
-
-  '@fontsource/inconsolata@5.1.1': {}
 
   '@jridgewell/gen-mapping@0.3.8':
     dependencies:
