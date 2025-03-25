@@ -2,6 +2,7 @@
 import { page } from "$app/state";
 import Typewriter from "./Typewriter.svelte";
 
+let props: { class: string } = $props();
 function ariaContent(route: string) {
 	return page.url.pathname === route ? "page" : undefined;
 }
@@ -17,7 +18,7 @@ function command() {
 }
 </script>
 
-<header>
+<header class={props.class}>
 	<nav
 		class="grid grid-cols-1 sm:grid-cols-2 items-center gap-y-4 sm:gap-y-0 sm:justify-between"
 	>
