@@ -8,9 +8,12 @@ import Typewriter from "../Typewriter.svelte";
 </svelte:head>
 
 <section>
+	<p>i'm a programmer/wisconsinite living in brooklyn, ny.</p>
+
 	<p>
-		i'm a programmer/wisconsinite living in brooklyn, ny. i'm interested in
-		how software tools shape our understanding of the world—and vice versa.
+		i'm passionate about making programming more accessible and reliable. my
+		work focuses on developing software systems that help people build
+		intuition and make decisions with data.
 	</p>
 
 	<p>

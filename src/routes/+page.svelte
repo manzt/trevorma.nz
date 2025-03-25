@@ -7,14 +7,10 @@
 </svelte:head>
 
 <section>
-	<p>
-		i have a passion for designing software systems that empower humans to
-		answer questions with data.
-	</p>
+	<p>i build software that empowers humans to answer questions with data.</p>
 
 	<p>
 		i completed my phd at harvard in the <a
-			class="underline"
 			target="_blank"
 			href="https://hidivelab.org">hidive lab</a
 		>.
@@ -22,14 +18,9 @@
 
 	<p>
 		follow me on
-		<a class="underline" target="_blank" href="https://github.com/manzt"
-			>github</a
-		>/<a
-			class="underline"
+		<a target="_blank" href="https://github.com/manzt">github</a>/<a
 			target="_blank"
 			href="https://bsky.app/profile/manzt.sh">bluesky</a
-		>/<a class="underline" target="_blank" href="https://x.com/trevmanz"
-			>x</a
-		>.
+		>/<a target="_blank" href="https://x.com/trevmanz">x</a>.
 	</p>
 </section>

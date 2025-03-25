@@ -13,7 +13,7 @@
 		var(--color-gray-700) 25%,
 		transparent
 	);
-	--prose-link-underline-color: var(--color-sky-400);
+	--prose-link-underline-color: var(--color-orange-400);
 	--prose-th-borders: var(--color-gray-300);
 	--prose-td-borders: var(--color-gray-200);
 	--prose-hr-color: color-mix(in oklab, var(--color-gray-950) 5%, transparent);
@@ -30,7 +30,7 @@
 			var(--color-gray-300) 35%,
 			transparent
 		);
-		--prose-link-underline-color: var(--color-sky-400);
+		--prose-link-underline-color: var(--color-orange-400);
 		--prose-th-borders: var(--color-gray-600);
 		--prose-td-borders: var(--color-gray-700);
 		--prose-hr-color: color-mix(in oklab, var(--color-white) 10%, transparent);
@@ -48,7 +48,7 @@
 				var(--color-gray-300) 35%,
 				transparent
 			);
-			--prose-link-underline-color: var(--color-sky-400);
+			--prose-link-underline-color: var(--color-orange-400);
 			--prose-th-borders: var(--color-gray-600);
 			--prose-td-borders: var(--color-gray-700);
 			--prose-hr-color: color-mix(in oklab, var(--color-white) 10%, transparent);
@@ -313,6 +313,7 @@
 
 .prose-blog {
 	img:where(:not(.not-prose, .not-prose *)) {
+		/* biome-ignore lint/correctness/noUnknownFunction: tailwind theme */
 		@media (max-width: theme(--breakpoint-sm)) {
 			margin-inline: calc(var(--spacing) * -4);
 			max-width: calc(100% + calc(var(--spacing) * 8));

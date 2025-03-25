@@ -1,10 +1,49 @@
-@import "tailwindcss" theme(inline);
+@import "tailwindcss";
 @import "@fontsource/comic-neue";
 @import "@fontsource/comic-mono";
 
 @import "./typography.css" layer(components);
 
-@theme inline {
+@theme {
 	--font-sans: "Comic Neue";
 	--font-mono: "Comic Mono";
+	--animate-blink: blink 0.8s ease-in-out infinite;
+
+	@keyframes blink {
+		50% {
+			opacity: 0;
+		}
+	}
+}
+
+:root {
+	color-scheme: light dark;
+}
+.dark {
+	color-scheme: dark;
+}
+.light {
+	color-scheme: light;
+}
+
+@variant dark {
+	&:where(.dark, .dark *) {
+		@slot;
+	}
+	@media (prefers-color-scheme: dark) {
+		&:where(.system, .system *) {
+			@slot;
+		}
+	}
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+	display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
 }

@@ -11,6 +11,7 @@ let { data }: { data: PageData } = $props();
 </svelte:head>
 
 <section>
+	<p>coming soon.</p>
 	<ul class="list-disc">
 		{#each data.posts as { slug }}
 			<li>

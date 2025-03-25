@@ -18,30 +18,28 @@ function command() {
 </script>
 
 <header>
-	<nav class="flex w-full justify-between">
-		<span class="text-2xl font-mono font-semibold">
-			<Typewriter text={command()} />trevor manz
-		</span>
-
-		<ul class="flex space-x-10 text-xl">
-			<li
-				class:underline={page.url.pathname === "/"}
-				aria-current={ariaContent("/")}
-			>
+	<nav
+		class="grid grid-cols-1 sm:grid-cols-2 items-center gap-y-4 sm:gap-y-0 sm:justify-between"
+	>
+		<ul
+			class="order-1 sm:order-2 flex justify-center sm:justify-end space-x-8 text-xl"
+		>
+			<li aria-current={ariaContent("/")}>
 				<a href="/">home</a>
 			</li>
-			<li
-				class:underline={page.url.pathname === "/about"}
-				aria-current={ariaContent("/about")}
-			>
+			<li aria-current={ariaContent("/about")}>
 				<a href="/about">about</a>
 			</li>
-			<li
-				class:underline={page.url.pathname === "/blog"}
-				aria-current={ariaContent("/blog")}
-			>
+			<li aria-current={ariaContent("/blog")}>
 				<a href="/blog">blog</a>
 			</li>
 		</ul>
+
+		<div
+			class="order-2 sm:order-1 flex justify-center sm:justify-start text-2xl font-mono font-semibold"
+		>
+			<Typewriter text={command()} />
+			<span>trevor manz</span>
+		</div>
 	</nav>
 </header>

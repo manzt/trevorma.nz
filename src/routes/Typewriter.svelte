@@ -34,17 +34,6 @@ $effect.pre(() => {
 {#if visible}
 	<span in:typewriter={{ speed: 2 }}>{text}</span>
 {/if}
-<span class="cursor">|</span>
+<span class="animate-blink mr-1 -ml-0.2">|</span>
 
-<style>
-	.cursor {
-		margin-left: -1rem;
-		animation: blinker 1s infinite;
-	}
-
-	@keyframes blinker {
-		50% {
-			opacity: 0;
-		}
-	}
-</style>
+<style></style>
