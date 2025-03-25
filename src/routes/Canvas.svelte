@@ -1,12 +1,20 @@
 <script lang="ts">
 import { untrack } from "svelte";
 
+let yOffset = 10;
 let canvas: HTMLCanvasElement;
-let props: { class: string } = $props();
+let {
+	class: klass,
+	pixels = $bindable([]),
+	image = $bindable(),
+}: {
+	class: string;
+	image?: HTMLImageElement;
+	pixels?: Array<{ x: number; y: number }>;
+} = $props();
 
 let width = $state(0);
 let height = $state(0);
-let pixels: Array<{ x: number; y: number }> = $state([]);
 
 function position(e: MouseEvent) {
 	let rect = canvas.getBoundingClientRect();
@@ -17,16 +25,26 @@ function position(e: MouseEvent) {
 $effect(() => {
 	let ctx = canvas.getContext("2d");
 	let last = pixels.at(-1);
-	if (!ctx || !last) {
+	if (!ctx || !last || !image) {
 		return;
 	}
-	ctx.fillRect(last.x, last.y, 5, 5);
+	ctx.drawImage(image, last.x - image.width, last.y - image.height + yOffset);
+});
+
+$effect(() => {
+	let ctx = canvas.getContext("2d");
+	if (!ctx) {
+		return;
+	}
+	if (pixels.length === 0) {
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+	}
 });
 
 // Redraw entire canvas with saved pixels when resized.
 $effect(() => {
 	let ctx = canvas.getContext("2d");
-	if (!ctx) {
+	if (!ctx || !image) {
 		return;
 	}
 	canvas.width = width;
@@ -35,20 +53,20 @@ $effect(() => {
 	ctx.fillStyle = "#000";
 	untrack(() => {
 		for (let { x, y } of pixels) {
-			ctx.fillRect(x, y, 2, 2);
+			ctx.drawImage(image, x - image.width, y - image.height + yOffset);
 		}
 	});
 });
 </script>
 
 <canvas
-	class={props.class}
+	class={klass}
 	bind:this={canvas}
 	bind:clientWidth={width}
 	bind:clientHeight={height}
 	onmousemove={(e) => {
-		let LEFT_BUTTON = 1;
-		if (e.buttons === LEFT_BUTTON) {
+		// left clicking
+		if (e.buttons === 1) {
 			pixels.push(position(e));
 		}
 	}}

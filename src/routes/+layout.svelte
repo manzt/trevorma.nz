@@ -3,7 +3,18 @@ import Header from "./Header.svelte";
 import "../app.css";
 import Canvas from "./Canvas.svelte";
 let { children } = $props();
+
+let image: undefined | HTMLImageElement = $state(undefined);
+let pixels: Array<{ x: number; y: number }> = $state([]);
 </script>
+
+<img
+	src="/peach.webp"
+	alt=""
+	aria-hidden="true"
+	onload={(e) => (image = e.target as HTMLImageElement)}
+	style="display: none;"
+/>
 
 <div
 	class="relative flex flex-col min-h-lvh font-mono p-5 max-w-xl lg:max-w-3xl"
@@ -16,5 +27,16 @@ let { children } = $props();
 			{@render children()}
 		</div>
 	</main>
-	<Canvas class="absolute inset-0 h-screen w-screen pointer-events-auto" />
+	<Canvas
+		bind:pixels
+		bind:image
+		class="absolute inset-0 h-screen w-screen pointer-events-auto"
+	/>
 </div>
+
+{#if pixels.length}
+	<button
+		class="absolute z-10 right-5 bottom-5 cursor-pointer text-lg hover:underline"
+		onclick={() => (pixels = [])}>clear</button
+	>
+{/if}
