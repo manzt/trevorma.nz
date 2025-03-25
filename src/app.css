@@ -1,10 +1,10 @@
-@import "tailwindcss";
+@import "tailwindcss" theme(inline);
 @import "@fontsource/comic-neue";
 @import "@fontsource/comic-mono";
 
-@plugin "@tailwindcss/typography";
+@import "./typography.css" layer(components);
 
-@theme {
+@theme inline {
 	--font-sans: "Comic Neue";
 	--font-mono: "Comic Mono";
 }
