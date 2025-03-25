@@ -1,20 +1,26 @@
-<script>
-	import Typewriter from '$lib/Typewriter.svelte';
-</script>
-
 <svelte:head>
-	<title>trevor manz | home</title>
+	<title>trevor manz</title>
+	<meta
+		name="description"
+		content="Trevor Manz is a postdoctoral fellow at Harvard Medical School and creator of anywidget."
+	/>
 </svelte:head>
-<h3><strong><Typewriter text={'whoami'} />trevor manz</strong></h3>
-<p>graduate student with a passion for data visualization and useful software.</p>
-<p>
-	current PhD candidate & NSF Graduate Research Fellow at
-	<a href="https://hms.harvard.edu/" target="_blank" rel="noreferrer">Harvard Medical School</a>
-	.
-</p>
 
-<style>
-	a {
-		pointer-events: auto;
-	}
-</style>
+<section>
+	<p>i build software that empowers humans to answer questions with data.</p>
+
+	<p>
+		i completed my phd at harvard in the <a
+			target="_blank"
+			href="https://hidivelab.org">hidive lab</a
+		>.
+	</p>
+
+	<p>
+		follow me on
+		<a target="_blank" href="https://github.com/manzt">github</a>/<a
+			target="_blank"
+			href="https://bsky.app/profile/manzt.sh">bluesky</a
+		>/<a target="_blank" href="https://x.com/trevmanz">x</a>.
+	</p>
+</section>

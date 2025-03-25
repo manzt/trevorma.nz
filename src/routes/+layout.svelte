@@ -1,106 +1,42 @@
-<script>
-	import { page } from '$app/stores';
-	import Canvas from '$lib/Canvas.svelte';
-	import '../app.css';
+<script lang="ts">
+import Header from "./Header.svelte";
+import "../app.css";
+import Canvas from "./Canvas.svelte";
+let { children } = $props();
 
-	import { onMount } from 'svelte';
-
-	/** @type {number} */
-	let innerWidth;
-
-	/** @type {number} */
-	let innerHeight;
-
-	/** @type {string} */
-	let active;
-
-	onMount(() => {
-		active = window.location.pathname;
-	});
-
-	$: active = $page.url.pathname;
+let image: undefined | HTMLImageElement = $state(undefined);
+let pixels: Array<{ x: number; y: number }> = $state([]);
 </script>
 
-<svelte:window bind:innerWidth bind:innerHeight />
+<img
+	src="/peach.webp"
+	alt=""
+	aria-hidden="true"
+	onload={(e) => (image = e.target as HTMLImageElement)}
+	style="display: none;"
+/>
 
-<div>
-	<div class="background">
-		<Canvas
-			height={innerHeight}
-			width={innerWidth}
-			image={{
-				src: 'lemon.webp',
-				alt: 'Lemon sliced in half',
-				scale: 0.8
-			}}
-		/>
-	</div>
-	<div class="foreground">
-		<nav>
-			<ul>
-				<li><a class:active={active === '/'} href=".">home</a></li>
-				<li><a class:active={active === '/about'} href="about">about</a></li>
-				<li><a class:active={active === '/contact'} href="contact">contact</a></li>
-				<li><a target="blank" rel="noreferrer" href="/resume.pdf">resume</a></li>
-			</ul>
-		</nav>
-		<main>
-			<slot />
-		</main>
-	</div>
+<div
+	class="relative flex flex-col min-h-lvh font-mono p-5 max-w-xl lg:max-w-3xl"
+>
+	<Header class="realative z-10 pointer-events-auto" />
+	<main
+		class="relative z-10 mt-5 flex-1 flex flex-col prose prose-blog text-lg pointer-events-none"
+	>
+		<div class="pointer-events-auto">
+			{@render children()}
+		</div>
+	</main>
+	<Canvas
+		bind:pixels
+		bind:image
+		class="absolute inset-0 h-screen w-screen pointer-events-auto"
+	/>
 </div>
 
-<style>
-	main {
-		position: relative;
-		max-width: 40em;
-	}
-
-	.background {
-		position: absolute;
-		height: 100vh;
-		z-index: 0;
-		overflow: hidden;
-	}
-
-	.foreground {
-		position: absolute;
-		z-index: 1;
-		pointer-events: none;
-	}
-
-	nav {
-		font-weight: 400;
-	}
-
-	ul {
-		display: flex;
-		justify-content: space-between;
-		list-style: none;
-		padding: 0 5px 0 0;
-	}
-
-	li {
-		pointer-events: all;
-	}
-
-	.active {
-		text-decoration: none;
-	}
-
-	@media (min-width: 500px) {
-		main {
-			padding: 0 2em;
-		}
-	}
-
-	@media (min-width: 500px) {
-		ul {
-			justify-content: flex-start;
-			padding: 0 2em;
-		}
-		li {
-			width: 10em;
-		}
-	}
-</style>
+{#if pixels.length}
+	<button
+		class="absolute z-10 right-5 bottom-5 cursor-pointer text-lg hover:underline"
+		onclick={() => (pixels = [])}>clear</button
+	>
+{/if}
