@@ -12,9 +12,11 @@
 		"lint": "biome ci ."
 	},
 	"devDependencies": {
+		"@astrojs/markdown-remark": "^6.3.1",
 		"@biomejs/biome": "^1.9.4",
 		"@fontsource/comic-mono": "^5.1.0",
 		"@fontsource/comic-neue": "^5.1.1",
+		"@std/yaml": "npm:@jsr/std__yaml@^1.0.5",
 		"@sveltejs/adapter-static": "^3.0.8",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^4.0.0",
@@ -29,6 +31,7 @@
 	"packageManager": "pnpm@10.6.5",
 	"pnpm": {
 		"onlyBuiltDependencies": [
+			"@biomejs/biome",
 			"esbuild"
 		]
 	}

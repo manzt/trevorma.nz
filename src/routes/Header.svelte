@@ -12,7 +12,7 @@ function command() {
 		{
 			"/": "./whoami",
 			"/about": "./about",
-			// "/blog": "./blog",
+			"/blog": "./blog",
 		}[page.url.pathname] ?? "./unknown"
 	);
 }
@@ -30,6 +30,9 @@ function command() {
 			</li>
 			<li aria-current={ariaContent("/about")}>
 				<a class="hover:underline underline-offset-2" href="/about">about</a>
+			</li>
+			<li aria-current={ariaContent("/blog")}>
+				<a href="/blog">blog</a>
 			</li>
 		</ul>
 
