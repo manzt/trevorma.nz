@@ -7,7 +7,7 @@
 </svelte:head>
 
 <section>
-	<p>i make tools that help humans answer questions with data.</p>
+	<p>i make tools to help humans answer questions with data.</p>
 
 	<p>
 		i completed my phd at harvard in the <a
