@@ -14,9 +14,9 @@
 	</p>
 
 	<p>
-		i recently completed my phd at harvard in the <a
+		i recently completed my phd <a
 			target="_blank"
-			href="https://hidivelab.org">hidive lab</a
+			href="https://hidivelab.org">at harvard</a
 		>, where i'm now a postdoc.
 	</p>
 
