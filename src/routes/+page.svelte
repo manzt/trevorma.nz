@@ -7,7 +7,11 @@
 </svelte:head>
 
 <section>
-	<p>i make tools to help humans answer questions with data.</p>
+	<p>
+		i make tools to help humans answer questions <i
+			class="text-(color:--prose-link-color)">with data</i
+		>.
+	</p>
 
 	<p>
 		i recently completed my phd at harvard in the <a

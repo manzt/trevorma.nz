@@ -9,15 +9,31 @@ import Typewriter from "../Typewriter.svelte";
 
 <section>
 	<p>
-		i'm a scientist/<wbr>programmer/<wbr>wisconsinite living in brooklyn,
-		ny.
+		i'm a <a
+			target="_blank"
+			href="https://scholar.google.com/citations?hl=en&user=Lo7nJd0AAAAJ"
+			>scientist</a
+		>/<wbr /><a target="_blank" href="https://github.com/manzt"
+			>programmer</a
+		>/<wbr /><a
+			target="_blank"
+			href="https://en.wikipedia.org/wiki/Eau_Claire,_Wisconsin"
+			>wisconsinite</a
+		> living in brooklyn, ny.
 	</p>
 
 	<p>
-		i aim to make programming more accessible and empowering to a wider
-		range of people. my work focuses on developing software systems that
-		support checking assumptions, building intuition, and making decisions
-		with data.
+		i aim to make programming <i class="text-(color:--prose-link-color)"
+			>with data</i
+		>
+		more
+		<a
+			target="_blank"
+			href="https://en.wikipedia.org/wiki/End-user_development"
+			>accessible and empowering</a
+		>. my work focuses on software systems that help people check
+		assumptions, build intuition, and make decisions
+		<i class="text-(color:--prose-link-color)">with data</i>.
 	</p>
 
 	<p>
