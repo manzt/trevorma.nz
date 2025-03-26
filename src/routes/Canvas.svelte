@@ -74,7 +74,10 @@ $effect(() => {
 	bind:clientWidth={width}
 	bind:clientHeight={height}
 	onmouseup={unselect}
-	onmousedown={unselect}
+	onmousedown={(e) => {
+		unselect();
+		pixels.push(position(e));
+	}}
 	onmousemove={(e) => {
 		// left clicking
 		if (e.buttons === 1) {
