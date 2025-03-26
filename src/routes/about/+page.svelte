@@ -14,9 +14,10 @@ import Typewriter from "../Typewriter.svelte";
 	</p>
 
 	<p>
-		i have a passion for making programming more accessible and useful
-		for humans. my work focuses on developing software systems that help
-		people build intuition and make decisions with data.
+		i have a passion for making programming more accessible and relevant to
+		a wider range of people. my work focuses on developing software systems
+		that support checking assumptions, building intuition, and making decisions
+		with data.
 	</p>
 
 	<p>
