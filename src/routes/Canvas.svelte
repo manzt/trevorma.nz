@@ -1,6 +1,4 @@
 <script lang="ts">
-import { untrack } from "svelte";
-
 let canvas: HTMLCanvasElement;
 let {
 	class: klass,
@@ -30,27 +28,6 @@ function unselect() {
 	}
 }
 
-// Draw the latest.
-$effect(() => {
-	let ctx = canvas.getContext("2d");
-	let last = pixels.at(-1);
-	if (!ctx || !last || !image) {
-		return;
-	}
-	ctx.drawImage(image, last.x - image.width, last.y - image.height + yOffset);
-});
-
-$effect(() => {
-	let ctx = canvas.getContext("2d");
-	if (!ctx) {
-		return;
-	}
-	if (pixels.length === 0) {
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
-	}
-});
-
-// Redraw entire canvas with saved pixels when resized.
 $effect(() => {
 	let ctx = canvas.getContext("2d");
 	if (!ctx || !image) {
@@ -60,11 +37,9 @@ $effect(() => {
 	canvas.height = height;
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	ctx.fillStyle = "#000";
-	untrack(() => {
-		for (let { x, y } of pixels) {
-			ctx.drawImage(image, x - image.width, y - image.height + yOffset);
-		}
-	});
+	for (let { x, y } of pixels) {
+		ctx.drawImage(image, x - image.width, y - image.height + yOffset);
+	}
 });
 </script>
 

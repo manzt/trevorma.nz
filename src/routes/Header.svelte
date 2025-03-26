@@ -26,10 +26,10 @@ function command() {
 			class="order-1 sm:order-2 flex justify-center sm:justify-end space-x-8 text-xl"
 		>
 			<li aria-current={ariaContent("/")}>
-				<a href="/">home</a>
+				<a class="hover:underline underline-offset-2" href="/">home</a>
 			</li>
 			<li aria-current={ariaContent("/about")}>
-				<a href="/about">about</a>
+				<a class="hover:underline underline-offset-2" href="/about">about</a>
 			</li>
 		</ul>
 
