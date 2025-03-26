@@ -21,6 +21,14 @@ function position(e: MouseEvent) {
 	return { x: e.clientX - rect.left, y: e.clientY - rect.top };
 }
 
+// unselect any text if we are drawing
+function unselect() {
+	let selection = globalThis.getSelection();
+	if (selection && !selection.isCollapsed) {
+		selection.removeAllRanges();
+	}
+}
+
 // Draw the latest.
 $effect(() => {
 	let ctx = canvas.getContext("2d");
@@ -64,6 +72,8 @@ $effect(() => {
 	bind:this={canvas}
 	bind:clientWidth={width}
 	bind:clientHeight={height}
+	onmouseup={unselect}
+	onmousedown={unselect}
 	onmousemove={(e) => {
 		// left clicking
 		if (e.buttons === 1) {
