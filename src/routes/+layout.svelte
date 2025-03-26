@@ -30,6 +30,7 @@ let pixels: Array<{ x: number; y: number }> = $state([]);
 	<Canvas
 		bind:pixels
 		bind:image
+		yOffset={/* hard coded for this image */ 68}
 		class="absolute inset-0 h-screen w-screen pointer-events-auto"
 	/>
 </div>

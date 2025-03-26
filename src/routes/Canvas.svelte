@@ -1,16 +1,17 @@
 <script lang="ts">
 import { untrack } from "svelte";
 
-let yOffset = 10;
 let canvas: HTMLCanvasElement;
 let {
 	class: klass,
 	pixels = $bindable([]),
 	image = $bindable(),
+	yOffset = 0,
 }: {
 	class: string;
 	image?: HTMLImageElement;
 	pixels?: Array<{ x: number; y: number }>;
+	yOffset?: number;
 } = $props();
 
 let width = $state(0);
