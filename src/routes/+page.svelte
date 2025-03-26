@@ -22,9 +22,11 @@
 
 	<p>
 		follow me on
-		<a target="_blank" href="https://github.com/manzt">github</a>/<a
+		<a target="_blank" href="https://github.com/manzt">github</a>/<wbr /><a
 			target="_blank"
 			href="https://bsky.app/profile/manzt.sh">bluesky</a
-		>/<a target="_blank" href="https://x.com/trevmanz">x</a>.
+		>/<wbr /><a target="_blank" href="https://twitter.com/trevmanz"
+			>twitter</a
+		>.
 	</p>
 </section>
