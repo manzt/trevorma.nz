@@ -9,13 +9,14 @@ import Typewriter from "../Typewriter.svelte";
 
 <section>
 	<p>
-		i'm a scientist/programmer/wisconsinite living in brooklyn, ny, with a
-		passion for making programming more accessible and useful for humans.
+		i'm a scientist/<wbr>programmer/<wbr>wisconsinite living in brooklyn,
+		ny.
 	</p>
 
 	<p>
-		my work focuses on developing high-reliability software systems that
-		help people build intuition and make decisions with data.
+		i have a passion for making programming more accessible and useful
+		for humans. my work focuses on developing software systems that help
+		people build intuition and make decisions with data.
 	</p>
 
 	<p>
