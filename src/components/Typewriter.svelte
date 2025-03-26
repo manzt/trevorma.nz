@@ -1,5 +1,5 @@
 <script lang="ts">
-import { assert } from "$lib/utils.js";
+import { assert } from "../lib/utils.js";
 
 let { text } = $props();
 

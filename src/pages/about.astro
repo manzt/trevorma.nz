@@ -1,13 +1,11 @@
-<script lang="ts">
-import Typewriter from "../Typewriter.svelte";
-</script>
+---
+import Layout from "../layouts/Layout.astro";
 
-<svelte:head>
-	<title>about | trevor manz</title>
-	<meta name="description" content="about trevor manz" />
-</svelte:head>
+let title = "about | trevor manz";
+let description = "about trevor manz";
+---
 
-<section>
+<Layout title={title} description={description}>
 	<p>
 		i'm a <a
 			target="_blank"
@@ -65,4 +63,4 @@ import Typewriter from "../Typewriter.svelte";
 			target="_blank">swam competitively</a
 		>.
 	</p>
-</section>
+</Layout>

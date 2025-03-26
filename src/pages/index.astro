@@ -1,17 +1,32 @@
 ---
-// Welcome to Astro! Everything between these triple-dash code fences
-// is your "component frontmatter". It never runs in the browser.
-console.log("This runs in your terminal, not the browser!");
+import Layout from "../layouts/Layout.astro";
+
+let title = "trevor manz";
+let description =
+	"Trevor Manz is a postdoctoral fellow at Harvard Medical School and creator of anywidget.";
 ---
-<!-- Below is your "component template." It's just HTML, but with
-    some magic sprinkled in to help you build great templates. -->
-<html>
-  <body>
-    <h1>Hello, World!</h1>
-  </body>
-</html>
-<style>
-  h1 {
-    color: orange;
-  }
-</style>
+
+<Layout title={title} description={description}>
+	<p>
+		i make tools to help humans answer questions <i
+			class="text-(color:--prose-link-color)">with data</i
+		>.
+	</p>
+
+	<p>
+		i recently completed my phd <a
+			target="_blank"
+			href="https://hidivelab.org">at harvard</a
+		>, where i'm now a postdoc.
+	</p>
+
+	<p>
+		follow me on
+		<a target="_blank" href="https://github.com/manzt">github</a>/<wbr /><a
+			target="_blank"
+			href="https://bsky.app/profile/manzt.sh">bluesky</a
+		>/<wbr /><a target="_blank" href="https://twitter.com/trevmanz"
+			>twitter</a
+		>.
+	</p>
+</Layout>

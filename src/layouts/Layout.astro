@@ -1,0 +1,48 @@
+---
+import Canvas from "../components/Canvas.svelte";
+import Header from "../components/Header.svelte";
+import "../styles/app.css";
+
+interface Props {
+	title: string;
+	description: string;
+}
+
+let { title, description }: Props = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="system">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="icon" type="image/png" href="/icon-256.png" />
+		<title>{title}</title>
+		<meta
+			name="description"
+			content={description}
+		/>
+	</head>
+	<body>
+		<div class="contents">
+			<div
+				class="relative flex flex-col min-h-lvh font-mono p-5 max-w-xl lg:max-w-3xl"
+			>
+				<Header client:load url={Astro.url} class="realative z-10 pointer-events-auto" />
+				<main
+					class="relative z-10 mt-5 flex-1 flex flex-col prose prose-blog text-lg pointer-events-none"
+				>
+					<div class="pointer-events-auto">
+						<slot />
+					</div>
+				</main>
+				<Canvas client:load class="absolute inset-0 h-screen w-screen pointer-events-auto" />
+			</div>
+		</div>
+	</body>
+</html>
+
+
+<!--
+<button class="absolute z-10 right-5 bottom-5 cursor-pointer text-lg hover:underline">clear</button >
+--->
