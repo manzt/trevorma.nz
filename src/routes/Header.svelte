@@ -34,7 +34,7 @@ function command() {
 		</ul>
 
 		<div
-			class="order-2 sm:order-1 flex justify-center sm:justify-start text-2xl font-mono font-semibold"
+			class="order-2 sm:order-1 flex justify-center sm:justify-start text-xl font-mono font-semibold"
 		>
 			<Typewriter text={command()} />
 			<span>trevor manz</span>
