@@ -1,12 +1,12 @@
 {
-	"extends": "./.svelte-kit/tsconfig.json",
+	"extends": "astro/tsconfigs/strictest",
 	"compilerOptions": {
-		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
-		"sourceMap": true,
-		"strict": true,
-		"moduleResolution": "nodenext"
+		"verbatimModuleSyntax": true,
+		"noEmit": true,
+		"include": [".astro/types.d.ts", "**/*"],
+		"exclude": ["dist"]
 	}
 }
