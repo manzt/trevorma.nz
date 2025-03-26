@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from "astro:transitions";
 import Canvas from "../components/Canvas.svelte";
 import Header from "../components/Header.svelte";
 import "../styles/app.css";
@@ -14,6 +15,7 @@ let { title, description }: Props = Astro.props;
 <!doctype html>
 <html lang="en" class="system">
 	<head>
+		<ClientRouter />
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/png" href="/icon-256.png" />
@@ -36,13 +38,8 @@ let { title, description }: Props = Astro.props;
 						<slot />
 					</div>
 				</main>
-				<Canvas client:load class="absolute inset-0 h-screen w-screen pointer-events-auto" />
+				<Canvas client:only class="absolute inset-0 h-screen w-screen pointer-events-auto" />
 			</div>
 		</div>
 	</body>
 </html>
-
-
-<!--
-<button class="absolute z-10 right-5 bottom-5 cursor-pointer text-lg hover:underline">clear</button >
---->
