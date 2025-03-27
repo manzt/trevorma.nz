@@ -5,7 +5,7 @@ import * as kit from "@sveltejs/kit";
 
 import { loadPost } from "$lib/utils";
 
-import type { PageLoad } from "./$types";
+import type { PageServerLoad } from "./$types";
 
 let processor = await md.createMarkdownProcessor({
 	shikiConfig: {
@@ -16,7 +16,7 @@ let processor = await md.createMarkdownProcessor({
 	},
 });
 
-export const load: PageLoad = async ({ params }) => {
+export const load: PageServerLoad = async ({ params }) => {
 	let entry = Object.entries(import.meta.glob("../../../../posts/*.md"))
 		.map(([filepath, _]) => filepath)
 		.find((filepath) => filepath.endsWith(`-${params.slug}.md`));

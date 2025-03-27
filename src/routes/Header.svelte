@@ -1,24 +1,24 @@
 <script lang="ts">
-	import { page } from "$app/state";
-	import Typewriter from "./Typewriter.svelte";
+import { page } from "$app/state";
+import Typewriter from "./Typewriter.svelte";
 
-	let props: { class: string } = $props();
-	function ariaContent(route: string) {
-		return page.url.pathname === route ? "page" : undefined;
-	}
+let props: { class: string } = $props();
+function ariaContent(route: string) {
+	return page.url.pathname === route ? "page" : undefined;
+}
 
-	function command() {
-		if (page.url.pathname === "/") {
-			return "./whoami";
-		}
-		if (page.url.pathname === "/about") {
-			return "./about";
-		}
-		if (page.url.pathname.startsWith("/blog")) {
-			return "./blog";
-		}
-		return "./unknown";
+function command() {
+	if (page.url.pathname === "/") {
+		return "./whoami";
 	}
+	if (page.url.pathname === "/about") {
+		return "./about";
+	}
+	if (page.url.pathname.startsWith("/blog")) {
+		return "./blog";
+	}
+	return "./unknown";
+}
 </script>
 
 <header class={props.class}>

@@ -1,12 +1,12 @@
 <script lang="ts">
-	import type { PageData } from "./$types";
-	let { data }: { data: PageData } = $props();
-	function formatDate(d: Date): string {
-		const year = d.getFullYear();
-		const month = String(d.getMonth() + 1).padStart(2, "0");
-		const day = String(d.getDate()).padStart(2, "0");
-		return `${year}-${month}-${day}`;
-	}
+import type { PageData } from "./$types";
+let { data }: { data: PageData } = $props();
+function formatDate(d: Date): string {
+	const year = d.getFullYear();
+	const month = String(d.getMonth() + 1).padStart(2, "0");
+	const day = String(d.getDate()).padStart(2, "0");
+	return `${year}-${month}-${day}`;
+}
 </script>
 
 <svelte:head>
