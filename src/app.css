@@ -47,3 +47,36 @@
 	-ms-overflow-style: none; /* IE and Edge */
 	scrollbar-width: none; /* Firefox */
 }
+
+/* Line numbers for code examples */
+.astro-code {
+	code {
+		counter-reset: line;
+		position: relative;
+	}
+
+	.line {
+		counter-increment: line;
+		margin-left: --spacing(9);
+
+		@media (width <= var(--breakpoint-sm)) {
+			margin-left: 0;
+		}
+
+		&::before {
+			position: absolute;
+			left: 0;
+			content: counter(line);
+			width: --spacing(6);
+			text-align: right;
+			user-select: none;
+			display: inline-block;
+			color: color-mix(in oklab, var(--color-black) 40%, transparent);
+			font-family: var(--font-mono);
+
+			@media (width <= var(--breakpoint-sm)) {
+				display: none;
+			}
+		}
+	}
+}

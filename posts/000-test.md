@@ -1,9 +1,8 @@
 ---
-title: "Humanaeve mollia precamur arceat tibi"
+title: "My first post"
+excerpt: "this is a longer exceprt domseaaasdf jkl;ajsdfkl; jasldf asdf asdfasdf asdfa sdfasdf sdfsdfd    from the blog post meant to bring in the reader"
+date: 2025-03-10
 ---
-
-## Visa murice oppida corde
-
 Lorem markdownum iusta promissaque ante vulnere agnus potuit loquuntur, rogatque
 arsuro crevit, foret. Tu caput monstraverat alebat fuerant cultores! Tam hunc,
 abest currus cupidisque quoque plura arbitrio penetravit facie plangoris illa.
@@ -15,8 +14,6 @@ abest currus cupidisque quoque plura arbitrio penetravit facie plangoris illa.
 > figuris obmutuit. Prima capillis caeso matre Turnus tremor seminaque fiducia
 > fuerat, ne verbaque subito in Troia. Tunc concutio habebam quoque vidi nostra
 > gradu genialis pudicos dolentes Alce in pecori praeponere quercu.
-
-## Quantas Thebis
 
 Et humum oreris indurata in tamen quod illa: quodque tu ignarus. Altera medio
 gravidamque fateor pugnae solantia et **favete lumina esse**. Mihi iussit herbas
@@ -35,8 +32,6 @@ export function assert(expression, msg = "") {
 	if (!expression) throw new Error(msg);
 }
 ```
-
-## Virgo pectus arma increpor omnia purpureasque iustis
 
 Et ora, et mora medicamine lacertis luctatur violentam **haut** hunc. E ferro,
 ait vivat suo nos, pauca est linguam sociis. Mentis sine ursos in carmine

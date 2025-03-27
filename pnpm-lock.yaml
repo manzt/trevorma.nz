@@ -53,6 +53,9 @@ importers:
       vite:
         specifier: ^5.4.11
         version: 5.4.15(@types/node@22.13.14)(lightningcss@1.29.2)
+      zod:
+        specifier: ^3.24.2
+        version: 3.24.2
 
 packages:
 
@@ -1186,6 +1189,9 @@ packages:
 
   zimmerframe@1.1.2:
     resolution: {integrity: sha512-rAbqEGa8ovJy4pyBxZM70hg4pE6gDgaQ0Sl9M3enG3I0d6H4XSAM3GeNGLKnsBpuijUow064sf7ww1nutC5/3w==}
+
+  zod@3.24.2:
+    resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
@@ -2491,5 +2497,7 @@ snapshots:
   web-namespaces@2.0.1: {}
 
   zimmerframe@1.1.2: {}
+
+  zod@3.24.2: {}
 
   zwitch@2.0.4: {}

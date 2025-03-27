@@ -1,21 +1,24 @@
 <script lang="ts">
-import { page } from "$app/state";
-import Typewriter from "./Typewriter.svelte";
+	import { page } from "$app/state";
+	import Typewriter from "./Typewriter.svelte";
 
-let props: { class: string } = $props();
-function ariaContent(route: string) {
-	return page.url.pathname === route ? "page" : undefined;
-}
+	let props: { class: string } = $props();
+	function ariaContent(route: string) {
+		return page.url.pathname === route ? "page" : undefined;
+	}
 
-function command() {
-	return (
-		{
-			"/": "./whoami",
-			"/about": "./about",
-			"/blog": "./blog",
-		}[page.url.pathname] ?? "./unknown"
-	);
-}
+	function command() {
+		if (page.url.pathname === "/") {
+			return "./whoami";
+		}
+		if (page.url.pathname === "/about") {
+			return "./about";
+		}
+		if (page.url.pathname.startsWith("/blog")) {
+			return "./blog";
+		}
+		return "./unknown";
+	}
 </script>
 
 <header class={props.class}>
@@ -29,10 +32,14 @@ function command() {
 				<a class="hover:underline underline-offset-2" href="/">home</a>
 			</li>
 			<li aria-current={ariaContent("/about")}>
-				<a class="hover:underline underline-offset-2" href="/about">about</a>
+				<a class="hover:underline underline-offset-2" href="/about"
+					>about</a
+				>
 			</li>
 			<li aria-current={ariaContent("/blog")}>
-				<a href="/blog">blog</a>
+				<a class="hover:underline underline-offset-2" href="/blog"
+					>blog</a
+				>
 			</li>
 		</ul>
 
