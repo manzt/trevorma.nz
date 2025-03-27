@@ -1,5 +1,5 @@
 <script lang="ts">
-import type { PageData } from "./$types";
+import type { PageData } from "./$types.ts";
 
 let { data }: { data: PageData } = $props();
 </script>

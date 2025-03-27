@@ -3,9 +3,9 @@ import * as path from "node:path";
 import * as md from "@astrojs/markdown-remark";
 import * as kit from "@sveltejs/kit";
 
-import { loadPost } from "$lib/utils";
+import { loadPost } from "$lib/utils.ts";
 
-import type { PageServerLoad } from "./$types";
+import type { PageServerLoad } from "./$types.ts";
 
 let processor = await md.createMarkdownProcessor({
 	shikiConfig: {

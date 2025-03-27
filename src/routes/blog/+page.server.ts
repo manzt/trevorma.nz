@@ -1,8 +1,8 @@
 import * as path from "node:path";
 
-import { loadPost } from "$lib/utils";
+import { loadPost } from "$lib/utils.ts";
 
-import type { PageServerLoad } from "./$types";
+import type { PageServerLoad } from "./$types.ts";
 
 export const prerender = true;
 
