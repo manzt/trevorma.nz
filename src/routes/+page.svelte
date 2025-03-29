@@ -25,8 +25,6 @@
 		<a target="_blank" href="https://github.com/manzt">github</a>/<wbr /><a
 			target="_blank"
 			href="https://bsky.app/profile/manzt.sh">bluesky</a
-		>/<wbr /><a target="_blank" href="https://twitter.com/trevmanz"
-			>twitter</a
 		>.
 	</p>
 </section>
