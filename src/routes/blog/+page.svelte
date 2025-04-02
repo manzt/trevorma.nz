@@ -1,14 +1,8 @@
 <script lang="ts">
+import * as utils from "$lib/utils.ts";
 import type { PageData } from "./$types.ts";
 
 let { data }: { data: PageData } = $props();
-
-function formatDate(d: Date): string {
-	const year = d.getFullYear();
-	const month = String(d.getMonth() + 1).padStart(2, "0");
-	const day = String(d.getDate()).padStart(2, "0");
-	return `${year}-${month}-${day}`;
-}
 </script>
 
 <svelte:head>
@@ -30,7 +24,7 @@ function formatDate(d: Date): string {
 							class="text-base leading-6 font-medium text-gray-500 dark:text-gray-300"
 						>
 							<time datetime={frontmatter.date.toString()}
-								>{formatDate(frontmatter.date)}</time
+								>{utils.formatDate(frontmatter.date)}</time
 							>
 						</dd>
 					</dl>
