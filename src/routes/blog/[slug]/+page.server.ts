@@ -1,9 +1,7 @@
 import * as path from "node:path";
-
+import * as utils from "$lib/utils.ts";
 import * as md from "@astrojs/markdown-remark";
 import * as kit from "@sveltejs/kit";
-
-import * as utils from "$lib/utils.ts";
 import type { PageServerLoad, RouteParams } from "./$types.ts";
 
 let processor = await md.createMarkdownProcessor({
@@ -29,21 +27,20 @@ export function entries(): Array<RouteParams> {
 
 export let load: PageServerLoad = async ({ params }) => {
 	let posts = import.meta.glob("../../../../posts/*.md", { as: "raw" });
-	let entry = Object.entries(posts).find(([filepath, _]) =>
+	let post = Object.entries(posts).find(([filepath, _]) =>
 		filepath.endsWith(`-${params.slug}.md`),
 	);
 
-	if (entry) {
-		let loadContents = entry[1];
-		let { frontmatter, body } = utils.parseMarkdownPost(await loadContents());
-		let content = await processor.render(body);
-		return {
-			frontmatter: frontmatter,
-			title: frontmatter.title,
-			content: content.code,
-			headings: content.metadata.headings,
-		};
+	if (!post) {
+		kit.error(404, "Not found");
 	}
 
-	kit.error(404, "Not found");
+	let { frontmatter, body } = utils.parseMarkdownPost(await post[1]());
+	let content = await processor.render(body);
+	return {
+		frontmatter: frontmatter,
+		title: frontmatter.title,
+		content: content.code,
+		headings: content.metadata.headings,
+	};
 };
