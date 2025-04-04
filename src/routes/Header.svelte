@@ -8,13 +8,16 @@ function ariaContent(route: string) {
 }
 
 function command() {
-	return (
-		{
-			"/": "./whoami",
-			"/about": "./about",
-			// "/blog": "./blog",
-		}[page.url.pathname] ?? "./unknown"
-	);
+	if (page.url.pathname === "/") {
+		return "./whoami";
+	}
+	if (page.url.pathname === "/about") {
+		return "./about";
+	}
+	if (page.url.pathname.startsWith("/blog")) {
+		return "./blog";
+	}
+	return "./unknown";
 }
 </script>
 
@@ -29,7 +32,14 @@ function command() {
 				<a class="hover:underline underline-offset-2" href="/">home</a>
 			</li>
 			<li aria-current={ariaContent("/about")}>
-				<a class="hover:underline underline-offset-2" href="/about">about</a>
+				<a class="hover:underline underline-offset-2" href="/about"
+					>about</a
+				>
+			</li>
+			<li aria-current={ariaContent("/blog")}>
+				<a class="hover:underline underline-offset-2" href="/blog"
+					>blog</a
+				>
 			</li>
 		</ul>
 
