@@ -1,13 +1,9 @@
-<script lang="ts">
-import Typewriter from "../Typewriter.svelte";
-</script>
-
 <svelte:head>
 	<title>about | trevor manz</title>
 	<meta name="description" content="about trevor manz" />
 </svelte:head>
 
-<section>
+<section class="prose prose-blog text-lg">
 	<p>
 		i'm a <a
 			target="_blank"

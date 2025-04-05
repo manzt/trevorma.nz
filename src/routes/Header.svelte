@@ -21,7 +21,7 @@ function command() {
 }
 </script>
 
-<header class={props.class}>
+<header class={[props.class, "text-gray-950 dark:text-white"]}>
 	<nav
 		class="grid grid-cols-1 sm:grid-cols-2 items-center gap-y-4 sm:gap-y-0 sm:justify-between"
 	>

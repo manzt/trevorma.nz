@@ -21,7 +21,7 @@ let pixels: Array<{ x: number; y: number }> = $state([]);
 >
 	<Header class="realative z-10 pointer-events-auto" />
 	<main
-		class="relative z-10 mt-5 flex-1 flex flex-col prose prose-blog text-lg pointer-events-none"
+		class="relative z-10 mt-5 flex-1 flex flex-col pointer-events-none"
 	>
 		<div class="pointer-events-auto">
 			{@render children()}
