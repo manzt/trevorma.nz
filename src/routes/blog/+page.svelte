@@ -12,7 +12,7 @@ let { data }: { data: PageData } = $props();
 
 <section class="mx-1 text-gray-700 dark:text-gray-300">
 	<ul class="space-y-4 divide-y divide-gray-200 dark:divide-gray-600">
-		{#each data.posts as { slug, frontmatter }}
+		{#each data.posts.toReversed() as { slug, frontmatter }}
 			<li class="pb-4">
 				<article>
 					<h2 class="text-xl font-bold">
