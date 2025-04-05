@@ -30,7 +30,7 @@ let { data }: { data: PageData } = $props();
 						</dd>
 					</dl>
 					<p
-						class="mt-6 prose max-w-none text-gray-500 dark:text-gray-400"
+						class="mt-3 prose max-w-none text-gray-500 dark:text-gray-400"
 					>
 						{frontmatter.excerpt}
 					</p>

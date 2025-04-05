@@ -26,6 +26,7 @@ let FrontmatterSchema = z.object({
 	title: z.string(),
 	date: z.date(),
 	excerpt: z.string(),
+	description: z.string(),
 });
 
 function extractRawContents(text: string) {
