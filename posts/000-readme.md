@@ -12,5 +12,4 @@ thoughts and move things out of scattered
 files](https://github.com/manzt), into something a bit more structured and
 intentional.
 
-No promises about consistency, but I'm hoping this helps me write a bit more
-often.
+No promises about consistency, but hoping it helps me write more often.
