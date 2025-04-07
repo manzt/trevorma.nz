@@ -157,6 +157,11 @@
 		color: var(--prose-code-color);
 	}
 
+	ins:where(:not(.not-prose, .not-prose *)) {
+		text-decoration-line: underline;
+		text-underline-offset: 3px;
+	}
+
 	:where(h2, h3, h4) code:where(:not(.not-prose, .not-prose *)) {
 		font-weight: var(--font-weight-semibold);
 	}
