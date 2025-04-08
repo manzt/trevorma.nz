@@ -50,6 +50,11 @@
 
 /* Line numbers for code examples */
 .astro-code {
+	border-radius: var(--radius-lg);
+	padding-top: calc(var(--spacing) * 2);
+	padding-bottom: calc(var(--spacing) * 1);
+	margin-bottom: 0px;
+
 	code {
 		counter-reset: line;
 		position: relative;
