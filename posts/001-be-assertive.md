@@ -12,12 +12,8 @@ configs](https://www.youtube.com/watch?v=a1A8EYqqQs8):
 $ curl -sL manzt.sh/assert.js | pbcopy # copy snippet to clipboard
 ```
 
-It's my way of keeping "little useful things" at hand. In the past, I might've
-grabbed a dependency or even published a library. These days, I'm more inclined
-to just copy-paste (with attribution), especially for small utilities like
-this. Maybe a post on that later.
-
-Of all these snippets, the one I reach for the most (_by far_) is a tiny
+It's my way of keeping "little useful things" at hand. Of all these snippets,
+the one I reach for the most (_by far_) is a tiny
 [`assert`](https://manzt.sh/assert.js) utility:
 
 ```ts
