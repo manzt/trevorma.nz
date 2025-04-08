@@ -1,5 +1,5 @@
 ---
-title: "Be assertive!"
+title: "Be assertive"
 excerpt: "Assertions aren’t just runtime checks — they’re a way to collaborate with the type checker and write more robust programs."
 description: "Assertions aren’t just runtime checks — they’re a way to collaborate with the type checker and write more robust programs."
 date: 2025-04-08
@@ -13,7 +13,7 @@ $ curl -sL manzt.sh/assert.js | pbcopy # copy snippet to clipboard
 ```
 
 It's my way of keeping "little useful things" at hand. Of all these snippets,
-the one I reach for the most (_by far_) is a tiny
+the one I reach for the most is a tiny
 [`assert`](https://manzt.sh/assert.js) utility:
 
 ```ts
@@ -66,7 +66,7 @@ puts it bluntly:
 A little intense, but TigerBeetle is a serious piece of software.
 
 My view is a bit softer: <ins>writing assertions shows humility</ins>. They're
-meant for things that should never happen—so in theory, we shouldn't need them
+meant for things that should never happen — so in theory, we shouldn't need them
 at all. But bugs _do_ happen. Assertions surface the moment when reality breaks
 our expectations, giving us a chance to revise our understanding. Making those
 assumptions explicit helps clarify intent and strengthen the code (far better
@@ -83,7 +83,7 @@ statements](https://docs.python.org/3/reference/simple_stmts.html#the-assert-sta
 assert x > 0, "x must be positive"
 ```
 
-And Rust has the [assert!
+Rust has the [assert!
 macro](https://doc.rust-lang.org/std/macro.assert.html) for the same purpose:
 
 ```rust
@@ -501,9 +501,7 @@ function assert(expression, msg = "") {
 }
 
 let el = document.querySelector("#root");
-
 assert(el, "no element found");
-
 el.innerHTML = "Hello, world!";
 ```
 
