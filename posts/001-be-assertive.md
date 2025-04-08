@@ -49,7 +49,7 @@ It marks a part of the program that reflects the programmer's deeper
 understanding or assumptions — things they believe to be true but that aren't
 easily expressed with (or visible to) the type system.
 
-After the line above runs, we _know_ for certain that `x` is positive. If it
+After the line above runs, we _know_ that `x` is positive. If it
 weren't, the assertion would fail and the program would error immediately.
 This kind of check can simplify the code that follows and make it easier to
 reason about, both for humans and for static analysis tools.
@@ -504,12 +504,12 @@ assert(el, "no element found");
 el.innerHTML = "Hello, world!";
 ```
 
-Interestingly, this approach ends up being both safer and more concise than the
+Interestingly, this approach ends up being both safer _and_ more concise than the
 (unsafe) TypeScript alternatives. A JSDoc-style type assertion, for example,
 requires more ceremony and offers less safety:
 
 ```javascript
-let el = /** @type {HTMLElement} */ (document.querySelector("#root");
+let el = /** @type {HTMLElement} */ (document.querySelector("#root"));
 ```
 
 ## Conclusion
