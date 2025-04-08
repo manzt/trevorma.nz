@@ -13,8 +13,7 @@ $ curl -sL manzt.sh/assert.js | pbcopy # copy snippet to clipboard
 ```
 
 It's my way of keeping "little useful things" at hand. Of all these snippets,
-the one I reach for the most is a tiny
-[`assert`](https://manzt.sh/assert.js) utility:
+the one I reach for the most is [`assert`](https://manzt.sh/assert.js):
 
 ```ts
 function assert(expr: unknown, msg = ""): asserts expr {
