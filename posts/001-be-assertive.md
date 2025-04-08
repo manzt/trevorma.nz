@@ -96,8 +96,8 @@ _where_ you should `assert` depends on the language.
 In Rust, for example, the type system is closely tied to both memory and
 control flow. With an expressive type system capable of ["zero-cost
 abstractions,"](https://without.boats/blog/zero-cost-abstractions/) many checks
-that would require runtime validation in other languages can instead be
-"lifted" into type system, turning them into compile-time guarantees or
+that would require runtime validation in other languages can be
+turned into compile-time or
 [recoverable
 errors](https://doc.rust-lang.org/book/ch09-00-error-handling.html). Assertions
 don't necessarily go away, but they are often pushed to the edges of the
