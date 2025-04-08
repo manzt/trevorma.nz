@@ -31,7 +31,7 @@ This post explains _why_. It's about assertions — not just as runtime checks,
 but as a way to _collaborate_ with the type checker to write more robust
 programs. The next time you're tempted to silence a <ins class="decoration-wavy
 	decoration-red-500">type error</ins> with `as` or `typing.cast`, try
-asserting what you "know" to be true instead.
+asserting what you know to be "true" instead.
 
 ## What's an assertion anyway?
 
