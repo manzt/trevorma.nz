@@ -23,7 +23,8 @@ function assert(expr: unknown, msg = ""): asserts expr {
 
 TypeScript introduced [assertion
 functions](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-7.html#assertion-functions)
-back in version 3.7, and at this point, I copy these three lines of
+back in version 3.7, and I now copy these three lines into almost every
+project.
 
 This post explains _why_. It's about assertions — not just as runtime checks,
 but as a way to _collaborate_ with the type checker to write more robust
@@ -91,8 +92,8 @@ loudly, even with very different designs and philosophies. But _when_ and
 _where_ you should `assert` depends on the language.
 
 In Rust, for example, the type system is closely tied to both memory and
-control flow. With expressive types and ["zero-cost
-abstractions,"](https://without.boats/blog/zero-cost-abstractions/) many checks
+control flow. With expressive types and [zero cost
+abstractions](https://without.boats/blog/zero-cost-abstractions/), many checks
 that would require runtime validation in other languages can be turned into
 compile-time or [recoverable
 errors](https://doc.rust-lang.org/book/ch09-00-error-handling.html). Assertions
@@ -104,7 +105,7 @@ spend a lot of time in TypeScript and Python, where type systems are layered
 onto _extremely_ dynamic foundations.
 
 These type systems are
-["unsound"](https://www.executeprogram.com/courses/everyday-typescript/lessons/type-soundness):
+[unsound](https://www.executeprogram.com/courses/everyday-typescript/lessons/type-soundness):
 they sometimes accept programs that violate their own type annotations. That
 leniency isn't a bug, but a deliberate trade-off reflecting the [core
 values](https://www.youtube.com/watch?v=Xhx970_JKX4) of the language. In order
@@ -115,10 +116,13 @@ unsound, but in the words of [Anders
 Hejlsberg](https://en.wikipedia.org/wiki/Anders_Hejlsberg): _"Damn is it
 useful."_
 
-The dynamic nature of these languages means you don't have full control over
-types and memory, so compile-time guarantees can only go so far. Assertions let
-us state and enforce assumptions beyond the type system's reach. In some cases,
-a well-placed assertion can even help the type checker reason more precisely.
+TypeScript and Python's type hints aim to describe existing dynamic behavior,
+not replace it. There are several sound compile-to-JavaScript languages that
+compete with TypeScript (e.g., [Elm](https://elm-lang.org/)), which offer much
+stronger compile-time guarantees - but none is nearly as compatible with the
+broader JavaScript ecosystem. In this context, assertions play a crucial role:
+they let us express assumptions the type system can't verify, and sometimes
+even help it reason more precisely.
 
 ## Layers of confidence
 
@@ -152,7 +156,9 @@ add({}, []);    // "[object Object]"
 ```
 
 We can add runtime checks to be more defensive:
-```javascript function add(a, b) {
+
+```javascript
+function add(a, b) {
 	assert(typeof a === "number", "'a' must be a number");
 	assert(typeof b === "number", "'b' must be a number");
 	return a + b;
@@ -164,8 +170,8 @@ returning bad data. That said, I probably wouldn't write this kind of assertion
 in practice — with or without type system. This kind of check is exactly what
 static types are for.
 
-In TypeScript, we can "lift" the assumption that `a` and `b` are numbers into
-the type system:
+In TypeScript, we can "lift" the invariant that `a` and `b` must be numbers
+into the type system:
 
 ```typescript
 function add(a: number, b: number): number {
@@ -189,11 +195,11 @@ JavaScript
 [primitives](https://developer.mozilla.org/en-US/docs/Glossary/Primitive), so
 verifying they are numbers is straightforward.
 
-Other cases are more nuanced. What if we need more from `a` and `b`? Numbers
-are primitives in JavaScript, but we may want to refine the requirements — for
-example, ensuring `add` only accepts integers. In these situations, it's not
-always clear which approach is best, and often it's a trade-off between using
-the type system or relying on runtime checks.
+Other cases are more nuanced. What if `a` and `b` must be integers?
+JavaScript's `number` doesn't distinguish between integers and floats, so we
+want to tighten that constraint. Depending on the situation, we can lean
+more on the type system using advanced patterns, or rely more on runtime
+checks.
 
 ```typescript
 function add(a: number, b: number): number {
@@ -206,8 +212,8 @@ function add(a: number, b: number): number {
 Here, we combine type checks with runtime assertions. TypeScript enforces what
 it can at compile time (ensuring `number`), but the final check for what
 TypeScript can't "see" — refining it to an integer — is left to runtime. This
-means the function has the potential to fail, but it will do so loudly,
-allowing us to catch issues early and fix them.
+approach means the function has the potential to fail at runtime, but it will
+do so loudly, allowing us to catch issues early and fix them.
 
 An alternative is to move all our assumptions to the type level using [branded
 types](https://www.learningtypescript.com/articles/branded-types):
@@ -221,27 +227,47 @@ function add(a: Integer, b: Integer): Integer {
 ```
 
 Again, the runtime checks are gone from the function body, but only because the
-responsibility has been shifted elsewhere.
+responsibility has been shifted elsewhere. The caller must now statically prove
+that the inputs are integers before calling `add`.
 
-Branding is a type-level trick, a way to tag a value for the type checker
-without changing it at runtime. It lets us reuse a plain `number` while giving
-the type system more context. Writing `as Integer` tells TypeScript, "trust me,
-this satisfies `{ __brand: 'integer' }`," even though there's clearly no
-runtime evidence to support that. We have to ensure elsewhere that the value is
-actually an integer. That makes the pattern safe, but also easy to misuse,
-since it relies on lying to the type system.
+If you haven't seen branding before, that's fine. Branding is an advanced type
+pattern, a convention (or hack) for tagging a value with extra meaning _only_
+at the type level. It doesn’t change the value at runtime. Instead, it lets us
+reuse a plain `number` while telling TypeScript that the value has been
+verified to satisfy some additional constraints.
 
-It's kind of a marvel that TypeScript supports these type-level gymnastics at
-all. That flexibility leads to a lot of variation in style across codebases,
-depending on how much they push the type system. Some projects stay close
-JavaScript with types,others push the system into something [entirely
-different](https://effect.website/). I find branding overkill in most cases,
-though I see the value.
+Writing `as Integer` tells the type checker, "trust me, this number also
+satisfies `{ __brand: 'integer' }`," even though it clearly doesn't. TypeScript
+will happily allow us to access `__brand` even though it's completely unsafe.
 
-Some expectations are hard to express via types without reaching for advanced
-patterns. In those cases, an assertion can strike a middle ground, though it
-provides a different kind of guarantee. It really depends on the context and
-expectations around the code.
+```typescript
+let a = 10 as Integer;
+a.__brand; // "integer" to TypeScript, `undefined` at runtime
+```
+
+Isn't that bad? Well, sort of. It's only _really_ a problem if we try to access
+`__brand` at runtime. The trick is that `__brand` exists purely for the type
+checker, and _never_ needs be accessed at runtime.
+
+We deliberately _lie_ to TypeScript, in a controlled way, so we can _rely_ on
+the type system to help us avoid accidentally passing any `number` where an
+`Integer` is expected. Somewhere else in the program, we still need to actually
+verify that the value is an integer before applying the brand. But once that's
+done, we can rely on TypeScript to enforce the constraint from that point
+forward.
+
+It's a trade-off: we lift our conditional logic to the boundaries of the code,
+verify inputs once, and rely on the type system from there. The cost that it
+requires care to safely brand values and (subjectively) feels less like
+"JavaScript with types" and more like a [different
+language](https://effect.website/).
+
+Some expectations are hard to express with types alone, at least not without
+reaching for advanced patterns. For high-assurance systems, that complexity
+might be worth it. (Though in those cases, I may question whether TypeScript or
+Python is the right tool.) An assertion offers a middle ground: it captures
+intent in a way that fits the spirit of these languages, even if it provides
+different guarantees.
 
 ## Collaborating with the type checker
 
