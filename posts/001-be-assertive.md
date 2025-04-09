@@ -48,10 +48,10 @@ assert(x > 0, "x must be positive");
 It marks the programmer's deeper understanding about `x` — what they assume to
 be true but isn't easily expressed with (or visible to) types.
 
-After the line above runs, we _know_ that `x` is positive. If it
-weren't, the assertion would fail and the program would error immediately.
-This kind of check can simplify the code that follows and make it easier to
-reason about, both for humans and for static analysis tools.
+After the line above runs, we _know_ that `x` is positive. If it weren't, the
+assertion would fail and the program would error immediately. This kind of
+check can simplify the code that follows and make it easier to reason about,
+both for humans and for static analysis tools.
 
 The [TigerBeetle style
 guide](https://github.com/tigerbeetle/tigerbeetle/blob/main/docs/TIGER_STYLE.md)
@@ -65,10 +65,11 @@ A little intense, but TigerBeetle is a serious piece of software.
 
 My view is a bit softer: <ins>writing assertions shows humility</ins>. They're
 meant for things that should never happen — so in theory, we shouldn't need
-them at all, right? But bugs _do_ happen. Assertions surface the moment when
-reality breaks our expectations, giving us a chance to revise our
-understanding. Making those assumptions explicit helps clarify intent and
-strengthen the code (far better than a comment).
+them at all, right? But bugs _do_ happen. Assertions surface moments when
+reality breaks our expectations, giving us a chance to either fix the system to
+uphold our expectations or revise our understanding. Making those assumptions
+explicit helps clarify intent and strengthen the code (far better than a
+comment).
 
 Assertions are not unique to TypeScript. Many languages provide dedicated
 syntax or elevated constructs for writing them, rather than relying on a custom
