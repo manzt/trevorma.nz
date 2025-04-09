@@ -23,8 +23,8 @@ function assert(expr: unknown, msg = ""): asserts expr {
 
 TypeScript introduced [assertion
 functions](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-7.html#assertion-functions)
-back in version 3.7, and at this point, I basically drop these three lines of
-code into every project.
+back in version 3.7, and at this point, I copy these three lines of
+code into essentially every project.
 
 This post explains _why_. It's about assertions — not just as runtime checks,
 but as a way to _collaborate_ with the type checker to write more robust
@@ -45,11 +45,11 @@ Here's a simple example asserting that `x` must be positive:
 assert(x > 0, "x must be positive");
 ```
 
-It marks a part of the program that reflects the programmer's deeper
+It marks a part of the program with the programmer's deeper
 understanding or assumptions — things they believe to be true but that aren't
 easily expressed with (or visible to) the type system.
 
-After the line above runs, we _know_ that `x` is positive. If it
+After the line above runs, we _know_ `x` is positive. If it
 weren't, the assertion would fail and the program would error immediately.
 This kind of check can simplify the code that follows and make it easier to
 reason about, both for humans and for static analysis tools.
@@ -66,7 +66,7 @@ A little intense, but TigerBeetle is a serious piece of software.
 
 My view is a bit softer: <ins>writing assertions shows humility</ins>. They're
 meant for things that should never happen — so in theory, we shouldn't need them
-at all. But bugs _do_ happen. Assertions surface the moment when reality breaks
+at all, right? But bugs _do_ happen. Assertions surface the moment when reality breaks
 our expectations, giving us a chance to revise our understanding. Making those
 assumptions explicit helps clarify intent and strengthen the code (far better
 than a comment).
@@ -380,10 +380,11 @@ assertion](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#ty
 let user = {} as User;
 ```
 
-The as keyword tells TypeScript to treat a value as a specific type — <ins>even
+The `as` keyword tells TypeScript to treat a value as a specific type — <ins>even
 	if there's no evidence to support it</ins>. Like type annotations, type
 assertions are stripped out at compile time. There's <ins>no check</ins>, just:
-"trust me, I know what I'm doing."
+"trust me, I know what I'm doing." This type-only assertion is essentially the same
+as Python's [`typing.cast`](https://docs.python.org/3/library/typing.html#typing.cast).
 
 Personally, I think `as` is misleading. It looks routine, even idiomatic, but
 it's doing something _extremely_ risky by bypassing the type system entirely.
