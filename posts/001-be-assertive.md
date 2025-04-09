@@ -24,7 +24,6 @@ function assert(expr: unknown, msg = ""): asserts expr {
 TypeScript introduced [assertion
 functions](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-7.html#assertion-functions)
 back in version 3.7, and at this point, I copy these three lines of
-code into essentially every project.
 
 This post explains _why_. It's about assertions — not just as runtime checks,
 but as a way to _collaborate_ with the type checker to write more robust
@@ -45,11 +44,10 @@ Here's a simple example asserting that `x` must be positive:
 assert(x > 0, "x must be positive");
 ```
 
-It marks a part of the program with the programmer's deeper
-understanding or assumptions — things they believe to be true but that aren't
-easily expressed with (or visible to) the type system.
+It marks the programmer's deeper understanding about `x` — what they assume to
+be true but isn't easily expressed with (or visible to) types.
 
-After the line above runs, we _know_ `x` is positive. If it
+After the line above runs, we _know_ that `x` is positive. If it
 weren't, the assertion would fail and the program would error immediately.
 This kind of check can simplify the code that follows and make it easier to
 reason about, both for humans and for static analysis tools.
@@ -65,11 +63,11 @@ puts it bluntly:
 A little intense, but TigerBeetle is a serious piece of software.
 
 My view is a bit softer: <ins>writing assertions shows humility</ins>. They're
-meant for things that should never happen — so in theory, we shouldn't need them
-at all, right? But bugs _do_ happen. Assertions surface the moment when reality breaks
-our expectations, giving us a chance to revise our understanding. Making those
-assumptions explicit helps clarify intent and strengthen the code (far better
-than a comment).
+meant for things that should never happen — so in theory, we shouldn't need
+them at all, right? But bugs _do_ happen. Assertions surface the moment when
+reality breaks our expectations, giving us a chance to revise our
+understanding. Making those assumptions explicit helps clarify intent and
+strengthen the code (far better than a comment).
 
 Assertions are not unique to TypeScript. Many languages provide dedicated
 syntax or elevated constructs for writing them, rather than relying on a custom
@@ -82,8 +80,7 @@ statements](https://docs.python.org/3/reference/simple_stmts.html#the-assert-sta
 assert x > 0, "x must be positive"
 ```
 
-Rust has the [assert!
-macro](https://doc.rust-lang.org/std/macro.assert.html) for the same purpose:
+Rust has the [assert! macro](https://doc.rust-lang.org/std/macro.assert.html):
 
 ```rust
 assert!(x > 0, "x must be positive");
@@ -94,18 +91,17 @@ loudly, even with very different designs and philosophies. But _when_ and
 _where_ you should `assert` depends on the language.
 
 In Rust, for example, the type system is closely tied to both memory and
-control flow. With an expressive type system capable of ["zero-cost
+control flow. With expressive types and ["zero-cost
 abstractions,"](https://without.boats/blog/zero-cost-abstractions/) many checks
-that would require runtime validation in other languages can be
-turned into compile-time or
-[recoverable
+that would require runtime validation in other languages can be turned into
+compile-time or [recoverable
 errors](https://doc.rust-lang.org/book/ch09-00-error-handling.html). Assertions
 don't necessarily go away, but they are often pushed to the edges of the
 system.
 
-While I appreciate the kind of static guarantees you get in a language like
-Rust, I spend a lot of time in TypeScript and Python, where type systems are
-layered onto _extremely_ dynamic foundations.
+While I appreciate the static guarantees you get in a language like Rust, I
+spend a lot of time in TypeScript and Python, where type systems are layered
+onto _extremely_ dynamic foundations.
 
 These type systems are
 ["unsound"](https://www.executeprogram.com/courses/everyday-typescript/lessons/type-soundness):
@@ -126,19 +122,17 @@ a well-placed assertion can even help the type checker reason more precisely.
 
 ## Layers of confidence
 
-The line between compile-time and runtime checks isn’t absolute. While they
-offer different types of guarantees, they are complementary, and understanding
-how they work together can help you determine how to use them effectively.
+Compile-time and runtime checks offer different kinds of guarantees, but
+they're complementary. Understanding how they work together can help you decide
+where to put your checks and how much to rely on them.
 
-In this section, we'll look at how assertions and types play different roles
-using a simple `add(a, b)` function that evolves through a few versions. Note
-that while the examples are in TypeScript, many of these concepts also apply to
-Python.
+Let's walk through a simple `add(a, b)` function that evolves over a few
+versions. The examples are in TypeScript, but the ideas also apply to Python.
 
-Pay attention to _what_ we're verifying in each case, and _when_ the check
-happens. If an assumption is expressed in TypeScript, it's checked at <ins
-	class="decoration-wavy decoration-red-500">compile time</ins>. If it's
-in an `assert`, it's only checked when running the program.
+Pay attention to what each version is checking, and when the check happens: if
+it’s in TypeScript, it’s enforced at <ins class="decoration-wavy
+	decoration-red-500">compile time</ins>; if it's in an _assert_, it only
+runs at runtime.
 
 We'll start with plain JavaScript:
 
@@ -157,10 +151,8 @@ add("2", 3);    // "23"
 add({}, []);    // "[object Object]"
 ```
 
-Let's add a runtime check to be more defensive:
-
-```javascript
-function add(a, b) {
+We can add runtime checks to be more defensive:
+```javascript function add(a, b) {
 	assert(typeof a === "number", "'a' must be a number");
 	assert(typeof b === "number", "'b' must be a number");
 	return a + b;
@@ -170,7 +162,7 @@ function add(a, b) {
 Now if something unexpected slips through, the program fails loudly instead of
 returning bad data. That said, I probably wouldn't write this kind of assertion
 in practice — with or without type system. This kind of check is exactly what
-static types are built for.
+static types are for.
 
 In TypeScript, we can "lift" the assumption that `a` and `b` are numbers into
 the type system:
@@ -181,28 +173,27 @@ function add(a: number, b: number): number {
 }
 ```
 
-Our function no longer has a runtime check, but that doesn't mean the check
-disappears. We're placing our trust in TypeScript to ensure `a` and `b` are
-numbers whenever `add` is called. This shift simplifies the function body but
-delegates the responsibility of verifying `a` and `b` to another part of the
-system. We'll need to prove to TypeScript elsewhere, possibly with another
-runtime check, that `a` and `b` are indeed numbers. Otherwise, you'll see a
-<ins class="decoration-wavy decoration-red-500">red squiggle</ins> in your
+Our function no longer has runtime checks, but that doesn't mean the checks
+disappear from our program. We're placing our trust in TypeScript to ensure `a`
+and `b` are numbers whenever `add` is called.
+
+This shift simplifies the function body but delegates the responsibility of
+verifying `a` and `b` to another part of the program. We'll need to prove to
+TypeScript elsewhere that `a` and `b` are indeed numbers. Otherwise, you'll see
+a <ins class="decoration-wavy decoration-red-500">red squiggle</ins> in your
 editor, and the compiler will refuse to proceed.
 
 This scenario is a classic example where static types are clearly preferred
-because it's easily expressible via the TypeScript type system. `a` and `b` are
+because the requirements are easily expressed via types. `a` and `b` are
 JavaScript
 [primitives](https://developer.mozilla.org/en-US/docs/Glossary/Primitive), so
-verifying they are numbers is straightforward. In this case, TypeScript can
-easily ensure the values are numbers, and the code can be typed with
-confidence.
+verifying they are numbers is straightforward.
 
-Other cases aren't as straightforward. What if we need more from `a` and `b`?
-Numbers are primitives in JavaScript, but we may want to refine the
-requirements — for example, ensuring add only accepts integers. In these
-situations, it's not always clear which approach is best, and often it`s a
-trade-off between using the type system or relying on runtime checks.
+Other cases are more nuanced. What if we need more from `a` and `b`? Numbers
+are primitives in JavaScript, but we may want to refine the requirements — for
+example, ensuring `add` only accepts integers. In these situations, it's not
+always clear which approach is best, and often it's a trade-off between using
+the type system or relying on runtime checks.
 
 ```typescript
 function add(a: number, b: number): number {
@@ -229,36 +220,33 @@ function add(a: Integer, b: Integer): Integer {
 }
 ```
 
-There are no runtime checks in the function body anymore, but that's because
-we've again shifted the responsibility elsewhere. Branding is a kind of
-type-level trick — a way of tagging a value in the type system without changing
-the underlying value itself. It lets us reuse a regular `number`, but mark it
-in a way that gives the type checker more context. When we write `as Integer`,
-we're telling TypeScript, "trust me, this number also satisfies `{ __brand:
-"integer" }`" even though there's clearly no runtime evidence to support that.
-We have to verify, somewhere else in the program, that a `number` is actually
-an integer before branding it. That's what makes this pattern safe, but also
-what makes it easy to misuse, since it depends on "lying" to the type system.
+Again, the runtime checks are gone from the function body, but only because the
+responsibility has been shifted elsewhere.
+
+Branding is a type-level trick, a way to tag a value for the type checker
+without changing it at runtime. It lets us reuse a plain `number` while giving
+the type system more context. Writing `as Integer` tells TypeScript, "trust me,
+this satisfies `{ __brand: 'integer' }`," even though there's clearly no
+runtime evidence to support that. We have to ensure elsewhere that the value is
+actually an integer. That makes the pattern safe, but also easy to misuse,
+since it relies on lying to the type system.
 
 It's kind of a marvel that TypeScript supports these type-level gymnastics at
-all. This flexibility often makes TypeScript codebases _feel_ very different
-depending on how much they lean into patterns like branding and other advanced
-type-level features. Some projects stay close to "typed JavaScript," while
-others start to resemble something [entirely new](https://effect.website/).
-Personally, I find branding to be overkill in most cases, though I see the
-value.
+all. That flexibility leads to a lot of variation in style across codebases,
+depending on how much they push the type system. Some projects stay close
+JavaScript with types,others push the system into something [entirely
+different](https://effect.website/). I find branding overkill in most cases,
+though I see the value.
 
-Some expectations are hard to capture in the type system without reaching for
-advanced patterns. In those cases, an assertion can strike a middle ground,
-though it provides a different kind of guarantee. It really depends on the
-context and expectations around the code.
+Some expectations are hard to express via types without reaching for advanced
+patterns. In those cases, an assertion can strike a middle ground, though it
+provides a different kind of guarantee. It really depends on the context and
+expectations around the code.
 
 ## Collaborating with the type checker
 
 Types and runtime checks might seem like separate concerns, but interestingly,
-<ins>**assertions can also participate in static analysis**</ins>. It took me
-some time to fully appreciate how an assertion can actually improve the type
-checker's understanding of the code.
+<ins>**assertions can also participate in static analysis**</ins>.
 
 [Type narrowing](https://www.typescriptlang.org/docs/handbook/2/narrowing.html)
 is when the compiler learns more about a variable's type based on _runtime
@@ -294,19 +282,19 @@ In each branch, the type checker <ins>refines its understanding of
 possibilities, the compiler allows you to treat `value` as a specific type.
 
 I like to think of narrowing as a way to _collaborate_ with the type checker.
-You're giving it evidence it can use to make stronger guarantees. If the check
-is vague or unhelpful, the type system won't do much with it. But with a
-meaningful condition, you can prove that a certain operation is safe.
+You're giving it evidence it can use to make stronger guarantees. If the
+evidence is vague or unhelpful, the type system won't do much with it. But with
+a meaningful condition, you can prove that a certain operation is safe.
 
 Narrowing is different from telling the type checker to trust you. TypeScript
-provides several escape hatches for doing that (e.g., `as`, `!`), but they all
-involve opting out of the type system. Narrowing works in the opposite
-direction — you're giving the type checker enough information to reason more
-precisely, not turning it off.
+provides several escape hatches for doing that (e.g., `as`, `!`), but those
+work by bypassing type checking. Narrowing works in the opposite direction —
+you're giving the type checker enough information to reason more precisely, not
+turning it off.
 
-**Assertions hook directly into this narrowing mechanism**. Instead of writing
-a conditional to check and branch, we can `assert` the condition and let the
-type checker update its understanding accordingly:
+**Assertions hook directly into narrowing**. Instead of writing a conditional
+to check and branch, we can `assert` the condition and let the type checker
+update its understanding accordingly:
 
 ```typescript
 function handleInput(value: number | string) {
@@ -319,9 +307,9 @@ After the assertion, not only do _we_ know that `value` is a `number` —
 TypeScript does too. The type is narrowed to `number`, and we can safely use it
 without further checks.
 
-Moreover, narrowing _composes_. Each `assert` adds to what TypeScript knows,
-building up a clearer picture of the data. For example, we can safely narrow an
-`unknown` value into a `User` type:
+Moreover, narrowing _composes_. Each `assert` adds to TypeScript's current
+understanding, building up a clearer picture of the data. For example, we can
+safely narrow an `unknown` value into a `User` type:
 
 ```typescript
 type User = { id: string, name: string };
@@ -356,20 +344,21 @@ processUser(user); // no errors!
 ```
 
 There are certainly more robust options for data validation, but I hope it's
-clear _just_ how far you can get with this tiny utility. Assertions aren't just
-for runtime checks. Used well, they can clarify intent and give the type
-checker just enough information to reason more precisely.
+clear _just_ how far you can get with with `assert`. Assertions aren't just for
+runtime checks. Used well, they can clarify intent and give the type checker
+just enough information to reason more precisely.
+
 
 ## When to assert
 
 So far, this post has focused on how assertions work and how they interact with
 the type system. To close, I want to share a few practical examples where I
-think an `assert` is the right tool.
+think an `assert` is a good or better option.
 
 ### Type assertions
 
-For beginners, the value of "strong types" can feel abstract. In practice,
-using TypeScript often feels like the main goal is just getting rid of <ins
+If you're new to TypeScript, all the talk about "type safety" might not mean
+much. Day to day, it can just feel like you're trying to get rid of <ins
 	class="decoration-wavy decoration-red-500">red squiggles</ins>.
 
 One of the easiest ways eliminate a <ins class="decoration-wavy
@@ -380,21 +369,22 @@ assertion](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#ty
 let user = {} as User;
 ```
 
-The `as` keyword tells TypeScript to treat a value as a specific type — <ins>even
-	if there's no evidence to support it</ins>. Like type annotations, type
-assertions are stripped out at compile time. There's <ins>no check</ins>, just:
-"trust me, I know what I'm doing." This type-only assertion is essentially the same
-as Python's [`typing.cast`](https://docs.python.org/3/library/typing.html#typing.cast).
+The `as` keyword tells TypeScript to treat a value as a specific type —
+<ins>even if there's no evidence to support it</ins>. Like type annotations,
+type assertions are stripped out at compile time. There's <ins>no check</ins>,
+just: "trust me, I know what I'm doing." This type-only assertion is
+essentially the same as Python's
+[`typing.cast`](https://docs.python.org/3/library/typing.html#typing.cast).
 
 Personally, I think `as` is misleading. It looks routine, even idiomatic, but
 it's doing something _extremely_ risky by bypassing the type system entirely.
-It's this combination of unassuming syntax and effectivness at eliminating <ins
-	class="decoration-wavy decoration-red-500">red squiggles</ins> that
-makes it so easy to misuse. I wish there were more ceremony around it —
-something like Rust's `unsafe`, or even a keyword like `unsafeAssume` to at
-least signal the risk more clearly.
+This combination of unassuming syntax with just how effectively it silences
+<ins class="decoration-wavy decoration-red-500">red squiggles</ins> is what
+makes it so dangerous. I wish there were more ceremony around it — something
+like Rust's `unsafe`, or even a keyword like `unsafeAssume` to at least signal
+the risk more clearly.
 
-If you're thinking of reaching for `as`, consider just _actually_ asserting
+If you're thinking of using a type assertion, consider _actually_ asserting
 instead:
 
 ```typescript
@@ -428,10 +418,10 @@ operator](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-
 
 The `!` tells TypeScript, once again, to "just trust me" and assume a value
 isn't `null` or `undefined`. Like `as`, it's stripped out at compile time, and
-there's <ins>no check</ins> to verify that assumption.
+there's <ins>no check</ins> to verify the assumption.
 
-If you're thinking of reaching for `!`, consider just _actually_ asserting
-it's not `null` or `undefined`:
+If you're thinking of reaching for `!`, consider _actually_ asserting it's not
+`null` or `undefined`:
 
 ```typescript
 function getUsers(): Array<User> { /* ... */ }
@@ -456,9 +446,9 @@ When prototyping or building out a new feature, I often use `assert` as a way
 to stay focused. Maybe you're only supporting one case out of several, or still
 wiring things together.
 
-Instead of bending the code to satisfy the type checker prematurely, an `assert`
-lets you mark what's currently supported — and fail loudly if something
-unexpected slips through.
+Instead of bending the code to satisfy the type checker too early, an `assert`
+marks what's currently supported and fails loudly if something unexpected slips
+through.
 
 ```ts
 type Shape =
@@ -479,13 +469,13 @@ once the structure is in place.
 
 ### It's "just JavaScript"
 
-This isn't really a scenario, but it's something that often goes
-underappreciated: `assert` is just a function. Because it's plain JavaScript,
-it works exactly the same in type-checked `.js` (i.e., TypeScript [via
+One of the more underappreciated aspects of `assert` is that it's just a
+function. Because it's plain JavaScript, it works the same in type-checked
+`.js` files (using TypeScript [via
 JSDoc](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html))
-as it does in `.ts`. 
+as it does in `.ts`.
 
-This is how I author many [anywidgets](https://anywidget.dev/en/community/): no
+That's how I author many [anywidgets](https://anywidget.dev/en/community/): no
 build step, but still strongly typed.
 
 ```javascript
@@ -505,15 +495,15 @@ assert(el, "no element found");
 el.innerHTML = "Hello, world!";
 ```
 
-Interestingly, this approach ends up being both safer _and_ more concise than the
-(unsafe) TypeScript alternatives. A JSDoc-style type assertion, for example,
-requires more ceremony and offers less safety:
+Interestingly, this approach ends up being both safer _and_ more concise than
+the TypeScript alternatives. A JSDoc-style type assertion, for example,
+requires much more ceremony compared to `as` and offers less safety:
 
 ```javascript
 let el = /** @type {HTMLElement} */ (document.querySelector("#root"));
 ```
 
-## Conclusion
+## What we assume
 
 Assertions aren't just runtime checks; they're a means to collaborate with the
 type checker and write more robust code. While type systems and assertions
