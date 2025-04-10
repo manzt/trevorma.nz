@@ -1,3 +1,5 @@
+import { dev } from "$app/environment";
+
 import * as utils from "$lib/utils.ts";
 import type { PageServerLoad } from "./$types.ts";
 
@@ -18,5 +20,6 @@ export const load: PageServerLoad = () => ({
 				.at(-1)
 				?.replace(/^\d{3}-|\.md$/g, "");
 			return { slug, frontmatter };
-		}),
+		})
+		.filter(({ frontmatter }) => dev || !frontmatter.draft),
 });

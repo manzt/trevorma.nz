@@ -1,4 +1,5 @@
 import * as path from "node:path";
+import * as app from "$app/environment";
 import * as utils from "$lib/utils.ts";
 import * as md from "@astrojs/markdown-remark";
 import * as kit from "@sveltejs/kit";
@@ -16,13 +17,16 @@ let processor = await md.createMarkdownProcessor({
 export let prerender = true;
 
 export function entries(): Array<RouteParams> {
-	return Object.keys(import.meta.glob("../../../../posts/*.md")).map(
-		(filepath) => {
+	return Object.entries(
+		import.meta.glob("../../../../posts/*.md", { as: "raw", eager: true }),
+	)
+		.map(([filepath, contents]) => {
 			let slug = path.basename(filepath).match(/^\d+-(.+)\.md$/)?.[1];
+			let { frontmatter } = utils.parseMarkdownPost(contents);
 			utils.assert(slug, "Invalid slug.");
-			return { slug };
-		},
-	);
+			return { slug, frontmatter };
+		})
+		.filter(({ frontmatter }) => app.dev || !frontmatter.draft);
 }
 
 export let load: PageServerLoad = async ({ params }) => {
