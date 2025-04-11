@@ -26,7 +26,7 @@
 		"svelte-check": "^4.1.5",
 		"tailwindcss": "^4.1.2",
 		"typescript": "^5.8.2",
-		"vite": "^6.2.5",
+		"vite": "^6.2.6",
 		"zod": "4.0.0-beta.20250411T005215"
 	},
 	"packageManager": "pnpm@10.8.0",
