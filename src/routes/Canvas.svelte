@@ -39,7 +39,7 @@ let tpixels: Array<{ x: number; y: number }> = $state(pixels);
 onMount(() => {
 	let loop = (now: number) => {
 		let globalDelayMs = 5000;
-		let pixelDelayMs = 700;
+		let pixelDelayMs = 300;
 		let fadeDurationMs = 700;
 
 		tpixels = pixels.map(({ x, y, timestamp }, i) => {
