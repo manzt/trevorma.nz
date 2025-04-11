@@ -38,36 +38,29 @@ function unselect() {
 
 let tpixels: Array<Point> = $state(pixels);
 
-function resolveAnimation(
-	fn: string | ((i: number, t: number) => Point),
-): (i: number, t: number) => Point {
+function resolveAnimation(): (i: number, t: number) => Point {
+	let fn = globalThis.api.fn;
 	if (fn === "sine") {
-		return (i, t) => {
-			let offset = Math.sin(i * 0.5 + t * 2) * 10;
-			return { x: 0, y: offset };
-		};
+		return (i, t) => ({ x: 0, y: Math.sin(i * 0.5 + t * 2) * 10 });
 	}
 	if (fn === "sawtooth") {
 		return (i, t) => {
 			let phase = i * 0.5 + t * 2;
-			let offset =
-				2 *
-				(phase / (2 * Math.PI) - Math.floor(0.5 + phase / (2 * Math.PI))) *
-				10;
-			return { x: 0, y: offset };
+			return {
+				x: 0,
+				y:
+					2 * (phase / (2 * Math.PI) - Math.floor(0.5 + phase / (2 * Math.PI))),
+			};
 		};
 	}
 	if (fn === "jitter") {
-		return (i, t) => {
-			let offset = Math.sin(t * 10 + i * 1337) * Math.sin(t * 3 + i * 733) * 10;
-			return { x: 0, y: offset };
-		};
+		return (i, t) => ({
+			x: 0,
+			y: Math.sin(t * 10 + i * 1337) * Math.sin(t * 3 + i * 733) * 10,
+		});
 	}
 	if (fn === "fastJitter") {
-		return (i, t) => {
-			let offset = Math.sin(t * 40 + i * 5) * 10;
-			return { x: 0, y: offset };
-		};
+		return (i, t) => ({ x: 0, y: Math.sin(t * 40 + i * 5) * 10 });
 	}
 	if (fn === "orbit") {
 		return (i, t) => ({
@@ -76,16 +69,30 @@ function resolveAnimation(
 		});
 	}
 	if (typeof fn === "string") {
-		// sine
-		return (i, t) => {
-			let offset = Math.sin(i * 0.5 + t * 2) * 10;
-			return { x: 0, y: offset };
-		};
+		console.error(`Unknown animation function: "${fn}"`);
+		globalThis.api.fn = "sine";
+		return () => ({ x: 0, y: 0 });
 	}
 	return fn;
 }
 
 onMount(() => {
+	console.log(
+		`%c
+╭─────────────────────────────────── hi! ────────────────────────────────────╮
+│                                                                            │
+│ You can control the pixel animation via:                                   │
+│                                                                            │
+│   api.delay = 0                                                            │
+│   api.fn = "jitter";                                                       │
+│   api.fn = (i, t) => ({ x: Math.sin(i * 0.5 + t * 2) * 10, y: 0 });        │
+│                                                                            │
+│ Built-in animations: "sine", "sawtooth", "jitter", "fastJitter", "orbit".  │
+╰────────────────────────────────────────────────────────────────────────────╯
+`,
+		"font-family: monospace;",
+	);
+
 	// @ts-expect-error
 	globalThis.api ??= {};
 	globalThis.api.fn = "sine";
@@ -108,7 +115,7 @@ onMount(() => {
 			let fade = Math.min(1, (now - animStart) / fadeDurationMs);
 			let t = (now - animStart) / 1000;
 
-			let fn = resolveAnimation(globalThis.api.fn);
+			let fn = resolveAnimation();
 			let { x, y } = fn(i, t);
 
 			return {
