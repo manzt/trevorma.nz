@@ -36,27 +36,47 @@ function unselect() {
 
 let tpixels: Array<{ x: number; y: number }> = $state(pixels);
 
+let methods = {
+	sine(i: number, t: number, phase: number) {
+		return Math.sin(phase);
+	},
+	sawtooth(i: number, t: number, phase: number) {
+		return (
+			2 * (phase / (2 * Math.PI) - Math.floor(0.5 + phase / (2 * Math.PI)))
+		);
+	},
+	jitter(i: number, t: number, phase: number) {
+		return Math.sin(t * 10 + i * 1337) * Math.sin(t * 3 + i * 733);
+	},
+	fastJitter(i: number, t: number, phase: number) {
+		return Math.sin(t * 40 + i * 5);
+	},
+} as const;
+
 onMount(() => {
+	let params = new URLSearchParams(location.search);
+	let delay = params.has("delay") ? Number(params.get("delay")) : 5000;
+	let waveFn =
+		methods[(params.get("wave") ?? "sine") as keyof typeof methods] ??
+		methods.sine;
+
 	let loop = (now: number) => {
-		let globalDelayMs = 5000;
-		let pixelDelayMs = 300;
+		let pixelDelayMs = 100;
 		let fadeDurationMs = 700;
 
 		tpixels = pixels.map(({ x, y, timestamp }, i) => {
 			let firstTimestamp = pixels[0].timestamp;
-			let globalStart = firstTimestamp + globalDelayMs;
+			let globalStart = firstTimestamp + delay;
 			let pixelStart = timestamp + pixelDelayMs;
 			let animStart = Math.max(globalStart, pixelStart);
 
-			if (now < animStart) {
-				return { x, y };
-			}
+			if (now < animStart) return { x, y };
 
 			let fade = Math.min(1, (now - animStart) / fadeDurationMs);
-			let timeSinceAnim = (now - animStart) / 1000;
+			let t = (now - animStart) / 1000;
+			let phase = i * 0.5 + t * 2;
 
-			let phase = i * 0.5 + timeSinceAnim * 2;
-			let offset = Math.sin(phase) * fade * 10;
+			let offset = waveFn(i, t, phase) * fade * 10;
 
 			return { x, y: y + offset };
 		});
