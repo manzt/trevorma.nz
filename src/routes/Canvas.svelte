@@ -55,7 +55,7 @@ let methods = {
 
 onMount(() => {
 	let params = new URLSearchParams(location.search);
-	let delay = params.has("delay") ? Number(params.get("delay")) : 5000;
+	let delay = params.has("wave") ? 0 : 5000;
 	let waveFn =
 		methods[(params.get("wave") ?? "sine") as keyof typeof methods] ??
 		methods.sine;
