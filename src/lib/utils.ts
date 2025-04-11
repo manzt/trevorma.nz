@@ -45,15 +45,7 @@ export function parseMarkdownPost(text: string) {
 	let raw = extractRawContents(text);
 	let result = FrontmatterSchema.safeParse(raw.frontmatter);
 	if (!result.success) {
-		kit.error(
-			404,
-			JSON.stringify(
-				result.error.flatten((issue) => `[${issue.code}] ${issue.message}`)
-					.fieldErrors,
-				null,
-				2,
-			),
-		);
+		throw z.prettifyError(result.error);
 	}
 	return {
 		frontmatter: result.data,

@@ -1,6 +1,8 @@
 <script lang="ts">
 import { onMount } from "svelte";
 
+type Point = { x: number; y: number };
+
 let canvas: HTMLCanvasElement;
 let {
 	class: klass,
@@ -10,7 +12,7 @@ let {
 }: {
 	class: string;
 	image?: HTMLImageElement;
-	pixels?: Array<{ x: number; y: number; timestamp: number }>;
+	pixels?: Array<Point & { timestamp: number }>;
 	yOffset?: number;
 } = $props();
 
@@ -34,56 +36,85 @@ function unselect() {
 	}
 }
 
-let tpixels: Array<{ x: number; y: number }> = $state(pixels);
+let tpixels: Array<Point> = $state(pixels);
 
-let methods = {
-	sine(i: number, t: number) {
-		return Math.sin(i * 0.5 + t * 2);
-	},
-	sawtooth(i: number, t: number) {
-		let phase = i * 0.5 + t * 2;
-		return (
-			2 * (phase / (2 * Math.PI) - Math.floor(0.5 + phase / (2 * Math.PI)))
-		);
-	},
-	jitter(i: number, t: number) {
-		return Math.sin(t * 10 + i * 1337) * Math.sin(t * 3 + i * 733);
-	},
-	fastJitter(i: number, t: number) {
-		return Math.sin(t * 40 + i * 5);
-	},
-} as const;
+function resolveAnimation(
+	fn: string | ((i: number, t: number) => Point),
+): (i: number, t: number) => Point {
+	if (fn === "sine") {
+		return (i, t) => {
+			let offset = Math.sin(i * 0.5 + t * 2) * 10;
+			return { x: 0, y: offset };
+		};
+	}
+	if (fn === "sawtooth") {
+		return (i, t) => {
+			let phase = i * 0.5 + t * 2;
+			let offset =
+				2 *
+				(phase / (2 * Math.PI) - Math.floor(0.5 + phase / (2 * Math.PI))) *
+				10;
+			return { x: 0, y: offset };
+		};
+	}
+	if (fn === "jitter") {
+		return (i, t) => {
+			let offset = Math.sin(t * 10 + i * 1337) * Math.sin(t * 3 + i * 733) * 10;
+			return { x: 0, y: offset };
+		};
+	}
+	if (fn === "fastJitter") {
+		return (i, t) => {
+			let offset = Math.sin(t * 40 + i * 5) * 10;
+			return { x: 0, y: offset };
+		};
+	}
+	if (fn === "orbit") {
+		return (i, t) => ({
+			x: Math.cos(t + i * 0.2) * 5,
+			y: Math.sin(t + i * 0.2) * 5,
+		});
+	}
+	if (typeof fn === "string") {
+		// sine
+		return (i, t) => {
+			let offset = Math.sin(i * 0.5 + t * 2) * 10;
+			return { x: 0, y: offset };
+		};
+	}
+	return fn;
+}
 
 onMount(() => {
 	// @ts-expect-error
 	globalThis.api ??= {};
-	globalThis.api.wave = "sine";
+	globalThis.api.fn = "sine";
 	globalThis.api.delay = 5000;
 
 	let loop = (now: number) => {
 		let pixelDelayMs = 100;
 		let fadeDurationMs = 700;
 
-		tpixels = pixels.map(({ x, y, timestamp }, i) => {
+		tpixels = pixels.map((pixel, i) => {
 			let firstTimestamp = pixels[0].timestamp;
 			let globalStart = firstTimestamp + globalThis.api.delay;
-			let pixelStart = timestamp + pixelDelayMs;
+			let pixelStart = pixel.timestamp + pixelDelayMs;
 			let animStart = Math.max(globalStart, pixelStart);
 
-			if (now < animStart) return { x, y };
+			if (now < animStart) {
+				return { x: pixel.x, y: pixel.y };
+			}
 
 			let fade = Math.min(1, (now - animStart) / fadeDurationMs);
 			let t = (now - animStart) / 1000;
 
-			let waveFn =
-				typeof globalThis.api.wave === "function"
-					? globalThis.api.wave
-					: (methods[globalThis.api.wave as keyof typeof methods] ??
-						methods.sine);
+			let fn = resolveAnimation(globalThis.api.fn);
+			let { x, y } = fn(i, t);
 
-			let offset = waveFn(i, t) * fade * 10;
-
-			return { x, y: y + offset };
+			return {
+				x: pixel.x + x * fade,
+				y: pixel.y + y * fade,
+			};
 		});
 
 		requestAnimationFrame(loop);
