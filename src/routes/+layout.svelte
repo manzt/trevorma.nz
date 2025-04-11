@@ -5,7 +5,7 @@ import Canvas from "./Canvas.svelte";
 let { children } = $props();
 
 let image: undefined | HTMLImageElement = $state(undefined);
-let pixels: Array<{ x: number; y: number }> = $state([]);
+let pixels: Array<{ x: number; y: number; timestamp: number }> = $state([]);
 </script>
 
 <img
