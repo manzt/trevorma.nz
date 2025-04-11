@@ -54,11 +54,10 @@ let methods = {
 } as const;
 
 onMount(() => {
-	let params = new URLSearchParams(location.search);
-	let delay = params.has("wave") ? 0 : 5000;
-	let waveFn =
-		methods[(params.get("wave") ?? "sine") as keyof typeof methods] ??
-		methods.sine;
+	// @ts-expect-error
+	globalThis.api ??= {};
+	globalThis.api.wave = "sine";
+	globalThis.api.delay = 5000;
 
 	let loop = (now: number) => {
 		let pixelDelayMs = 100;
@@ -66,7 +65,7 @@ onMount(() => {
 
 		tpixels = pixels.map(({ x, y, timestamp }, i) => {
 			let firstTimestamp = pixels[0].timestamp;
-			let globalStart = firstTimestamp + delay;
+			let globalStart = firstTimestamp + globalThis.api.delay;
 			let pixelStart = timestamp + pixelDelayMs;
 			let animStart = Math.max(globalStart, pixelStart);
 
@@ -75,6 +74,12 @@ onMount(() => {
 			let fade = Math.min(1, (now - animStart) / fadeDurationMs);
 			let t = (now - animStart) / 1000;
 			let phase = i * 0.5 + t * 2;
+
+			let waveFn =
+				typeof globalThis.api.wave === "function"
+					? globalThis.api.wave
+					: (methods[globalThis.api.wave as keyof typeof methods] ??
+						methods.sine);
 
 			let offset = waveFn(i, t, phase) * fade * 10;
 
