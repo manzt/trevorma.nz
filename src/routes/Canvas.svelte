@@ -37,18 +37,19 @@ function unselect() {
 let tpixels: Array<{ x: number; y: number }> = $state(pixels);
 
 let methods = {
-	sine(i: number, t: number, phase: number) {
-		return Math.sin(phase);
+	sine(i: number, t: number) {
+		return Math.sin(i * 0.5 + t * 2);
 	},
-	sawtooth(i: number, t: number, phase: number) {
+	sawtooth(i: number, t: number) {
+		let phase = i * 0.5 + t * 2;
 		return (
 			2 * (phase / (2 * Math.PI) - Math.floor(0.5 + phase / (2 * Math.PI)))
 		);
 	},
-	jitter(i: number, t: number, phase: number) {
+	jitter(i: number, t: number) {
 		return Math.sin(t * 10 + i * 1337) * Math.sin(t * 3 + i * 733);
 	},
-	fastJitter(i: number, t: number, phase: number) {
+	fastJitter(i: number, t: number) {
 		return Math.sin(t * 40 + i * 5);
 	},
 } as const;
@@ -73,7 +74,6 @@ onMount(() => {
 
 			let fade = Math.min(1, (now - animStart) / fadeDurationMs);
 			let t = (now - animStart) / 1000;
-			let phase = i * 0.5 + t * 2;
 
 			let waveFn =
 				typeof globalThis.api.wave === "function"
@@ -81,7 +81,7 @@ onMount(() => {
 					: (methods[globalThis.api.wave as keyof typeof methods] ??
 						methods.sine);
 
-			let offset = waveFn(i, t, phase) * fade * 10;
+			let offset = waveFn(i, t) * fade * 10;
 
 			return { x, y: y + offset };
 		});

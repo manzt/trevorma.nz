@@ -3,7 +3,7 @@
 declare global {
 	namespace globalThis {
 		var api: {
-			wave: ((i: number, t: number, phase: number) => number) | string;
+			wave: ((i: number, t: number) => number) | string;
 			delay: number;
 		};
 	}
