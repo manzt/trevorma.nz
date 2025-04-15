@@ -18,7 +18,7 @@
 		"@fontsource/comic-neue": "^5.2.5",
 		"@std/yaml": "npm:@jsr/std__yaml@^1.0.5",
 		"@sveltejs/adapter-static": "^3.0.8",
-		"@sveltejs/kit": "^2.20.4",
+		"@sveltejs/kit": "^2.20.6",
 		"@sveltejs/vite-plugin-svelte": "^5.0.3",
 		"@tailwindcss/vite": "^4.1.2",
 		"@types/node": "^22.14.0",
