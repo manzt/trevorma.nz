@@ -1,135 +1,122 @@
 ---
-title: "Catch and carry"
+title: "Catch TypeScript Errors (Carefully)"
 excerpt: "A small utility for writing more type-safe try/catch blocks in TypeScript."
-description: "Exception-based languages like Python and TypeScript hide errors from the type system. This post shares a utility (inspired by Python) for narrowing error types in try/catch blocks, rather than giving up on type safety."
+description: "Exception-based languages like Python and TypeScript hide errors from the type system. This post shares a small utility (inspired by Python) for narrowing error types in try/catch blocks, rather than giving up on type safety."
 date: 2025-04-20
 ---
 
-In the last post, I wrote about how assertions can help you work with the type
-checker to write more robust code. This one shares a small utility I use —
-inspired by Python — for writing safer `try/catch` blocks in TypeScript.
-
-Errors happen. In many languages, they’re returned as values and made visible
-to the type system. In others, like Python and JavaScript, they’re raised as
-exceptions — and invisible to the type system by default.
-
-This isn’t about choosing one model over another. It's about what to do when
-exceptions are part of the language and you still want type safety.
-
-There’s no built-in way in Python or TypeScript to know what a function might
-throw. You can document it, follow conventions, or just guess. But once you’re
-inside a `try/catch`, you _can_ use the type system to check what you've
-caught.
-
-TypeScript forces you to type the error as `unknown` — a good default, given
-that JavaScript allows anything to be thrown:
+**TL;DR** — `rethrowUnless` is a little utility I copy into various TypeScript
+projects. It provides a declarative Python-like `except` mechanism for catching
+errors explicitly.
 
 ```ts
 try {
-	await someFunction();
+	await createUser(userData);
 } catch (error: unknown) {
-	console.error((error as Error).message); // unsafe
+	rethrowUnless(error, ValidationError, PermissionError);
+	error; // ValidationError | PermissionError
 }
 ```
 
-This cast silences the type checker without proving anything. There’s no
-guarantee error is an Error, or that it has a message at all.
+-------------------
 
-In Python, there's a small but important difference: all exceptions must
-inherit from `BaseException`. That means the language can support more precise
-error handling.
+Errors are a fact of programming. Some languages with strong type systems
+(e.g., Rust, Go, Haskell) treat errors as values, making failure modes explicit
+and part of the normal flow of the program. I really appreciate how this style
+of error handling forces me to think about what _could_ go wrong—and when it's
+available, I prefer it.
 
-You can catch specific exceptions and get narrowing for free:
+That said, much of the code I write day-to-day is in Python and JavaScript
+(TypeScript), where errors are exception-based. Exceptions bubble up through
+the call stack, and without help from the type system, it's easy to overlook
+possible failures. These languages require a bit more care to reason about what
+could go wrong.
 
-```py
-try:
-	func()
-except ValueError as err:
-	handle_value_error(err)
-```
-
-You can also stack multiple blocks:
-
-```py
-try:
-	func()
-except ValueError as err:
-	handle_value_error(err)
-except AssertionError as err:
-	handle_assertion_error(err)
-```
-
-or group them:
+Within exception-based languages, some offer better typesaftey and structure
+around errors than others. Sepcifically, in Python, for example, all errors
+must derive from
+[`BaseException`](https://docs.python.org/3/library/exceptions.html). This
+contraint might seem simple, but it affords the ability for capturing errors in
+a wayrich syntax with try/except to capture specific errors:
 
 ```py
 try:
-	func()
-except (ValueError, AssertionError) as err:
-	handle_expected_errors(err)
+    await create_user(user_input)
+except ValidationError as e:
+    print(f"Invalid input: {e}")
+except PermissionError as e:
+    print(f"Permission denied: {e}")
+except (TimeoutError, ConnectionError) as e:
+    print(f"Network issue: {e}")
 ```
 
-This isn’t tracked in the function signature either, but it lets you be
-explicit about what you’re handling — and within the block, `err` is narrowed
-to those types.
+Catching all exceptions is also possible:
 
-Inspired by that, I use a utility in TypeScript to do something similar:
+```py
+try:
+    await create_user(user_input)
+except Exception as e:
+	print(f"Something went wrong: {e}")
+```
+
+but it's [generally
+discouraged](https://docs.astral.sh/ruff/rules/bare-except/). Catching specific
+errors makes it clear what failures the code is prepared to handle, rather than
+unintentionally suppressing unexpected issues.
+
+JavaScript, by contrast, allows <ins>_any_</ins> value to be thrown — not just
+`Error` objects:
 
 ```ts
-function rethrowUnless<E extends ReadonlyArray<ErrorConstructor>>(
-	error: unknown,
-	...errors: E
-): asserts error is InstanceType<E[number]> {
-	if (!errors.some((ErrorClass) => error instanceof ErrorClass)) {
-		throw error;
+throw new Error("oops");
+throw "boom";
+throw 42;
+```
+
+Why is this a problem? In JavaScript, `try/catch` cannot express which errors
+it intends to handle. It can only catch _everything_. The syntax itself is less
+expressive compared Python, where an `except` blocks make it clear which
+failures are expected, automatically bubbling up anything else.
+
+```ts
+try {
+	await createUser(userInput);
+} catch (error: unknown) {
+    // handle unknown
+}
+```
+
+Thus, TypeScript types errors as `unknown` — a type that correctly captures the
+"unknown" nature of _what_ was thrown. Unlike `any`, in order to use an
+`unknown` value, you convincing type system of ceratin properiesbefore suing
+specifd ways.
+
+however, in practice, I've found that while typing errors as `unknown` is correct, it
+often leads TypeScript developers to give up on type safety inside `catch`
+blocks. Many either reach for unsafe casts to satisfy the type checker or rely
+on unchecked assumptions about what was thrown:
+
+```ts
+try {
+	await createUser(userInput);
+} catch (error: unknown) {
+	console.log((error as Error).message);
+}
+```
+
+Handling errors properly requires more ceremony — explicitly checking known
+cases and remembering to rethrow anything unfamiliar:
+
+```ts
+try {
+	await createUser(userInput);
+} catch (error: unknown) {
+	if (error instanceof ValidationError) {
+		console.log(`Invalid field: ${error.field}`)
+	} else if (error instanceof PermissionError) {
+		console.log(`Invalid permissions for user: ${error.userId}`)
 	}
+	// Bubble up anything else
+	throw error
 }
 ```
-
-It checks the runtime type and rethrows anything unexpected. What’s left is narrowed:
-
-
-```ts
-try {
-	await someFunction();
-} catch (error: unknown) {
-	rethrowUnless(error, Error);
-	console.error(error.message); // safe
-}
-```
-
-or more specific:
-
-```ts
-class DatabaseError extends Error {}
-class NetworkError extends Error {}
-
-try {
-	await db.query();
-} catch (error: unknown) {
-	rethrowUnless(error, DatabaseError, NetworkError);
-	// error: DatabaseError | NetworkError
-}
-```
-
-You can even chain handlers to mimic Python’s multiple `except` blocks:
-
-```ts
-await db.query()
-	.catch((error) => {
-		rethrowUnless(error, DatabaseError);
-		handleDatabaseError(error);
-	})
-	.catch((error) => {
-		rethrowUnless(error, NetworkError);
-		handleNetworkError(error);
-	})
-	.catch((error) => {
-		rethrowUnless(error, Error);
-		console.error("Unknown error:", error);
-	});
-```
-
-There are libraries that fully model errors as values in TypeScript and Python
-— and you should check them out. But this post isn’t about rewriting how errors
-work. It’s just one way to keep working with the type checker, even when using
-exceptions.
