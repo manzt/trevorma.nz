@@ -86,21 +86,23 @@ try {
 }
 ```
 
-Thus, TypeScript types errors as `unknown` — a type that correctly captures the
-"unknown" nature of _what_ was thrown. Unlike `any`, in order to use an
-`unknown` value, you convincing type system of ceratin properiesbefore suing
-specifd ways.
+Thus, TypeScript types caught errors as
+[`unknown`](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-0.html#new-unknown-top-type)
+— a type that correctly reflects the uncertainty of what was thrown. Unlike
+[`any`](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#any),
+an `unknown` value cannot be used until the type system is convinced of certain
+properties.
 
-however, in practice, I've found that while typing errors as `unknown` is correct, it
-often leads TypeScript developers to give up on type safety inside `catch`
-blocks. Many either reach for unsafe casts to satisfy the type checker or rely
-on unchecked assumptions about what was thrown:
+However, in practice, I've found that while typing errors as `unknown` is
+correct, it often leads TypeScript developers to give up on type safety inside
+catch blocks. Many either reach for unsafe casts to satisfy the type checker or
+operate on unchecked assumptions about what was thrown:
 
 ```ts
 try {
 	await createUser(userInput);
 } catch (error: unknown) {
-	console.log((error as Error).message);
+	console.log((error as Error).message); // not safe!!
 }
 ```
 
