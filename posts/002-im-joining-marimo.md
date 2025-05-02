@@ -7,9 +7,16 @@ excerpt: "Building tools for interactive computing and helping shape the future 
 
 Today was my last day at Harvard Medical School. I've signed an offer with <a
 	href="https://marimo.io" class="decoration-wavy
-	decoration-emerald-800">marimo</a>, where I'll be focusing on ecosystem
-compatibility, reactivity, and, of course,
-[anywidget](https://github.com/manzt/anywidget). I'll be starting next month.
+	decoration-emerald-800">marimo</a> to help build the best place to work
+with data in Python — and to keep growing the ecosystems I care most about.
+I'll be focusing on ecosystem compatibility, reactivity, and, of course,
+[anywidget](https://github.com/manzt/anywidget).
+
+This post shares a bit of context on why I’m making this move and where I hope
+to go next.
+
+
+------------
 
 The change is bittersweet, but for those who have followed my work, it likely
 won't be a surprise. I've spent the past few years in the [HIDIVE
@@ -32,7 +39,7 @@ market also isn't especially promising, but more I'm ready for an environment
 where I can push these ideas further — bringing my perspective and advocating
 for the needs of a community I've learned so much from.
 
-## Why marimo?
+## Why marimo
 
 I first connected with the marimo team in early 2024, when they standardized on
 [anywidget](https://github.com/manzt/anywidget) as their third-party plugin
@@ -44,14 +51,15 @@ cross-platform possibilities, but they were mostly unproven. marimo was the
 first to validate the idea, and their early adoption pushed us to formalize [a
 specification](https://anywidget.dev/en/afm/). When people ask how to support
 anywidget today, I often point them to marimo's source code as an example of a
-"native" _host platform_.
+"native" [host platform](https://anywidget.dev/en/afm/#host-platform).
 
 It's hard to estimate the impact, but marimo's early adoption was real
-validation for the ecosystem. Without at least one non-Jupyter host platform, I
-doubt others would have had the same confidence to support the specification.
-The growth of the ecosystem has helped crystallize what it means to be a
-"widget": developers now have a clearer target for building tools, and users
-can `pip install` (or `uv add`) with confidence.
+validation. Without at least one non-Jupyter host platform, I doubt
+[others](https://anywidget.dev/en/community/#integrations) would have had the
+same confidence to support the specification. The growth of the ecosystem has
+helped crystallize what it means to be a "widget": developers now have a
+clearer target for building tools, and users can `pip install` (or `uv add`)
+with confidence.
 
 For the visualization research community, I think this growth offers something
 valuable: a concrete model for packaging shared, reusable interactive
@@ -139,7 +147,7 @@ the broader Jupyter ecosystem. Strengthening marimo's compatibility with
 existing tools is important to me, especially finding ways to meet users where
 they already work, like better integrations with IDEs/editors.
 
-## A healthy open ecosystem
+## Building for the community
 
 Open-source work remains incredibly important to me, and continuing to improve
 the notebook ecosystem _as a whole_ is still a core value of mine. One of my
