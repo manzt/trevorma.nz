@@ -8,8 +8,8 @@ excerpt: "Building better notebooks and workflows in Python."
 Today was my last day at Harvard Medical School. I've signed an offer with <a
 	href="https://marimo.io" class="decoration-wavy
 	decoration-emerald-800">marimo</a> to help **build the best place to work
-with data in Python** — and to keep growing the ecosystems I care most about.
-I'll be focusing on ecosystem compatibility, reactivity, and, of course,
+with data in Python** — and to continue growing the open communities I care most
+about. I'll be focusing on ecosystem compatibility, reactivity, and, of course,
 some [anywidget](https://github.com/manzt/anywidget).
 
 This post shares a bit of context on why I’m making this move and where I hope
