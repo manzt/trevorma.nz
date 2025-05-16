@@ -1,5 +1,5 @@
 ---
-title: "Catch TypeScript Errors, Carefully"
+title: "Catch errors, carefully"
 excerpt: "A utility for more precise try/catch blocks in TypeScript."
 description: "A utility to improve structure and type safety in your try/catch blocks, inspired by Python's except."
 date: 2025-05-15
