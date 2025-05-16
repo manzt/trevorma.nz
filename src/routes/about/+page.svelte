@@ -51,9 +51,9 @@
 	</p>
 
 	<p>
-		i'm currently a postdoc in the
-		<a class="underline" target="_blank" href="https://hidivelab.org"
-			>hidive lab</a
+		i'm currently an engineer at
+		<a class="underline" target="_blank" href="https://marimo.io"
+			>marimo</a
 		>. in a past life, i
 		<a
 			class="underline"

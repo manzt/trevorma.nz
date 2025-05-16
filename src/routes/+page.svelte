@@ -13,11 +13,10 @@
 		>.
 	</p>
 
+
 	<p>
-		i recently completed my phd <a
-			target="_blank"
-			href="https://hidivelab.org">at harvard</a
-		>, where i'm now a postdoc.
+	  i completed my phd <a target="_blank" href="https://hidivelab.org">at harvard</a>,
+	  and now i'm helping build <a target="_blank" href="https://marimo.io">marimo</a>.
 	</p>
 
 	<p>
