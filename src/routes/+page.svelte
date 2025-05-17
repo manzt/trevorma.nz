@@ -15,8 +15,9 @@
 
 
 	<p>
-	  i completed my phd <a target="_blank" href="https://hidivelab.org">at harvard</a>,
-	  and now i'm helping build <a target="_blank" href="https://marimo.io">marimo</a>.
+	  i did my phd at harvard in the <a target="_blank"
+	  href="https://hidivelab.org">hidive lab</a>; now i'm helping build <a
+	  target="_blank" href="https://marimo.io">marimo</a>.
 	</p>
 
 	<p>
