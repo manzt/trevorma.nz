@@ -1,9 +1,6 @@
 <svelte:head>
 	<title>trevor manz</title>
-	<meta
-		name="description"
-		content="Trevor Manz is a postdoctoral fellow at Harvard Medical School and creator of anywidget."
-	/>
+	<meta name="description" content="Trevor Manz is a scientist/programmer building open-source tools for working with data." />
 </svelte:head>
 
 <section class="prose prose-blog text-lg">
