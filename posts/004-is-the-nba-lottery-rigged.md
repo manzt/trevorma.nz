@@ -78,15 +78,10 @@ dataset](https://github.com/manzt/nba-lottery-odds/blob/main/data.csv).
 
 I ran [1,000
 simulations](https://github.com/manzt/nba-lottery-odds/blob/main/sim.ipynb) of
-the full lottery history, drawing winners each year using the published odds.
-For each simulated sequence, we again compute the log-likelihood, producing a
-distribution of possible values under the lottery model.
-
-To locate the actual result within that distribution, I used an [ECDF
-(empirical cumulative distribution
-function)](https://en.wikipedia.org/wiki/Empirical_distribution_function). It
-avoids binning, exposes the full shape of the distribution, and makes it easy
-to read off percentiles. Highly underrated.
+the draft lottery, computing the log-likelihood each time. That gives a
+_distribution_ of possible values under the lottery model — plotted with my
+favorite (and criminally underrated alternative to a histogram): the
+[eCDF](https://en.wikipedia.org/wiki/Empirical_distribution_function).
 
 ![ECDF plot showing the distribution of simulated log-likelihoods from 10,000
 runs of the NBA lottery model. A vertical red line marks the log-likelihood of
@@ -104,11 +99,14 @@ made a fun story.
 ## Note
 
 The code to reproduce this analysis is available in a [marimo
-notebook](https://github.com/manzt/nba-lottery-odds/) — the project I now work
-on.
+notebook](https://github.com/manzt/nba-lottery-odds/).
 
 If you're curious, the statistical approach used in this post is largely based
 on the idea that [there's only one
 test](https://allendowney.blogspot.com/2016/06/there-is-still-only-one-test.html),
 as explained by Allen Downey: define a test statistic, simulate under a null
 model, and see where the real outcome lands.
+
+**Update (2025-05-26)**: Sent this to my friend. His reply - "Try crunching the numbers
+again."
+
