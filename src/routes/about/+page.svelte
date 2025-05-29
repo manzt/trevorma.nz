@@ -51,7 +51,7 @@
 	</p>
 
 	<p>
-		i'm currently an engineer at
+		i'm currently helping build
 		<a class="underline" target="_blank" href="https://marimo.io"
 			>marimo</a
 		>. in a past life, i
