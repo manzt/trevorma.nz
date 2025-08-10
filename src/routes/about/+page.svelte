@@ -28,8 +28,7 @@
 			href="https://en.wikipedia.org/wiki/End-user_development"
 			>accessible and empowering</a
 		>. my work focuses on software systems that help people check
-		assumptions, build intuition, and make decisions
-		<i class="text-(color:--prose-link-color)">with data</i>.
+		assumptions, build intuition, and make decisions.
 	</p>
 
 	<p>
@@ -51,7 +50,7 @@
 	</p>
 
 	<p>
-		i'm currently helping build
+		i'm currently building
 		<a class="underline" target="_blank" href="https://marimo.io"
 			>marimo</a
 		>. in a past life, i
