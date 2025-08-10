@@ -13,7 +13,7 @@
 
 	<p>
 	  i did my phd at harvard in the <a target="_blank"
-	  href="https://hidivelab.org">hidive lab</a>; now i'm helping build <a
+	  href="https://hidivelab.org">hidive lab</a>; now i'm building <a
 	  target="_blank" href="https://marimo.io">marimo</a>.
 	</p>
 
