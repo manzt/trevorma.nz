@@ -19,16 +19,13 @@
 	</p>
 
 	<p>
-		i aim to make programming <i class="text-(color:--prose-link-color)"
-			>with data</i
-		>
-		more
+		i aim to make programming with data more
 		<a
 			target="_blank"
 			href="https://en.wikipedia.org/wiki/End-user_development"
-			>accessible and empowering</a
-		>. my work focuses on software systems that help people check
-		assumptions, build intuition, and make decisions.
+			>accessible and insightful</a
+		>. my work explores how software can help people check
+		assumptions, build intuition, and make more grounded decisions.
 	</p>
 
 	<p>
@@ -39,14 +36,14 @@
 		and maintain and contribute to several
 		<a class="underline" target="_blank" href="https://github.com/manzt"
 			>open-source projects</a
-		>. i’ve also
+		>. i've also
 		<a
 			class="underline"
 			target="_blank"
 			href="https://scholar.google.com/citations?user=Lo7nJd0AAAAJ&hl=en"
 			>published research</a
 		>
-		in visualization and machine learning with a focus on biological applications.
+		in visualization and ai with a focus on biological applications.
 	</p>
 
 	<p>

@@ -5,9 +5,7 @@
 
 <section class="prose prose-blog text-lg">
 	<p>
-		i make tools to help humans answer questions <i
-			class="text-(color:--prose-link-color)">with data</i
-		>.
+		i make tools to help humans answer questions with data.
 	</p>
 
 
