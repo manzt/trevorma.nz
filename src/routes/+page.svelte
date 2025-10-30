@@ -5,7 +5,7 @@
 
 <section class="prose prose-blog text-lg">
 	<p>
-		i make tools to help humans answer questions with data.
+		i make tools that help humans answer questions with data.
 	</p>
 
 
