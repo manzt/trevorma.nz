@@ -1,11 +1,10 @@
 <script lang="ts">
-import Header from "./Header.svelte";
 import "../app.css";
-import Canvas from "./Canvas.svelte";
+
 let { children } = $props();
 
-let image: undefined | HTMLImageElement = $state(undefined);
-let pixels: Array<{ x: number; y: number; timestamp: number }> = $state([]);
+let _image: undefined | HTMLImageElement = $state(undefined);
+let _pixels: Array<{ x: number; y: number; timestamp: number }> = $state([]);
 </script>
 
 <img

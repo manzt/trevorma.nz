@@ -1,13 +1,12 @@
 <script lang="ts">
 import { page } from "$app/state";
-import Typewriter from "./Typewriter.svelte";
 
-let props: { class: string } = $props();
-function ariaContent(route: string) {
+let _props: { class: string } = $props();
+function _ariaContent(route: string) {
 	return page.url.pathname === route ? "page" : undefined;
 }
 
-function command() {
+function _command() {
 	if (page.url.pathname === "/") {
 		return "./whoami";
 	}

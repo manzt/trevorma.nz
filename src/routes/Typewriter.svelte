@@ -3,7 +3,7 @@ import { assert } from "$lib/utils.js";
 
 let { text } = $props();
 
-function typewriter(node: Node, { speed }: { speed: number }) {
+function _typewriter(node: Node, { speed }: { speed: number }) {
 	let valid =
 		node.childNodes.length === 1 &&
 		node.childNodes[0].nodeType === Node.TEXT_NODE;
@@ -21,12 +21,12 @@ function typewriter(node: Node, { speed }: { speed: number }) {
 	};
 }
 
-let visible = $state(false);
+let _visible = $state(false);
 $effect.pre(() => {
 	text; // triggers effect any time it changes
-	visible = false;
+	_visible = false;
 	setTimeout(() => {
-		visible = true;
+		_visible = true;
 	}, 0);
 });
 </script>

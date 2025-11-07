@@ -1,5 +1,4 @@
 <script lang="ts">
-import * as utils from "$lib/utils.ts";
 import type { PageData } from "./$types.ts";
 
 let { data }: { data: PageData } = $props();

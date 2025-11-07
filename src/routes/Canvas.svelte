@@ -19,7 +19,7 @@ let {
 let width = $state(0);
 let height = $state(0);
 
-function position(e: MouseEvent) {
+function _position(e: MouseEvent) {
 	let rect = canvas.getBoundingClientRect();
 	return {
 		x: e.clientX - rect.left,
@@ -29,7 +29,7 @@ function position(e: MouseEvent) {
 }
 
 // unselect any text if we are drawing
-function unselect() {
+function _unselect() {
 	let selection = globalThis.getSelection();
 	if (selection && !selection.isCollapsed) {
 		selection.removeAllRanges();
