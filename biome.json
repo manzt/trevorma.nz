@@ -1,10 +1,19 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.7.3/schema.json",
-	"organizeImports": {
-		"enabled": true
+	"$schema": "https://biomejs.dev/schemas/2.4.2/schema.json",
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
 	},
 	"formatter": {
 		"formatWithErrors": true
+	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
+		}
 	},
 	"linter": {
 		"enabled": true,
@@ -20,8 +29,27 @@
 		}
 	},
 	"files": {
-		"ignore": ["fixtures", ".changeset", "package.json", "jsr.json"]
+		"includes": [
+			"**",
+			"!**/fixtures",
+			"!**/.changeset",
+			"!**/package.json",
+			"!**/jsr.json"
+		]
 	},
+	"overrides": [
+		{
+			"includes": ["**/*.svelte"],
+			"linter": {
+				"rules": {
+					"correctness": {
+						"noUnusedImports": "off",
+						"noUnusedVariables": "off"
+					}
+				}
+			}
+		}
+	],
 	"vcs": {
 		"enabled": true,
 		"clientKind": "git",

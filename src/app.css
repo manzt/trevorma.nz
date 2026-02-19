@@ -88,16 +88,26 @@
 @media (prefers-color-scheme: dark) {
 	.astro-code,
 	.astro-code span {
+		/* biome-ignore lint/complexity/noImportantStyles: Needed for override */
 		color: var(--shiki-dark) !important;
+		/* biome-ignore lint/complexity/noImportantStyles: Needed for override */
 		background-color: var(--shiki-dark-bg) !important;
 		/* Optional, if you also want font styles */
+		/* biome-ignore lint/complexity/noImportantStyles: Needed for override */
 		font-style: var(--shiki-dark-font-style) !important;
+		/* biome-ignore lint/complexity/noImportantStyles: Needed for override */
 		font-weight: var(--shiki-dark-font-weight) !important;
+		/* biome-ignore lint/complexity/noImportantStyles: Needed for override */
 		text-decoration: var(--shiki-dark-text-decoration) !important;
 	}
 	.line {
 		&::before {
-			color: color-mix(in oklab, var(--color-white) 40%, transparent) !important;
+			color: color-mix(
+				in oklab,
+				var(--color-white) 40%,
+				transparent
+				/* biome-ignore lint/complexity/noImportantStyles: Needed for override */
+			) !important;
 		}
 	}
 }

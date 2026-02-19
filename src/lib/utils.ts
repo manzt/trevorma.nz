@@ -1,5 +1,4 @@
 import * as yaml from "@std/yaml";
-import * as kit from "@sveltejs/kit";
 import * as z from "zod";
 
 /**
