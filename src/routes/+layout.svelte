@@ -2,6 +2,7 @@
 import Header from "./Header.svelte";
 import "../app.css";
 import Canvas from "./Canvas.svelte";
+
 let { children } = $props();
 
 let image: undefined | HTMLImageElement = $state(undefined);

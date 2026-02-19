@@ -51,7 +51,11 @@
 			--prose-link-underline-color: var(--color-orange-400);
 			--prose-th-borders: var(--color-gray-600);
 			--prose-td-borders: var(--color-gray-700);
-			--prose-hr-color: color-mix(in oklab, var(--color-white) 10%, transparent);
+			--prose-hr-color: color-mix(
+				in oklab,
+				var(--color-white) 10%,
+				transparent
+			);
 			--prose-blockquote-border-color: var(--color-gray-600);
 		}
 	}
