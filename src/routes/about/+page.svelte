@@ -7,7 +7,7 @@
 	<p>
 		i'm a <a
 			target="_blank"
-			href="https://scholar.google.com/citations?hl=en&user=Lo7nJd0AAAAJ"
+			href="https://scholar.google.com/citations?user=cIsNEocAAAAJ"
 			>scientist</a
 		>/<wbr /><a target="_blank" href="https://github.com/manzt"
 			>programmer</a
@@ -40,7 +40,7 @@
 		<a
 			class="underline"
 			target="_blank"
-			href="https://scholar.google.com/citations?user=Lo7nJd0AAAAJ&hl=en"
+			href="https://scholar.google.com/citations?user=cIsNEocAAAAJ"
 			>published research</a
 		>
 		in visualization and ai with a focus on biological applications.
