@@ -25,7 +25,7 @@ and interactive data visualization — making access to data, and programming
 with data, more accessible and empowering. I'm proud of what <a
 	href="https://hidivelab.org/publications/">we built</a> and grateful for
 the <a
-	href="https://scholar.google.com/citations?user=Lo7nJd0AAAAJ&hl=en">collaborations</a>
+	href="https://scholar.google.com/citations?user=cIsNEocAAAAJ">collaborations</a>
 and the freedom the lab gave me to grow as a scientist and engineer. (I didn't
 know what Python <ins>_was_</ins> when I joined.)
 
