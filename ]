@@ -5,9 +5,10 @@ description: "How inline type snapshots unblocked a library that sat half-baked 
 date: 2026-03-25
 ---
 
-**TL;DR** I made [quiver](https://github.com/manzt/quiver), a small schema
-library for [Apache Arrow](https://arrow.apache.org/). Define table schemas in
-TypeScript, parse IPC against them, and get back fully typed tables.
+**TL;DR** [quiver](https://github.com/manzt/quiver) is a schema library for
+[Apache Arrow](https://arrow.apache.org/) in TypeScript. This post is about why
+I built it, why it sat half-finished for over a year, and the testing approach
+that finally made it possible to complete.
 
 ## Parse, don't validate
 
@@ -37,11 +38,14 @@ const user = JSON.parse(raw) as User;
 ```
 
 A type assertion tells the type checker "I know something you don't" — in this
-case, that `user` is a `User`. But we haven't actually proven anything. As I've
-[written about previously](/blog/be-assertive), `as` bypasses the type system
-entirely. No check runs, and TypeScript will happily believe us. This is how
-unverified data enters the system, and once it does, the guarantees we get from
-static typing are gone.
+case, that `user` is a `User`. To be clear: nothing in that snippet has proven
+anything about `user` beyond that `raw` is valid JSON. There is no check that
+the parsed value has an `id` field, or a `name` field, or that either is a
+string. As I've [written about previously](/blog/be-assertive), `as` bypasses
+the type system entirely — TypeScript will happily believe us, and from this
+point on treat `user` as a `User` with full confidence. This is how unverified
+data enters the system, and once it does, the guarantees we get from static
+typing are gone.
 
 One option is to write a type guard that _narrows_ the type:
 
