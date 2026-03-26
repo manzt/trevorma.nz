@@ -5,63 +5,128 @@ description: "How inline type snapshots unblocked a library that sat half-baked 
 date: 2026-03-25
 ---
 
-**TL;DR** I made [quiver](https://github.com/manzt/quiver). It's like
-[zod](https://zod.dev) for [Apache Arrow](https://arrow.apache.org/).
+**TL;DR** I made [quiver](https://github.com/manzt/quiver), a small schema
+library for [Apache Arrow](https://arrow.apache.org/). Define table schemas in
+TypeScript, parse IPC against them, and get back fully typed tables.
 
 ## Parse, don't validate
 
-"Parse, don't validate" is the idea that instead of checking whether data
-matches a shape after the fact, you push validation to the boundary and work
-with typed, known-good data from that point on.
+"[Parse, don't
+validate](https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/)"
+is the idea that instead of checking whether data matches a shape and
+discarding the result, you _parse_ it into a richer type that carries the proof
+forward. This approach has become extremely popular in the JavaScript ecosystem
+over the last few years for JSON data.
 
-In JavaScript, this used to be common:
-
-```ts
-const data: User = JSON.parse(raw); // unsafe!
-```
-
-Libraries like zod changed the equation. You define a _schema_, parse through
-it, and on the other side you have validated data with a precise TypeScript
-type, derived from the schema, not hand-written:
+Consider the following code:
 
 ```ts
-const User = z.object({ name: z.string(), age: z.number() });
-const data = User.parse(JSON.parse(raw));
-//    ^? { name: string; age: number }
+type User = { id: string; name: string };
+
+const user = JSON.parse(raw);
 ```
+
+What is the type of `user`? It's `any` (should be `unknown` but I'll leave that
+for another day). In other words, TypeScript has no idea what's inside that
+string. In such cases i see a lot of code in the wild (especially from AI) that
+are willing to slap on a type assertion to make the squiggly lines go away:
+
+```ts
+const user = JSON.parse(raw) as User;
+```
+
+This type assertion tells the type checker "i know something you don't" and
+sspeicially in this case that **i know** user is a `User`. However, note that
+we haven't actually proven anything about `user`. As I've [written about
+previously](/blog/be-assertive), there is _nothing_ safe about this since We
+haven't proven that `user` (beyon that its) and TypeScript will happily believe
+us. These kind of ruin all the benefits of having a type system. It is in these
+instances where unknown data like and let unkown data into the system... And
+than all gaurdntees to have from static typing (or understanindg of the code
+are thrown out).
+
+One option is to write a custom type gaurd, that can be used to _narrow_ the
+type.
+
+```ts
+function isUser(x: unknown): x is User {
+  return (
+    typeof x === "object" && x !== null &&
+    "id" in x && typeof x.id === "string" &&
+    "name" in x && typeof x.name === "string"
+  );
+}
+
+const user = JSON.parse(raw);
+assert(isUser(user));
+user; // User
+```
+
+This is safer, but can also be tedious and error-prone (dont say this i say it
+alog). The bodies can be complicated to write and also type guard bodies are
+largely unchecked by TypeScript. Ther eis nothing statically to help me conine
+the checks in `isUser` correctly check all fields. In fact, (and maybe even
+worse)if you add a field to `User`, the guard _should_ change, but nothing
+tells you it needs to.
+
+In other words to have to keep both a type and a validator as two separate l...
+which can drift.
+
+Libraries like [zod](https://zod.dev) solve this by letting you define a
+together in as _schema_ that serves as both a runtime parser and a TypeScript
+type:
+
+```ts
+import * as z from "zod";
+
+const User = z.object({ id: z.string(), name: z.string() });
+type User = z.infer<typeof User>;
+
+const user = User.parse(JSON.parse(raw));
+//    ^? { id: string; name: string }
+```
+
+Notice how we don't define `User` using TypeScript `type` but instead _derive_
+the the from the `UserSchema`. The schema is the single source of truth. Add a
+field, and both the type and the validation update together. At the boundary of
+your app you _parse_ the data, and from that point on you work with typed,
+known-good values.
+
+Imporantly the actual runtime User isn't some special class or type but just a
+regular JavaScript object. Just by hooking into the type styem we can perfom
+one check at the boundary of our application and then have confidance that our
+assumptions about the system are gounrded. OTehrrwhise what tis the point of
+types?
 
 ## Arrow has the same problem
 
-Apache Arrow is a columnar memory format backing a lot of interesting work on
-the web. It's efficient to serialize, cheap to shuttle around, and zero-copy
-friendly. [Flechette](https://github.com/uwdata/flechette) is an excellent
-Arrow library for JavaScript.
+[Apache Arrow](https://arrow.apache.org/) is a columnar memory format backing a
+lot of interesting work on the web. It's efficient to serialize, cheap to
+shuttle around, and zero-copy friendly. There are two Arrow libraries for
+JavaScript — [apache-arrow](https://github.com/apache/arrow/tree/main/js) and
+[flechette](https://github.com/uwdata/flechette) — and both have good typing.
+Their table types are parameterized: a `Table<T>` gives you fully typed row
+access, typed columns, typed iteration.
 
-But parsing Arrow tables has the same `JSON.parse` problem:
+But Arrow data arrives as bytes. The same gap applies as in JSON:
 
 ```ts
 import * as f from "@uwdata/flechette";
 
 const table = f.tableFromIPC(bytes);
-table.at(0); // untyped
+table.at(0); // any
 ```
 
-You _can_ cast the table type:
+mention?<opaque? use acutall tehcnial language but then explain lik ethe thing is opaque - <espalin>
+`tableFromIPC` is the `JSON.parse` of Arrow. You get a table back, but
+TypeScript doesn't know its schema. You're left with the same options — an
+unsafe cast, or a hand-written validator that drifts when the schema changes.
 
-```ts
-const table = f.tableFromIPC(bytes) as Table<{ id: Int32; name: Utf8 }>; // unsafe!
+```js
+// snippet
 ```
 
-As I've [written about previously](/blog/be-assertive), using `as` bypasses the
-type system entirely. No runtime checking, no guarantee that the data actually
-matches. If the schema changes, TypeScript won't save you.
-
-Arrow _does_ have a well-defined schema though, and TypeScript's type system is
-rich enough to express it. What would be nice is to define a _contract_ of the
-expected schema and then derive a precise table type from it.
-
-Quiver does exactly that. **zod / valibot / Effect.Schema is to JSON as
-quiver is to Arrow.**
+**Quiver is to `tableFromIPC` as zod is to `JSON.parse`.**
 
 ```ts
 import * as q from "@manzt/quiver";
@@ -78,6 +143,7 @@ table.at(0);
 //    ^? { id: number; name: string | null }
 ```
 
+<edit>I would fram this as we are enriching or overling richer types on the flechette types shate carry information bu>
 Importantly, quiver doesn't replace flechette. It wraps it. A parsed quiver
 table _is_ a flechette `Table` at runtime, just with richer type information.
 Much like how zod wraps regular JavaScript objects, quiver enriches without
@@ -101,11 +167,27 @@ handleQuiverTable(untyped);    // type error!
 
 ## The type system
 
-The runtime is tiny. Almost everything in quiver is types. Arrow schemas are
-recursive, and the mapping from Arrow types to JavaScript values isn't
+<edit>
+  I don't love this.
+
+  i kind of liked perices of this from the readme but it just didn't fit
+
+  Flechette parses Arrow IPC into JavaScript values, but the mapping from Arrow
+  types to JS types depends on the data type, the extraction options, and whether
+  nulls are present. Quiver captures all of this statically. See
+  [flechette's type mapping table](https://idl.uw.edu/flechette/api/data-types)
+  for the full Arrow → JS correspondence.
+
+  Builders return phantom schema entries — no runtime data, just match criteria
+  and a type-level generic. `parseIPC` calls flechette's `tableFromIPC`, validates
+  the Arrow schema against your declared types, and returns the flechette table
+  with quiver's generics overlaid.
+</edit>
+The runtime is tiny. Almost everything in **quiver** is types. Arrow schemas
+are recursive, and the mapping from Arrow types to JavaScript values isn't
 one-to-one. It depends on the data type, whether nulls are present, and
-flechette's `ExtractionOptions`. Concretely, the JavaScript types you get back are _conditional_ on these
-options:
+flechette's `ExtractionOptions`. Concretely, the JavaScript types you get back
+are _conditional_ on these options:
 
 ```ts
 // default: int64 → number
@@ -133,14 +215,25 @@ correspondence):
 Each level threads options through, all the way down through nested structs,
 lists, and maps.
 
+
+<edit>It's not that i never got back to it... but just like i had somethign
+promising but there that interplay of schema with parser options was just a
+huge surface area and i couldnt' find a testing setup that would help me feel
+confident i got it right. after all the only thing worse than **no types** are
+**incorrect types**.</edit>
 I had this idea years ago. The [first
-commit](https://github.com/manzt/quiver/commit/48a3a88) is from October 2024.
-I sketched out the type system, prototyped distributed conditional types,
-phantom type parameters, option propagation. It seemed promising, but I never
-came back to it.
+commit](https://github.com/manzt/quiver/commit/48a3a88) is from October 2024. I
+sketched out the type system, prototyped distributed conditional types, phantom
+type parameters, option propagation. It seemed promising, but I never came back
+to it.
 
 ## The blocker: testing the long tail
 
+<edit>
+    So primising but no way to test and we need to be exhastive. ALso there is
+    an impporant proerty we need is that type-infererence.I just don't really
+    love this section. I'm trying to give conteext to my decision to do this...
+</edit>
 The main thing I ran into was testing. Arrow has dozens of data types. Each has
 multiple extraction options. Each can be nullable. They nest arbitrarily (lists
 of structs of maps of dictionaries). The combinatorial space is huge, and the
@@ -160,6 +253,9 @@ foo.a; // 10 | 0
 foo.b; // true | false
 ```
 
+<edit>
+  maybe we without so much code in the text block and add some tpe blocks just to sapce hti out.
+</edit>
 You want to verify the _container_ type is correctly distributed,
 `Foo<10, true> | Foo<0, false>`, not `Foo<10 | 0, true | false>`. But
 leaf-level assertions can't distinguish them (both give you `10 | 0` and
@@ -172,6 +268,30 @@ I didn't know how to exhaustively test inference in a way that was
 maintainable. So the project sat for over a year.
 
 ## Inline type snapshots
+
+<edit>
+  maybe introduce the idea of snapshotting. I love snapshot testing. In many
+  projectss, i'll take the time to come up with a good napshot so i can
+  visually undrestnad   hwere thigns are wrong. FOr example, in marimo i
+  i'mplemented reactive reference highlighitng and rendered the prediced using
+  snapshots so we could ficxually confirm and degub  thing whttat wer ging o nt
+  that (find ths nn the marimo repo and add as link.
+
+  I love snpahost testing with vitest, example... 
+
+  I've thought this framework would be great for type inference because you
+  could snapshot various dsenaaties and and then visuall confirm. espeically in
+  a project like this... icould get the base types working, snapshot, adn then
+  update the others and sikll make sure i didn't break anhin but one thing is
+  that we don't have a snapshot testing kit for type inference.
+
+  hoevwer with coding tools getting so good i decided we coudl impleemnt a
+  custom.... that way... this was a huge unlock...
+
+  in a little bit slaude was able to urn
+</edit>
+
+
 
 This time around, I wrote a [small
 script](https://github.com/manzt/quiver/blob/main/scripts/snap.ts) that
