@@ -31,23 +31,29 @@ What is the type of `user`? It's `any`. TypeScript has no idea what's inside
 that string. (It should be `unknown`, but I'll save that for another day.)
 
 In practice, I see a lot of code in the wild (especially AI-generated code)
-that slaps on a type assertion to make the squiggly lines go away:
+that slaps on a type assertion to make the <ins class="decoration-wavy
+  decoration-red-500">red squiggles</ins> go away:
 
 ```ts
 const user = JSON.parse(raw) as User;
 ```
 
+Please don't do this.
+
 A type assertion tells the type checker "I know something you don't," in this
 case that `user` is a `User`. To be clear: nothing in that snippet has proven
-anything about `user` beyond that `raw` is valid JSON. There is no check that
-the parsed value has an `id` field, or a `name` field, or that either is a
-string. As I've [written about previously](/blog/be-assertive), `as` bypasses
-the type system entirely. TypeScript will happily believe us, and from this
-point on treat `user` as a `User` with full confidence. This is how unverified
-data enters the system, and once it does, the guarantees we get from static
-typing are gone.
+anything about `user` beyond that `raw` is valid JSON. 
 
-One option is to write a type guard that _narrows_ the type:
+There is no check that the parsed value has an `id` field, or a `name` field,
+or that either is a string. As I've [written about
+previously](/blog/be-assertive), `as` bypasses the type system entirely.
+TypeScript will happily believe us, and from this point on treat `user` as a
+`User` with full confidence. 
+
+Two characters is all it takes to make the type checker happy, and all it takes
+to throw out every guarantee the type system gives you.
+
+A better option is to write a type guard that _narrows_ the type:
 
 ```ts
 function isUser(x: unknown): x is User {
@@ -63,14 +69,19 @@ assert(isUser(user));
 user; // User
 ```
 
-This is safer. But type guard bodies are largely unchecked by TypeScript.
-There's nothing statically ensuring the checks inside `isUser` actually cover
-all the fields. Worse, if you add a field to `User`, the guard _should_ change,
-but nothing tells you it needs to. You end up maintaining both a type and a
-validator as two separate artifacts, with nothing keeping them in sync.
+At least now there are actual runtime checks. Type guards are useful, but
+TypeScript trusts the `x is User` signature without verifying that the function
+body actually checks everything it should.
 
-Libraries like [zod](https://zod.dev) solve this by collapsing both into a
-single _schema_ that serves as both a runtime parser and a TypeScript type:
+For non-trivial types, you should test your guards. And even then, the guard
+and the type are two separate artifacts. If you add a field to `User`, the
+guard _should_ change, but nothing tells you it needs to. You've traded one
+problem (no validation) for another (validation that can silently drift from
+the type it claims to enforce).
+
+Libraries like [zod](https://zod.dev) solve this problem by collapsing both
+into a single _schema_ that serves as both a runtime parser and a TypeScript
+type:
 
 ```ts
 import * as z from "zod";
@@ -82,12 +93,13 @@ const user = User.parse(JSON.parse(raw));
 //    ^? { id: string; name: string }
 ```
 
-Notice we don't define `User` with a TypeScript `type` keyword and then
-separately write a parser for it. The type is _derived_ from the schema. Add a
-field, and both the type and the parsing logic update together.
+Notice how `unknown` data flows in and a typed `User` flows out. We don't
+define `User` with a TypeScript `type` keyword and then separately write a
+parser for it. The type is _derived_ from the schema. Add a field, and both the
+type and the parsing logic update together.
 
 Importantly, the parsed `user` isn't some special wrapper or class. It's a
-plain JavaScript object. We perform one check at the boundary of our
+plain JavaScript object. We _parse_ once at the boundary of our
 application, and from that point on we have confidence that our assumptions
 about the data are grounded in reality. Otherwise, what's the point of types?
 
