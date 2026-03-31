@@ -5,19 +5,35 @@ description: "A library that sat half-baked for over a year, and the testing app
 date: 2026-03-25
 ---
 
-**TL;DR** [quiver](https://github.com/manzt/quiver) is a schema library for
+**TL;DR** — [quiver](https://github.com/manzt/quiver) is a schema library for
 [Apache Arrow](https://arrow.apache.org/) in TypeScript. This post is about why
 I built it, why it sat half-finished for over a year, and the testing approach
 that finally made it possible to complete.
 
 ## Parse, don't validate
 
-"[Parse, don't
-validate](https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/)"
-is the idea that instead of checking whether data matches a shape and
-discarding the result, you _parse_ it into a richer type that carries the proof
-forward. This approach has become extremely popular in the JavaScript ecosystem
-over the last few years for JSON data.
+The goal of a static type system is to detect and prevent mistakes before your
+code runs. In contrast to tests, which assert that something _happens_, types
+constrain what _can_ happen. The type checker is then a kind of tireless
+collaborator — one that ensures those constraints are upheld across your entire
+program.
+
+But many of the most popular statically typed
+languages have holes in their type safety — referred to as
+[unsoundness](https://www.executeprogram.com/courses/everyday-typescript/lessons/type-soundness).
+TypeScript and Python are both unsound: their type checkers will accept some
+programs that violate their own type annotations. That's not an accident. In
+order for TypeScript to express the types of all the quirky JavaScript in the
+wild, it makes compromises that favor ecosystem compatibility over strict
+soundness.
+
+Those compromises come with escape hatches — `as`, `!`, `any` — and that
+matters because programs are rarely useful unless they bring data in from the
+outside. That data is often something like JSON, and at some point there has to
+be a boundary: a moment where untrusted, unknown data crosses into the world of
+trusted static types. Languages differ _wildly_ in how strict they are about
+this crossing. Haskell is very pedantic. TypeScript and Python are not, and
+those escape hatches make it remarkably easy to lie your way across.
 
 Consider the following code:
 
@@ -27,8 +43,11 @@ type User = { id: string; name: string };
 const user = JSON.parse(raw);
 ```
 
-What is the type of `user`? It's `any`. TypeScript has no idea what's inside
-that string. (It should be `unknown`, but I'll save that for another day.)
+What is the type of `user`?
+
+In TypeScript's eyes, `user` is `any` — meaning the type checker won't enforce
+anything about how you use it from this point on. (It should be `unknown`, but
+I'll save that for another day.)
 
 In practice, I see a lot of code in the wild (especially AI-generated code)
 that slaps on a type assertion to make the <ins class="decoration-wavy
@@ -42,18 +61,38 @@ Please don't do this.
 
 A type assertion tells the type checker "I know something you don't," in this
 case that `user` is a `User`. To be clear: nothing in that snippet has proven
-anything about `user` beyond that `raw` is valid JSON. 
+anything about `user` beyond that `raw` is valid JSON.
 
 There is no check that the parsed value has an `id` field, or a `name` field,
 or that either is a string. As I've [written about
 previously](/blog/be-assertive), `as` bypasses the type system entirely.
 TypeScript will happily believe us, and from this point on treat `user` as a
-`User` with full confidence. 
+`User` with full confidence.
 
 Two characters is all it takes to make the type checker happy, and all it takes
 to throw out every guarantee the type system gives you.
 
-A better option is to write a type guard that _narrows_ the type:
+A better option is to write a function that _validates_ the shape at runtime:
+
+```ts
+function isUser(x: unknown): boolean {
+  return (
+    typeof x === "object" && x !== null &&
+    "id" in x && typeof x.id === "string" &&
+    "name" in x && typeof x.name === "string"
+  );
+}
+
+const user = JSON.parse(raw);
+assert(isUser(user));
+user; // any
+```
+
+At least now there are actual runtime checks. But notice the return type is
+`boolean` — we checked whether `user` is a `User` and then threw the result
+away. TypeScript still has no idea what `user` is.
+
+If we change the return type to `x is User`, something interesting happens:
 
 ```ts
 function isUser(x: unknown): x is User {
@@ -69,19 +108,32 @@ assert(isUser(user));
 user; // User
 ```
 
-At least now there are actual runtime checks. Type guards are useful, but
-TypeScript trusts the `x is User` signature without verifying that the function
-body actually checks everything it should.
+Now `isUser` is a [type
+predicate](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#using-type-predicates)
+— it _narrows_ the type of `user` to `User` after the assertion. The
+information we checked is preserved. This is parsing, not validating.
 
-For non-trivial types, you should test your guards. And even then, the guard
-and the type are two separate artifacts. If you add a field to `User`, the
-guard _should_ change, but nothing tells you it needs to. You've traded one
-problem (no validation) for another (validation that can silently drift from
-the type it claims to enforce).
+The problem is that TypeScript doesn't actually verify the body of a type
+predicate. This compiles without complaint:
 
-Libraries like [zod](https://zod.dev) solve this problem by collapsing both
-into a single _schema_ that serves as both a runtime parser and a TypeScript
-type:
+```ts
+function isUser(x: unknown): x is User {
+  return typeof x === "object" && x !== null && "totalGarbage" in x;
+}
+```
+
+TypeScript trusts you. For non-trivial types, you should test your guards. And
+even then, the guard and the type are two separate artifacts. If you add a field
+to `User`, the guard _should_ change, but nothing tells you it needs to. You've
+traded one problem (no validation) for another (validation that can silently
+drift from the type it claims to enforce).
+
+As Alexis puts it, the "difference between validation and parsing lies almost
+entirely in how information is preserved." If you use
+[Zod](https://zod.dev) or [Pydantic](https://docs.pydantic.dev), you're
+already parsing, not validating. These libraries solve this problem by
+collapsing both into a single _schema_ that serves as both a runtime parser and
+a TypeScript type:
 
 ```ts
 import * as z from "zod";
